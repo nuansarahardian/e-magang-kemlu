@@ -13,10 +13,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'plus-jakarta': ['"Plus Jakarta Sans"', 'sans-serif'],
             },
         },
     },
 
-    plugins: [forms],
+    plugins: [],
 };
