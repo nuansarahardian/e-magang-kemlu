@@ -31,6 +31,36 @@ export default function PosisiMagang() {
       wilayah: '8 Wilayah',
       komoditas: '4 Komoditas',
     },
+    {
+      id: 3,
+      title: 'UI/UX Designer',
+      status: 'Proses Seleksi',
+      location: 'Kota Bandung',
+      organization: 'PT XYZ Kreatif',
+      image: 'https://awsimages.detik.net.id/visual/2019/03/06/8ed61b4f-c30a-4658-bd18-3ea8cdf9d082_169.jpeg?w=450&q=90',
+      wilayah: '5 Wilayah',
+      komoditas: '3 Komoditas',
+    },
+    {
+      id: 4,
+      title: 'Data Scientist',
+      status: 'Tidak Diambil',
+      location: 'Kota Yogyakarta',
+      organization: 'Biro Statistik Kota Yogyakarta',
+      image: 'https://awsimages.detik.net.id/visual/2019/03/06/8ed61b4f-c30a-4658-bd18-3ea8cdf9d082_169.jpeg?w=450&q=90',
+      wilayah: '7 Wilayah',
+      komoditas: '4 Komoditas',
+    },
+    {
+      id: 5,
+      title: 'Network Engineer',
+      status: 'Diterima',
+      location: 'Kota Semarang',
+      organization: 'PT Telekomunikasi ABC',
+      image: 'https://awsimages.detik.net.id/visual/2019/03/06/8ed61b4f-c30a-4658-bd18-3ea8cdf9d082_169.jpeg?w=450&q=90',
+      wilayah: '4 Wilayah',
+      komoditas: '2 Komoditas',
+    },
   ];
 
   return (
