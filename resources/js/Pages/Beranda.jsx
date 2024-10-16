@@ -4,7 +4,7 @@ import Header from '@/Components/Header';  // Import komponen Header
 import HeroSection from '@/Components/HeroSection';  // Import komponen HeroSection
 import KriteriaPeserta from '@/Components/KriteriaPeserta';  // Import komponen KriteriaPeserta
 import Benefit from '@/Components/Benefit';  // Import komponen KriteriaPeserta
-import TimelineSection from '@/Components/TimelineSection';  // Import komponen TimelineSection
+import BSKLInformation from "@/Components/BSKLInformation";
 import GallerySection from '@/Components/GallerySection';  // Import komponen GallerySection
 
 
@@ -20,10 +20,8 @@ export default function Beranda() {
                 <HeroSection />  {/*menampilkan Hero Section */}
                 <KriteriaPeserta />  {/*menampilkan KriteriaPesera */}
                 <Benefit />  {/*menampilkan Benefit */}
-                <TimelineSection />  {/*menampilkan TimelineSection */}
+                <BSKLInformation />  {/*menampilkan BSKLNInformation */}
                 <GallerySection />  {/*menampilkan GallerySection */}
-
-
                 <Footer />  {/*menampilkan Footer */}
             </div>
         </>

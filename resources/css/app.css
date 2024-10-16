@@ -11,3 +11,19 @@ body {
 .font-sans {
     font-family: "Plus Jakarta Sans", sans-serif;
 }
+
+@keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animate-scroll {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll 20s linear infinite; /* 20s for a smooth continuous scroll */
+  }
+  
