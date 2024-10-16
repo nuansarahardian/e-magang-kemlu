@@ -14,7 +14,7 @@ export default function HeroSection() {
         
         {/* Left Column: Heading, Description, Button */}
         <motion.div
-          className="text-gray-900 space-y-4 w-full text-center lg:text-left font-sans"
+          className="text-gray-900 space-y-6 w-full text-center lg:text-left font-sans"  // Increased space-y to 6
           initial={{ opacity: 0, y: 40 }}  // Smooth fade-in from below
           animate={{ opacity: 1, y: 0 }}  // Fade in with a slight upward movement
           transition={{ duration: 0.8 }}

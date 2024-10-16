@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
+// Custom hook for lazy loading
+const useOnScreen = (options) => {
+  const [isVisible, setVisible] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.disconnect(); // Stop observing once in view
+      }
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [options]);
+
+  return [ref, isVisible];
+};
+
 export default function BSKLNSection() {
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1,
+  };
+
+  // Hooks for lazy loading
+  const [cardRef1, isVisible1] = useOnScreen(options);
+  const [cardRef2, isVisible2] = useOnScreen(options);
+  const [cardRef3, isVisible3] = useOnScreen(options);
+  const [cardRef4, isVisible4] = useOnScreen(options);
+  const [cardRef5, isVisible5] = useOnScreen(options);
+  const [cardRef6, isVisible6] = useOnScreen(options);
+
   return (
     <section className="py-20 relative bg-white">
       <div className="container mx-auto px-6 lg:px-12">
@@ -19,8 +60,11 @@ export default function BSKLNSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* First Row - Larger cards */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-7 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef1}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible1 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 lg:col-span-7 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-2xl font-bold text-[#162360] mb-4">Apa itu BSKLN?</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -30,8 +74,11 @@ export default function BSKLNSection() {
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-5 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef2}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible2 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 lg:col-span-5 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-2xl font-bold text-[#162360] mb-4">Tugas BSKLN</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -42,8 +89,11 @@ export default function BSKLNSection() {
 
           {/* Second Row - Smaller cards */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef3}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible3 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Asia Pasifik & Afrika</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -53,8 +103,11 @@ export default function BSKLNSection() {
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef4}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible4 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Amerika & Eropa</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -64,8 +117,11 @@ export default function BSKLNSection() {
           </motion.div>
 
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef5}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible5 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Kebijakan Multilateral</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -76,8 +132,11 @@ export default function BSKLNSection() {
 
           {/* Third Row - Single Card */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="relative col-span-12 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 hover:scale-110 hover:shadow-3xl overflow-hidden"
+            ref={cardRef6}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible6 ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="relative col-span-12 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-2xl font-bold text-[#162360] mb-4">Isu Khusus & Analisis Data</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>

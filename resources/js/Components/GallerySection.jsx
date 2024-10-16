@@ -1,90 +1,60 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 
-const images = [
+const cards = [
   {
-    src: '/images/1.jpeg',
-    title: 'Team Spirit in Action',
-    description: 'Collaborate with like-minded individuals and contribute to real-world projects.',
+    title: "Mempresentasikan proyek akhir",
+    subtitle: "Presentasi Proyek",
+    background: "bg-gradient-to-br from-[#FF5F6D] to-[#FFC371]",
+    image: "url('/images/1.jpeg')", // Replace with actual image paths
   },
   {
-    src: '/images/2.jpeg',
-    title: 'Learning by Doing',
-    description: 'Experience hands-on learning that prepares you for a successful career.',
+    title: "Melakukan kegiatan team building",
+    subtitle: "Kegiatan Team Building",
+    background: "bg-gradient-to-br from-[#2193b0] to-[#6dd5ed]",
+    image: "url('/images/2.jpeg')",
   },
   {
-    src: '/images/3.jpeg',
-    title: 'Creative Brainstorms',
-    description: 'Innovate and ideate with diverse teams working toward impactful solutions.',
+    title: "Menghadiri pertemuan diplomatik",
+    subtitle: "",
+    background: "bg-gradient-to-br from-[#8360c3] to-[#2ebf91]",
+    image: "url('/images/3.jpeg')",
   },
   {
-    src: '/images/4.jpeg',
-    title: 'Networking Opportunities',
-    description: 'Build lasting connections with industry professionals and peers.',
+    title: "Berlatih keterampilan komunikasi",
+    subtitle: "",
+    background: "bg-gradient-to-br from-[#f7ff00] to-[#db36a4]",
+    image: "url('/images/4.jpeg')",
   },
 ];
 
-export default function Gallery() {
-  const [expandedCardIndex, setExpandedCardIndex] = useState(null);
-
-  const handleCardClick = (index) => {
-    setExpandedCardIndex(index === expandedCardIndex ? null : index);
-  };
-
+const AppleStyleGallery = () => {
   return (
-    <section className="py-20 relative bg-gradient-to-r from-[#1C1F2A] to-[#2D2F41] text-white">
-      <div className="container mx-auto px-6 lg:px-12">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="font-extrabold text-4xl text-white">Explore the Internship Experience</h2>
-          <p className="text-lg text-gray-300 mt-4 max-w-3xl mx-auto">
-            Dive into the vibrant, hands-on learning journey with our internship program.
-          </p>
-        </div>
-
-        {/* Modern Grid Layout with Expanding Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {images.map((image, index) => (
-            <motion.div
-              key={index}
-              className={`relative cursor-pointer rounded-lg overflow-hidden shadow-lg transform transition-transform duration-500 ${
-                expandedCardIndex === index ? 'col-span-2 row-span-2 scale-110' : 'hover:scale-105'
-              }`}
-              onClick={() => handleCardClick(index)}
-            >
-              {/* Image */}
-              <img
-                src={image.src}
-                alt={image.title}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-
-              {/* Hover Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-90 transition duration-500 ${expandedCardIndex === index ? 'opacity-90' : ''}`}>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <h3 className="text-2xl font-bold text-white">{image.title}</h3>
-                </div>
-              </div>
-
-              {/* Expanded Content */}
-              {expandedCardIndex === index && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-70 p-6"
-                >
-                  <h3 className="text-3xl font-bold mb-4">{image.title}</h3>
-                  <p className="text-lg text-gray-300">{image.description}</p>
-                  <button className="mt-6 px-6 py-3 bg-[#5E7ADD] text-white rounded-lg shadow-lg">
-                    Find out more
-                  </button>
-                </motion.div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+    <section className="py-16 bg-white">
+      <div className="w-full px-0 lg:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+        {cards.map((card, index) => (
+          <div
+            key={index}
+            className={`relative rounded-none shadow-lg w-full h-[60vh] lg:h-[70vh] overflow-hidden ${card.background} transform hover:scale-105 transition-all duration-300`}
+          >
+            {/* Card Background Image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: card.image,
+              }}
+            />
+            {/* Lighter Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
+            {/* Text Content */}
+            <div className="relative z-10 p-6 flex flex-col justify-end h-full">
+              <h2 className="text-white text-3xl font-bold mb-4">{card.title}</h2>
+              <p className="text-gray-300 font-medium	 text-lg">{card.subtitle}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
-}
+};
+
+export default AppleStyleGallery;
