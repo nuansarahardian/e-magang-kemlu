@@ -29,8 +29,8 @@ const cards = [
 
 const AppleStyleGallery = () => {
   return (
-    <section className="py-16 pb-16 lg:pb-0 bg-white">
-      <div className="w-full px-0 lg:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+    <section className="py-16 lg:pb-0 bg-white sm:pb-16 pb-0">
+      <div className="w-full px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
         {cards.map((card, index) => (
           <div
             key={index}
