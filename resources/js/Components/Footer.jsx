@@ -25,7 +25,7 @@ const Footer = () => {
                 E - Magang
               </span>
               <span className="text-sm font-light" style={{ fontWeight: 600 }}>
-                Sistem Pendaftaran Magang Kementerian Luar Negeri
+                Sistem Pendaftaran Magang Badan Strategi Kebijakan Luar Negeri, Kementerian Luar Negeri Republik Indonesia
               </span>
             </div>
 
