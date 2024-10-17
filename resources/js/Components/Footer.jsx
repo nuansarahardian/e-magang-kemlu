@@ -44,7 +44,7 @@ const Footer = () => {
             {/* Credit Section */}
             <div>
               <p className="text-sm font-bold">
-                © 2024 BSKLN. Hak cipta dilindungi Undang-Undang.
+                © 2024 BSKLN & MSIB Batch 7. Hak cipta dilindungi Undang-Undang.
               </p>
             </div>
           </div>

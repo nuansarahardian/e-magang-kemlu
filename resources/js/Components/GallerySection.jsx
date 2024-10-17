@@ -29,12 +29,12 @@ const cards = [
 
 const AppleStyleGallery = () => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 pb-16 lg:pb-0 bg-white">
       <div className="w-full px-0 lg:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
         {cards.map((card, index) => (
           <div
             key={index}
-            className={`relative rounded-none shadow-lg w-full h-[60vh] lg:h-[70vh] overflow-hidden ${card.background} transform hover:scale-105 transition-all duration-300`}
+            className={`relative rounded-none w-full h-[60vh] lg:h-[70vh] overflow-hidden ${card.background} transform hover:scale-105 transition-all duration-300`}
           >
             {/* Card Background Image */}
             <div
@@ -48,7 +48,7 @@ const AppleStyleGallery = () => {
             {/* Text Content */}
             <div className="relative z-10 p-6 flex flex-col justify-end h-full">
               <h2 className="text-white text-3xl font-bold mb-4">{card.title}</h2>
-              <p className="text-gray-300 font-medium	 text-lg">{card.subtitle}</p>
+              <p className="text-gray-300 font-medium text-lg">{card.subtitle}</p>
             </div>
           </div>
         ))}

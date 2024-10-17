@@ -45,7 +45,7 @@ export default function BSKLNSection() {
 
   return (
     <section className="py-20 relative bg-white">
-      <div className="container mx-auto px-6 lg:px-12">
+      <div className="container mx-auto px-10 lg:px-12">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-[#162360] tracking-wide">
@@ -58,13 +58,13 @@ export default function BSKLNSection() {
 
         {/* Asymmetrical Card Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* First Row - Larger cards */}
+          {/* First Row - 2 cards spanning 2 columns each */}
           <motion.div
             ref={cardRef1}
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible1 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 lg:col-span-7 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-6 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-2xl font-bold text-[#162360] mb-4">Apa itu BSKLN?</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -78,7 +78,7 @@ export default function BSKLNSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible2 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 lg:col-span-5 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-6 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-2xl font-bold text-[#162360] mb-4">Tugas BSKLN</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -87,13 +87,13 @@ export default function BSKLNSection() {
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
           </motion.div>
 
-          {/* Second Row - Smaller cards */}
+          {/* Second Row - 4 cards each spanning 1 column */}
           <motion.div
             ref={cardRef3}
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible3 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Asia Pasifik & Afrika</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -107,7 +107,7 @@ export default function BSKLNSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible4 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Amerika & Eropa</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -121,7 +121,7 @@ export default function BSKLNSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible5 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 lg:col-span-4 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
             <h3 className="text-xl font-bold text-[#162360] mb-4">Strategi Kebijakan Multilateral</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
@@ -130,15 +130,14 @@ export default function BSKLNSection() {
             <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
           </motion.div>
 
-          {/* Third Row - Single Card */}
           <motion.div
             ref={cardRef6}
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible6 ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="relative col-span-12 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+            className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
           >
-            <h3 className="text-2xl font-bold text-[#162360] mb-4">Isu Khusus & Analisis Data</h3>
+            <h3 className="text-xl font-bold text-[#162360] mb-4">Isu Khusus & Analisis Data</h3>
             <p className="text-gray-600" style={{ fontWeight: 500 }}>
               Menangani isu-isu khusus seperti terorisme, HAM, serta menganalisis data untuk mendukung kebijakan luar negeri.
             </p>
