@@ -1,59 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const images = [
-  'https://source.unsplash.com/random/400x300?1',
-  'https://source.unsplash.com/random/400x300?2',
-  'https://source.unsplash.com/random/400x300?3',
-  'https://source.unsplash.com/random/400x300?4',
+const cards = [
+  {
+    title: "Mempresentasikan proyek akhir",
+    subtitle: "Presentasi Proyek",
+    background: "bg-gradient-to-br from-[#FF5F6D] to-[#FFC371]",
+    image: "url('/images/1.jpeg')", // Replace with actual image paths
+  },
+  {
+    title: "Melakukan kegiatan team building",
+    subtitle: "Kegiatan Team Building",
+    background: "bg-gradient-to-br from-[#2193b0] to-[#6dd5ed]",
+    image: "url('/images/2.jpeg')",
+  },
+  {
+    title: "Menghadiri pertemuan diplomatik",
+    subtitle: "",
+    background: "bg-gradient-to-br from-[#8360c3] to-[#2ebf91]",
+    image: "url('/images/3.jpeg')",
+  },
+  {
+    title: "Berlatih keterampilan komunikasi",
+    subtitle: "",
+    background: "bg-gradient-to-br from-[#f7ff00] to-[#db36a4]",
+    image: "url('/images/4.jpeg')",
+  },
 ];
 
-export default function Gallery() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const handleDotClick = (index) => {
-    setCurrentImageIndex(index);
-  };
-
+const AppleStyleGallery = () => {
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Left Column: Embed Video */}
-          <div className="flex justify-center">
-            <iframe
-              width="100%"
-              height="315"
-              src="https://www.youtube.com/embed/Kth_fbiPJQ8"
-              title="YouTube Video"
-              frameBorder="0"
-              allowFullScreen
-              className="rounded-lg"
+    <section className="py-16 lg:pb-0 bg-white sm:pb-16 pb-0">
+      <div className="w-full px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+        {cards.map((card, index) => (
+          <div
+            key={index}
+            className={`relative rounded-none w-full h-[60vh] lg:h-[70vh] overflow-hidden ${card.background} transform hover:scale-105 transition-all duration-300`}
+          >
+            {/* Card Background Image */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: card.image,
+              }}
             />
-          </div>
-
-          {/* Right Column: Carousel */}
-          <div className="flex flex-col items-center">
-            {/* Carousel Image */}
-            <img
-              src={images[currentImageIndex]}
-              alt={`Gallery Image ${currentImageIndex + 1}`}
-              className="w-full h-64 object-cover rounded-lg mb-4"
-            />
-            {/* Dot Navigation */}
-            <div className="flex space-x-2">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleDotClick(index)}
-                  className={`h-3 w-3 rounded-full transition duration-200 ${
-                    currentImageIndex === index ? 'bg-blue-600' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
+            {/* Lighter Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40" />
+            {/* Text Content */}
+            <div className="relative z-10 p-6 flex flex-col justify-end h-full">
+              <h2 className="text-white text-3xl font-bold mb-4">{card.title}</h2>
+              <p className="text-gray-300 font-medium text-lg">{card.subtitle}</p>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
-}
+};
+
+export default AppleStyleGallery;

@@ -10,51 +10,58 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-[#5E7ADD] to-[#384AA0] text-white sticky top-0 z-50">
-      <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-        
-        {/* Left Column: Logo and Heading */}
-        <div className="flex items-center space-x-4">
-          <img
-            alt="Logo"
-            src="https://upload.wikimedia.org/wikipedia/commons/9/96/Seal_of_the_Ministry_of_Foreign_Affairs_of_the_Republic_of_Indonesia.svg"
-            className="h-10"
-          />
-          <div className="flex flex-col">
-            <span className="font-bold text-xl">E - Magang</span> {/* Ukuran font yang lebih kecil */}
+      <nav aria-label="Global" className="mx-auto max-w-7xl p-4 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <img
+              alt="Logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/9/96/Seal_of_the_Ministry_of_Foreign_Affairs_of_the_Republic_of_Indonesia.svg"
+              className="h-8 lg:h-10"
+            />
+            <span className="font-bold text-base lg:text-xl">E - Magang</span>
           </div>
-        </div>
 
-        {/* Right Column: Menu Items and Buttons */}
-        <div className="hidden lg:flex lg:gap-x-6 items-center">
-          <Link href="/" className="text-sm font-semibold leading-6 text-white hover:text-gray-300">Beranda</Link>
-          <Link href="/posisi-magang" className="text-sm font-semibold leading-6 text-white hover:text-gray-300">Posisi Magang</Link>
-          <Link href="/sering-ditanyakan" className="text-sm font-semibold leading-6 text-white hover:text-gray-300">Sering Ditanyakan</Link>
-          
-          {/* Registrasi and Masuk buttons using Inertia Link */}
-          <Link href="/register" className="bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base">
-            Registrasi
-          </Link>
-          <Link href="/login" className="bg-white text-[#162360] px-4 py-2 rounded hover:bg-gray-100 font-semibold text-base">
-            Masuk
-          </Link>
-        </div>
+          {/* Menu Items */}
+          <div className="hidden lg:flex lg:gap-x-8 items-center justify-center flex-grow">
+            <Link href="/" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Beranda
+            </Link>
+            <Link href="/posisi-magang" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Posisi Magang
+            </Link>
+            <Link href="/sering-ditanyakan" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Sering Ditanyakan
+            </Link>
+          </div>
 
-        {/* Hamburger Icon for mobile */}
-        <div className="lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
-          >
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
+          {/* Buttons */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <Link href="/register" className="bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base">
+              Registrasi
+            </Link>
+            <Link href="/login" className="bg-white text-[#162360] px-4 py-2 rounded hover:bg-gray-100 font-semibold text-base">
+              Masuk
+            </Link>
+          </div>
+
+          {/* Hamburger Icon for mobile */}
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+            >
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full sm:max-w-sm overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <img
