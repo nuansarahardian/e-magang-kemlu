@@ -1,176 +1,177 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link, usePage } from '@inertiajs/react';
+'use client';
+
 import { useState } from 'react';
+import { Dialog, DialogPanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Link, usePage } from '@inertiajs/react';
 
-export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+export default function Header() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+  // Mendapatkan informasi user dari props Inertia.js
+  const { auth } = usePage().props;
 
-    return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav className="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
-                        <div className="flex">
-                            <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                </Link>
-                            </div>
+  return (
+    <header className="bg-gradient-to-r from-[#5E7ADD] to-[#384AA0] text-white sticky top-0 z-50">
+      <nav aria-label="Global" className="mx-auto max-w-7xl p-4 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo dengan tautan ke Beranda */}
+          <Link href="/" className="flex items-center space-x-2"> {/* Ganti dari <div> ke <Link> */}
+            <img
+              alt="Logo"
+              src="https://upload.wikimedia.org/wikipedia/commons/9/96/Seal_of_the_Ministry_of_Foreign_Affairs_of_the_Republic_of_Indonesia.svg"
+              className="h-8 lg:h-10"
+            />
+            <span className="font-bold text-base lg:text-xl">E - Magang</span>
+          </Link>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('dashboard')}
-                                    active={route().current('dashboard')}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
+          {/* Menu Items */}
+          <div className="hidden lg:flex lg:gap-x-8 items-center justify-center flex-grow">
+            <Link href="/" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Beranda
+            </Link>
+            <Link href="/posisi-magang" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Posisi Magang
+            </Link>
+            <Link href="/sering-ditanyakan" className="text-sm lg:text-base font-semibold leading-6 text-white hover:text-gray-300">
+              Sering Ditanyakan
+            </Link>
+          </div>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                            <div className="relative ms-3">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
+          {/* Buttons atau User Info */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {auth.user ? (
+              // Jika sudah login, tampilkan "Halo, Nama User" yang dapat diklik menuju Dashboard
+              <div className="flex items-center space-x-2">
+                <Link
+                  href={route('dashboard')} // Link ke halaman Dashboard
+                  className="bg-white text-[#162360] px-4 py-2 rounded font-semibold hover:bg-gray-100"
                 >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800 dark:text-gray-200">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white shadow dark:bg-gray-800">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
-                    </div>
-                </header>
+                  Halo, {auth.user.name}
+                </Link>
+                <Link
+                  href="/logout"
+                  method="post"
+                  as="button"
+                  className="bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
+                >
+                  Logout
+                </Link>
+              </div>
+            ) : (
+              // Jika belum login, tampilkan tombol Registrasi dan Login
+              <>
+                <Link
+                  href="/register"
+                  className="bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
+                >
+                  Registrasi
+                </Link>
+                <Link
+                  href="/login"
+                  className="bg-white text-[#162360] px-4 py-2 rounded hover:bg-gray-100 font-semibold text-base"
+                >
+                  Masuk
+                </Link>
+              </>
             )}
+          </div>
 
-            <main>{children}</main>
+          {/* Hamburger Icon for mobile */}
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+            >
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
         </div>
-    );
+      </nav>
+
+      {/* Mobile Menu */}
+      <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
+        <div className="fixed inset-0 z-10" />
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full sm:max-w-sm overflow-y-auto bg-white px-6 py-6 sm:ring-1 sm:ring-gray-900/10">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="-m-1.5 p-1.5"> {/* Ganti dari <a> ke <Link> */}
+              <img
+                alt="Logo"
+                src="https://upload.wikimedia.org/wikipedia/commons/9/96/Seal_of_the_Ministry_of_Foreign_Affairs_of_the_Republic_of_Indonesia.svg"
+                className="h-8 w-auto"
+              />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+            >
+              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="mt-6 flow-root">
+            <div className="-my-6 divide-y divide-gray-500/10">
+              <div className="space-y-2 py-6">
+                <Link
+                  href="/"
+                  className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Beranda
+                </Link>
+                <Link
+                  href="/posisi-magang"
+                  className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Posisi Magang
+                </Link>
+                <Link
+                  href="/sering-ditanyakan"
+                  className="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Sering Ditanyakan
+                </Link>
+              </div>
+              <div className="
+py-6">
+                {auth.user ? (
+                  <div className="space-y-2">
+                    <Link
+                      href={route('dashboard')} // Link ke halaman Dashboard untuk Mobile
+                      className="block text-center font-semibold text-gray-900"
+                    >
+                      Halo, {auth.user.name}
+                    </Link>
+                    <Link
+                      href="/logout"
+                      method="post"
+                      as="button"
+                      className="block w-full text-center bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
+                    >
+                      Logout
+                    </Link>
+                  </div>
+                ) : (
+                  <>
+                    <Link
+                      href="/register"
+                      className="block w-full text-center bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
+                    >
+                      Registrasi
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="block w-full mt-2 text-center bg-white text-[#162360] px-4 py-2 rounded hover:bg-gray-100 font-semibold text-base"
+                    >
+                      Masuk
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </DialogPanel>
+      </Dialog>
+    </header>
+  );
 }
