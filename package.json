@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.1.5",
-        "framer-motion": "^11.11.7",
+        "framer-motion": "^11.11.9",
         "react-parallax-tilt": "^1.7.246",
         "react-router-dom": "^6.27.0",
         "react-slick": "^0.30.2",

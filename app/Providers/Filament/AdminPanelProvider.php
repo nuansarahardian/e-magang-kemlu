@@ -27,7 +27,11 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->registration()
             ->login()
+            ->passwordReset()
+            ->profile()
+            
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -39,7 +43,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AutoAcceptToggle::class,
+     
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -58,4 +63,5 @@ class AdminPanelProvider extends PanelProvider
             ]);
             
     }
+    
 }

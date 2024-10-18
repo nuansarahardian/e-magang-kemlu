@@ -9,7 +9,8 @@ class CreatePengaturanTable extends Migration
     {
         Schema::create('pengaturan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('auto_accept')->default(false);
+            $table->enum('sistem_penerimaan',['Manual', 'Otomatis']);
+            
             $table->timestamps();
         });
     }

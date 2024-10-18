@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\PosisiMagangPerBatchResource\Pages;
+namespace App\Filament\Resources\PengaturanResource\Pages;
 
-use App\Filament\Resources\PosisiMagangPerBatchResource;
+use App\Filament\Resources\PengaturanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPosisiMagangPerBatch extends EditRecord
+class EditPengaturan extends EditRecord
 {
-    protected static string $resource = PosisiMagangPerBatchResource::class;
+    protected static string $resource = PengaturanResource::class;
 
     protected function getHeaderActions(): array
     {

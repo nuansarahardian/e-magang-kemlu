@@ -10,10 +10,10 @@ class PendaftaranMagang extends Model
     protected $table = 'pendaftaran_magang';
     protected $fillable = [
         'NIM',
-        'posisi_magang_id',
-        'batch_id',
+        'posisi_magang_per_batch_id',
+
         'status',
-        'is_auto_accept',
+ 
         'tanggal_pendaftaran',
     ];
 
@@ -24,14 +24,10 @@ class PendaftaranMagang extends Model
     }
 
     // Relasi ke posisi magang
-    public function posisiMagang()
+    public function posisiMagangPerBatch()
     {
-        return $this->belongsTo(PosisiMagang::class, 'posisi_magang_id');
+        return $this->belongsTo(PosisiMagangPerBatch::class, 'posisi_magang_per_batch_id');
     }
 
-    // Relasi ke batch
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class, 'batch_id');
-    }
+ 
 }

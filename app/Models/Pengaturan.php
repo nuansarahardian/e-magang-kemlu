@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +9,6 @@ class Pengaturan extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'auto_accept',
-    ];
+    protected $table = 'pengaturan';
+    protected $fillable = ['sistem_penerimaan'];
 }
