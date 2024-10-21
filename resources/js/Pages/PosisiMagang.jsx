@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Head } from '@inertiajs/react';
-import Header from '@/Components/Header';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Footer from '@/Components/Footer';
 import CardPosisi from '@/Components/CardPosisi';
 import DetailPosisi from '@/Components/DetailPosisi';
@@ -11,65 +11,45 @@ export default function PosisiMagang() {
   const positions = [
     {
       id: 1,
-      title: 'Programmer Dan Dokumentasi IT',
+      title: 'Strategi Asia Pasifik & Afrika',
       batch: 'Batch 1',
       issue: 'Strategi Asia Pasifik & Afrika',
-      status: 'Belum Lolos',
-      location: 'Kota Surabaya',
-      organization: 'Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri',
       kuota: 6,
-      description: 'Bertanggung jawab atas dokumentasi dan pengembangan program IT.',
     },
     {
       id: 2,
-      title: 'Fullstack Developer',
+      title: 'Strategi Amerika & Eropa',
       batch: 'Batch 2',
       issue: 'Strategi Amerika & Eropa',
-      status: 'Tidak Diambil',
-      location: 'Kota Jakarta Pusat',
-      organization: 'Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri',
       kuota: 8,
-      description: 'Membantu pengembangan aplikasi web dan integrasi dengan backend.',
     },
     {
       id: 3,
-      title: 'UI/UX Designer',
+      title: 'Strategi Kebijakan Multilateral',
       batch: 'Batch 1',
       issue: 'Strategi Kebijakan Multilateral',
-      status: 'Proses Seleksi',
-      location: 'Kota Bandung',
-      organization: 'Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri',
       kuota: 4,
-      description: 'Merancang antarmuka dan pengalaman pengguna untuk produk digital.',
     },
     {
       id: 4,
-      title: 'Data Scientist',
+      title: 'Isu Khusus & Analisis Data',
       batch: 'Batch 2',
       issue: 'Isu Khusus & Analisis Data',
-      status: 'Tidak Diambil',
-      location: 'Kota Yogyakarta',
-      organization: 'Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri',
       kuota: 10,
-      description: 'Menganalisis data dan memberikan insight untuk keputusan strategis.',
     },
     {
       id: 5,
-      title: 'Network Engineer',
+      title: 'Strategi Asia Pasifik & Afrika',
       batch: 'Batch 1',
       issue: 'Strategi Asia Pasifik & Afrika',
-      status: 'Diterima',
-      location: 'Kota Semarang',
-      organization: 'Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri',
       kuota: 5,
-      description: 'Merancang dan memelihara infrastruktur jaringan perusahaan.',
     },
   ];
 
   return (
     <div className="relative bg-white min-h-screen overflow-hidden">
       <Head title="Posisi Magang" />
-      <Header />
+      <AuthenticatedLayout />
 
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-[#FFB900] to-[#FFDD57] rounded-full blur-3xl opacity-30"></div>

@@ -3,7 +3,7 @@ import { Head } from '@inertiajs/react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import Footer from '@/Components/Footer';
-import Header from '@/Components/Header';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 const faqs = [
   {
@@ -28,14 +28,6 @@ const faqs = [
       { question: "Apa yang harus saya lakukan jika data saya salah?", answer: "Silakan hubungi layanan pelanggan untuk memperbaiki data Anda." },
       { question: "Bagaimana cara memperbarui informasi akun?", answer: "Anda dapat memperbarui informasi akun di pengaturan profil Anda." },
       { question: "Apakah saya bisa menghapus akun saya?", answer: "Ya, Anda dapat menghubungi layanan pelanggan untuk permintaan penghapusan akun." },
-    ]
-  },
-  {
-    category: "Interview",
-    questions: [
-      { question: "Apa yang perlu dipersiapkan untuk interview?", answer: "Siapkan CV dan pengetahuan tentang perusahaan sebelum interview." },
-      { question: "Apakah ada tips untuk sukses dalam interview?", answer: "Berlatih komunikasi yang baik dan kenali visi perusahaan." },
-      { question: "Apakah interview dilakukan secara online?", answer: "Ya, sebagian besar interview dilakukan secara online melalui platform virtual." },
     ]
   },
   {
@@ -67,7 +59,7 @@ export default function FAQ() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Head title="FAQ" />
-      <Header />
+      <AuthenticatedLayout />
 
       {/* Hero Section */}
       <section className="relative w-full bg-[#162360] py-24 bg-cover bg-center" 
@@ -100,8 +92,8 @@ export default function FAQ() {
       </section>
 
       {/* Filter Section */}
-      <div className="container mx-auto py-6 flex justify-end">
-        <div className="relative w-full max-w-[300px]"> {/* Adjust width of filter to make it longer */}
+      <div className="container mx-auto py-6 flex justify-end px-8 md:px-12"> {/* Padding adjustments for mobile */}
+        <div className="relative w-full max-w-[300px]"> 
           <select
             className="appearance-none border border-gray-300 rounded-md px-5 py-3 shadow-sm focus:ring focus:ring-blue-500 focus:outline-none text-sm text-gray-600 pr-10 w-full"
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -116,9 +108,9 @@ export default function FAQ() {
       </div>
 
       {/* Accordion Section in Bento Grid */}
-      <div className={`grid ${filteredFaqs.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'} gap-6 container mx-auto pb-12`}>
+      <div className={`grid ${filteredFaqs.length === 1 ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'} gap-6 container mx-auto pb-12 px-8 md:px-12`}> {/* Added padding for mobile */}
         {filteredFaqs.map((faq, idx) => (
-          <div key={idx} className={`bg-gray-100 border border-gray-300 rounded-lg shadow-sm p-4 space-y-4 ${filteredFaqs.length === 1 ? 'w-full' : ''}`}>
+          <div key={idx} className={`bg-gray-100 border border-gray-300 rounded-lg shadow-sm p-4 space-y-4`}>
             {/* Section Title */}
             <div className="pb-4 border-b border-gray-300">
               <h2 className="text-xl font-bold text-[#162360]">{faq.category}</h2>
@@ -129,13 +121,13 @@ export default function FAQ() {
               <Disclosure key={index}>
                 {({ open }) => (
                   <>
-                    <Disclosure.Button className="flex justify-between w-full text-left text-sm font-medium text-[#162360] focus:outline-none">
+                    <Disclosure.Button className="flex justify-between w-full text-left text-[15px] font-medium text-[#162360] focus:outline-none">
                       <span>{item.question}</span>
                       <ChevronDownIcon className={`${open ? 'rotate-180 transform' : ''} h-5 w-5 text-[#162360]`} />
                     </Disclosure.Button>
                     <Disclosure.Panel className="mt-2">
                       {/* Wrapping answer in a card with outline */}
-                      <div className="border border-gray-300 rounded-lg p-3 bg-white text-gray-600">
+                      <div className="border border-gray-300 rounded-lg p-3 bg-white text-gray-600 text-[15px]">
                         {item.answer}
                       </div>
                     </Disclosure.Panel>
