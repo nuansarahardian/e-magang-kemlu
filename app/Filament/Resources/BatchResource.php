@@ -17,7 +17,7 @@ class BatchResource extends Resource
 {
     protected static ?string $model = Batch::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
 
     public static function form(Form $form): Form
     {
@@ -26,9 +26,9 @@ class BatchResource extends Resource
                 Forms\Components\TextInput::make('nama_batch')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('tanggal_mulai')
+                Forms\Components\DatePicker::make('tanggal_mulai')
                     ->required(),
-                Forms\Components\DateTimePicker::make('tanggal_berakhir')
+                Forms\Components\DatePicker::make('tanggal_berakhir')
                     ->required(),
                 Forms\Components\Toggle::make('is_open')
                     ->required(),

@@ -16,4 +16,9 @@ class EditBatch extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        // Redirect ke halaman tabel (index)
+        return $this->getResource()::getUrl('index');
+    }
 }
