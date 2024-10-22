@@ -20,6 +20,7 @@ class ProfilMahasiswa extends Model
         'jenis_kelamin',
         'universitas',
         'fakultas',
+        'alamat',
         'jurusan',
         'IPK',
         'no_telepon',

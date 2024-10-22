@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('universitas', 75);
             $table->string('fakultas', 75);
             $table->string('jurusan', 50);
+            $table->string('alamat', 255);
             $table->string('IPK', 5);
             $table->string('no_telepon', 20);
             $table->string('semester', 2);
