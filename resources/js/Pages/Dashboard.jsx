@@ -1,31 +1,33 @@
 import { useState } from 'react'; // Import useState untuk state management
 import Footer from '@/Components/Footer';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { UserIcon, DocumentTextIcon, CalendarIcon, CheckBadgeIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'; // Import Heroicons Outline
+import { DocumentTextIcon, CalendarIcon, CheckBadgeIcon, ArrowRightOnRectangleIcon, ClipboardDocumentIcon, CogIcon } from '@heroicons/react/24/outline'; // Import Heroicons Outline
 
 // Import komponen yang akan ditampilkan
-import ProfilPengguna from '@/Components/ProfilPengguna';
 import CurriculumVitae from '@/Components/CurriculumVitae';
 import Absensi from '@/Components/Absensi';
 import Sertifikat from '@/Components/Sertifikat';
+import StatusPendaftaran from '@/Components/StatusPendaftaran';
+import PengaturanAkun from '@/Components/PengaturanAkun';
 
 export default function Dashboard() {
-    const [activeComponent, setActiveComponent] = useState('profil'); // Set default ke 'profil'
+    const [activeComponent, setActiveComponent] = useState('cv'); // Set default ke 'cv'
 
     // Fungsi untuk mengganti komponen berdasarkan menu yang diklik
     const renderComponent = () => {
         switch (activeComponent) {
-            case 'profil':
-                return <ProfilPengguna />;
             case 'cv':
                 return <CurriculumVitae />;
             case 'absensi':
                 return <Absensi />;
             case 'sertifikat':
                 return <Sertifikat />;
+            case 'status':
+                return <StatusPendaftaran />;
+            case 'pengaturan':
+                return <PengaturanAkun />;
             default:
-                return <ProfilPengguna />; // Default ke ProfilPengguna
+                return <CurriculumVitae />; // Default ke CurriculumVitae
         }
     };
 
@@ -44,9 +46,11 @@ export default function Dashboard() {
                     {/* Sidebar Container - Terpisah menjadi dua bagian */}
                     <div className="w-1/4 flex flex-col space-y-8 mr-8">
                         
-                        {/* Container Atas: Nama dan Nama Kampus */}
+                        {/* Container Atas: Foto Profil, Nama, dan Nama Kampus */}
                         <div className="bg-white shadow-md outline outline-1 outline-gray-200 sm:rounded-lg p-6">
                             <div className="text-center">
+                                {/* Foto Profil */}
+                                <img src="/images/fotoprofil.jpg" alt="Foto Profil" className="w-24 h-24 rounded-full mx-auto mb-4" />
                                 <h3 className="text-lg font-semibold text-gray-900">Rudi Aldo Hardika</h3>
                                 <p className="text-sm text-gray-500">Institut Teknologi Sepuluh Nopember</p>
                             </div>
@@ -56,33 +60,39 @@ export default function Dashboard() {
                         <div className="bg-white shadow-md outline outline-1 outline-gray-200 sm:rounded-lg p-6">
                             <ul className="space-y-6 border-t border-gray-300 pt-4">
                                 <li className="border-b border-gray-300 pb-4">
-                                    <a href="#" onClick={() => setActiveComponent('profil')} className="hover:text-blue-500 flex items-center font-semibold">
-                                        <UserIcon className="w-5 h-5 mr-2 text-gray-500" />
-                                        <span>Profil</span>
-                                    </a>
-                                </li>
-                                <li className="border-b border-gray-300 pb-4">
                                     <a href="#" onClick={() => setActiveComponent('cv')} className="hover:text-blue-500 flex items-center font-semibold">
                                         <DocumentTextIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Curriculum Vitae</span>
                                     </a>
                                 </li>
                                 <li className="border-b border-gray-300 pb-4">
+                                    <a href="#" onClick={() => setActiveComponent('status')} className="hover:text-blue-500 flex items-center font-semibold">
+                                        <ClipboardDocumentIcon className="w-5 h-5 mr-2 text-gray-500" />
+                                        <span>Status Pendaftaran</span>
+                                    </a>
+                                </li>
+                                <li className="border-b border-gray-300 pb-4">
                                     <a href="#" onClick={() => setActiveComponent('absensi')} className="hover:text-blue-500 flex items-center font-semibold">
                                         <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
-                                        <span>Absensi</span>
+                                        <span>Absensi Peserta</span>
                                     </a>
                                 </li>
                                 <li className="border-b border-gray-300 pb-4">
                                     <a href="#" onClick={() => setActiveComponent('sertifikat')} className="hover:text-blue-500 flex items-center font-semibold">
                                         <CheckBadgeIcon className="w-5 h-5 mr-2 text-gray-500" />
-                                        <span>Sertifikat</span>
+                                        <span>Sertifikat Peserta</span>
+                                    </a>
+                                </li>
+                                <li className="border-b border-gray-300 pb-4">
+                                    <a href="#" onClick={() => setActiveComponent('pengaturan')} className="hover:text-blue-500 flex items-center font-semibold">
+                                        <CogIcon className="w-5 h-5 mr-2 text-gray-500" />
+                                        <span>Pengaturan Akun</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" className="text-red-500 hover:text-red-700 flex items-center font-semibold">
                                         <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" />
-                                        <span>Keluar</span>
+                                        <span>Logout</span>
                                     </a>
                                 </li>
                             </ul>
