@@ -57,24 +57,28 @@ export default function Absensi() {
                             {/* Baris 1 */}
                             <tr className="border-t border-gray-200"> {/* Border antara baris */}
                                 <td className="px-4 py-4 text-[14px]">1</td>
-                                <td className="px-4 py-4 text-[14px]">10:00 - 11:30</td>
+                                <td className="px-4 py-4 text-[14px]">
+                                    Senin, 1 Januari 2024<br />
+                                    08:00 - 16:00<br />
+                                    Lokasi: SK IKAD
+                                </td>
                                 <td className="px-4 py-4 text-[14px]">Belum Absen</td>
                                 <td className="px-4 py-4">
                                     <button
                                         onClick={() => handleStatusChange('Hadir')}
-                                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-[14px]"
+                                        className="bg-[#384AA0] text-white px-3 py-1 rounded hover:bg-blue-700 text-[14px]"
                                     >
                                         Hadir
                                     </button>
                                     <button
                                         onClick={() => handleStatusChange('Izin')}
-                                        className="bg-orange-500 text-white px-3 py-1 rounded ml-2 hover:bg-orange-600 text-[14px]"
+                                        className="bg-[#328945] text-white px-3 py-1 rounded ml-2 hover:bg-green-700 text-[14px]"
                                     >
                                         Izin
                                     </button>
                                     <button
                                         onClick={() => handleStatusChange('Sakit')}
-                                        className="bg-yellow-500 text-white px-3 py-1 rounded ml-2 hover:bg-yellow-600 text-[14px]"
+                                        className="bg-[#FFB900] text-white px-3 py-1 rounded ml-2 hover:bg-yellow-600 text-[14px]"
                                     >
                                         Sakit
                                     </button>
@@ -84,24 +88,28 @@ export default function Absensi() {
                             {/* Baris 2 */}
                             <tr className="border-t border-gray-200"> {/* Border antara baris */}
                                 <td className="px-4 py-4 text-[14px]">2</td>
-                                <td className="px-4 py-4 text-[14px]">12:00 - 13:30</td>
+                                <td className="px-4 py-4 text-[14px]">
+                                    Selasa, 2 Januari 2024<br />
+                                    08:00 - 16:00<br />
+                                    Lokasi: SK IKAD
+                                </td>
                                 <td className="px-4 py-4 text-[14px]">Belum Absen</td>
                                 <td className="px-4 py-4">
                                     <button
                                         onClick={() => handleStatusChange('Hadir')}
-                                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-[14px]"
+                                        className="bg-[#384AA0] text-white px-3 py-1 rounded hover:bg-blue-700 text-[14px]"
                                     >
                                         Hadir
                                     </button>
                                     <button
                                         onClick={() => handleStatusChange('Izin')}
-                                        className="bg-orange-500 text-white px-3 py-1 rounded ml-2 hover:bg-orange-600 text-[14px]"
+                                        className="bg-[#328945] text-white px-3 py-1 rounded ml-2 hover:bg-green-700 text-[14px]"
                                     >
                                         Izin
                                     </button>
                                     <button
                                         onClick={() => handleStatusChange('Sakit')}
-                                        className="bg-yellow-500 text-white px-3 py-1 rounded ml-2 hover:bg-yellow-600 text-[14px]"
+                                        className="bg-[#FFB900] text-white px-3 py-1 rounded ml-2 hover:bg-yellow-600 text-[14px]"
                                     >
                                         Sakit
                                     </button>

@@ -11,7 +11,7 @@ import TabelTimeline from '@/Components/TabelTimeline';  // Import komponen Tabe
 export default function Beranda() {
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="E Magang BSKLN" />
             <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
                 <AuthenticatedLayout />  {/*menampilkan AuthenticatedLayout */}
                 <HeroSection />  {/*menampilkan Hero Section */}
