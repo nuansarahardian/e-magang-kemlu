@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('bukti_absensi')->nullable();
             $table->timestamps();
 
-            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade');
+            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade')     ->onUpdate('cascade');;
         });
     }
 

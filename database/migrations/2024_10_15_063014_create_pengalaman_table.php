@@ -17,7 +17,7 @@ class CreatePengalamanTable extends Migration
             $table->string('instansi');
             $table->timestamps();
 
-            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade');
+            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade')     ->onUpdate('cascade');;
         });
     }
 

@@ -20,7 +20,8 @@ class ProfilMahasiswa extends Model
         'jenis_kelamin',
         'universitas',
         'fakultas',
-        'alamat',
+        'alamat_KTP',
+        'alamat_domisili',
         'jurusan',
         'IPK',
         'no_telepon',
@@ -31,7 +32,9 @@ class ProfilMahasiswa extends Model
         'transkrip_nilai',
         'status_data',
     ];
-
+    protected $casts = [
+        'tanggal_lahir' => 'date',
+    ];
     // Relasi ke tabel User
     public function user()
     {

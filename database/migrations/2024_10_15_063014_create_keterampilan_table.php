@@ -15,7 +15,7 @@ class CreateKeterampilanTable extends Migration
             $table->enum('level', ['pemula', 'menengah', 'mahir']);
             $table->timestamps();
 
-            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade');
+            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade')     ->onUpdate('cascade');;
         });
     }
 

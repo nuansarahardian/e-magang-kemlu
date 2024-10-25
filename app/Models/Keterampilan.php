@@ -10,6 +10,7 @@ class Keterampilan extends Model
     use HasFactory;
 
     protected $table = 'keterampilan';
+
     protected $fillable = [
         'NIM',
         'nama_keterampilan',
