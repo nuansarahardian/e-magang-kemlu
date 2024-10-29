@@ -1,38 +1,37 @@
-import React from 'react';
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
-import Header from '@/Components/Header'; // Import Header
-import Footer from '@/Components/Footer'; // Import Footer
+import React from "react";
+import Checkbox from "@/Components/Checkbox";
+import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import { Head, Link, useForm } from "@inertiajs/react";
+import Header from "@/Components/Header"; // Import Header
+import Footer from "@/Components/Footer"; // Import Footer
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         remember: false,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('login'), {
-            onFinish: () => reset('password'),
+        post(route("login"), {
+            onFinish: () => reset("password"),
         });
     };
 
     return (
         <>
             <Header /> {/* Render Header */}
-
             <div className="min-h-screen flex">
                 {/* Left container for image */}
                 <div className="relative hidden lg:flex w-1/2">
                     <div
                         className="w-full h-full bg-cover bg-center"
                         style={{
-                            backgroundImage: 'url(/images/3.jpeg)', // Replace with your image
+                            backgroundImage: "url(/images/3.jpeg)", // Replace with your image
                             zIndex: 0,
                         }}
                     ></div>
@@ -67,7 +66,7 @@ export default function Login({ status, canResetPassword }) {
                                     autoComplete="username"
                                     isFocused={true}
                                     onChange={(e) =>
-                                        setData('email', e.target.value)
+                                        setData("email", e.target.value)
                                     }
                                 />
                                 <InputError
@@ -90,7 +89,7 @@ export default function Login({ status, canResetPassword }) {
                                     className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     autoComplete="current-password"
                                     onChange={(e) =>
-                                        setData('password', e.target.value)
+                                        setData("password", e.target.value)
                                     }
                                 />
                                 <InputError
@@ -105,11 +104,14 @@ export default function Login({ status, canResetPassword }) {
                                         name="remember"
                                         checked={data.remember}
                                         onChange={(e) =>
-                                            setData('remember', e.target.checked)
+                                            setData(
+                                                "remember",
+                                                e.target.checked
+                                            )
                                         }
                                     />
                                     <span className="ml-2 text-sm text-gray-600">
-                                        Remember me
+                                        Ingat Saya
                                     </span>
                                 </label>
                             </div>
@@ -117,10 +119,10 @@ export default function Login({ status, canResetPassword }) {
                             <div className="mt-4 flex items-center justify-between">
                                 {canResetPassword && (
                                     <Link
-                                        href={route('password.request')}
+                                        href={route("password.request")}
                                         className="text-sm text-indigo-600 hover:underline"
                                     >
-                                        Forgot your password?
+                                        Lupa Password Anda?
                                     </Link>
                                 )}
 
@@ -136,9 +138,9 @@ export default function Login({ status, canResetPassword }) {
                         {/* Link to Register Page */}
                         <div className="text-center mt-6">
                             <p className="text-sm text-gray-600">
-                                Belum punya akun?{' '}
+                                Belum punya akun?{" "}
                                 <Link
-                                    href={route('register')}
+                                    href={route("register")}
                                     className="text-indigo-600 hover:underline"
                                 >
                                     Daftar Sekarang
@@ -148,7 +150,6 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
             </div>
-
             <Footer /> {/* Render Footer */}
         </>
     );

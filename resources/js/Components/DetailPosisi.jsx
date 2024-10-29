@@ -1,9 +1,11 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { Link } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
+import Swal from "sweetalert2";
 
 export default function DetailPosisi({ selectedPosition }) {
-    // Jika tidak ada posisi yang dipilih, tampilkan pesan placeholder
+    const { isLoggedIn } = usePage().props;
     if (!selectedPosition) {
         return (
             <div className="flex items-center justify-center text-gray-600 text-lg h-full">
@@ -12,20 +14,53 @@ export default function DetailPosisi({ selectedPosition }) {
         );
     }
 
+    // Tentukan label dan style tombol berdasarkan kondisi isRegistered dan isFull
+    let applyButtonText = "Apply Now";
+    let applyButtonStyle = "bg-[#2D3985] hover:bg-[#24306e]";
+    let isButtonDisabled = false;
+
+    if (selectedPosition.isRegistered) {
+        applyButtonText = "Sudah Daftar";
+        applyButtonStyle = "bg-gray-400 cursor-not-allowed";
+        isButtonDisabled = true;
+    }
+
+    if (selectedPosition.isFull) {
+        applyButtonText = selectedPosition.isRegistered
+            ? "Sudah Daftar (Kuota Penuh)"
+            : "Kuota Sudah Penuh";
+        applyButtonStyle = "bg-red-400 cursor-not-allowed";
+        isButtonDisabled = true;
+    }
+
+    const handleApplyClick = (e) => {
+        if (!isLoggedIn) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Anda harus login!",
+                text: "Silakan login untuk melanjutkan pendaftaran.",
+                icon: "warning",
+                confirmButtonText: "Login",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/login";
+                }
+            });
+        } else if (isButtonDisabled) {
+            e.preventDefault();
+        }
+    };
     return (
         <div className="w-full h-full bg-white border border-gray-300">
-            {/* Section 0: Full-Width Image */}
             <div className="relative w-full h-64">
                 <img
-                    src={selectedPosition.gambar || "/images/3.jpeg"} // Menggunakan gambar dari posisi jika ada
+                    src={selectedPosition.gambar || "/images/3.jpeg"}
                     alt="Detail Image"
                     className="object-cover w-full h-full"
                 />
             </div>
 
-            {/* Content Container */}
             <div className="p-8">
-                {/* Section 1: Informasi Kegiatan */}
                 <div>
                     <h1 className="text-3xl font-extrabold text-black mb-2">
                         Informasi Kegiatan
@@ -38,31 +73,42 @@ export default function DetailPosisi({ selectedPosition }) {
                 </div>
             </div>
 
-            {/* Divider */}
             <hr className="border-t-2 border-gray-200" />
 
             <div className="p-8">
-                {/* Section 2: Posisi Overview */}
                 <div className="mb-0">
                     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                         <h2 className="text-2xl font-bold text-black">
                             {selectedPosition.nama_posisi}
                         </h2>
                         <Link
-                            href="/apply"
-                            className="bg-[#2D3985] text-white font-bold py-2 px-6 rounded-lg w-full lg:w-auto text-center transition-all ease-in-out duration-300 transform hover:scale-105 hover:bg-[#24306e]"
+                            href={`/pendaftaran/create/${selectedPosition.id}`}
+                            className={`${applyButtonStyle} text-white font-bold py-2 px-6 rounded-lg w-full lg:w-auto text-center transition-all ease-in-out duration-300 transform ${
+                                !isButtonDisabled ? "hover:scale-105" : ""
+                            }`}
+                            onClick={handleApplyClick}
                         >
-                            Apply Now
+                            {applyButtonText}
                         </Link>
                     </div>
+
+                    {/* Status Kuota dan Pendaftaran */}
+                    {selectedPosition.isRegistered && (
+                        <p className="text-green-600 font-semibold mt-2">
+                            Anda sudah terdaftar untuk posisi ini.
+                        </p>
+                    )}
+                    {selectedPosition.isFull && (
+                        <p className="text-red-600 font-semibold mt-2">
+                            Kuota sudah penuh.
+                        </p>
+                    )}
                 </div>
             </div>
 
-            {/* Divider */}
             <hr className="border-t-2 border-gray-200" />
 
             <div className="p-8">
-                {/* Section 3: Tabel Informasi */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto border-collapse border border-gray-300">
                         <thead className="bg-[#2D3985] text-white">
@@ -113,11 +159,10 @@ export default function DetailPosisi({ selectedPosition }) {
                     </table>
                 </div>
             </div>
-            {/* Divider */}
+
             <hr className="border-t-2 border-gray-200" />
 
             <div className="p-8">
-                {/* Section 4: Accordion for Deskripsi */}
                 <div>
                     <Disclosure>
                         {({ open }) => (

@@ -1,8 +1,6 @@
 import { useState } from "react";
-import DatePicker from "react-datepicker"; // Pastikan sudah menginstal react-datepicker
-import "react-datepicker/dist/react-datepicker.css"; // Import style datepicker
 import React from "react";
-
+import { Modal } from "react-responsive-modal";
 import { usePage } from "@inertiajs/react";
 
 // Import komponen
@@ -13,7 +11,7 @@ import PreviewCV from "./PreviewCV";
 import Dokumen from "./Dokumen";
 
 export default function CurriculumVitae({ switchComponent }) {
-    const { profilMahasiswa } = usePage().props;
+    const { profilMahasiswa, progress } = usePage().props; // Ambil nilai progress dari props
     const [formData, setFormData] = useState({
         namaLengkap: "",
         asalUniversitas: "",
@@ -21,21 +19,10 @@ export default function CurriculumVitae({ switchComponent }) {
 
     const [activeTab, setActiveTab] = useState(1); // State untuk tab aktif
     const [isEditing, setIsEditing] = useState(false); // State untuk mode edit
-    const [progress, setProgress] = useState(22); // Contoh progress (22%)
+    const [open, setOpen] = useState(false);
 
-    // Fungsi untuk menangani perubahan input
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    // Fungsi untuk submit form
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Curriculum Vitae Data:", formData);
-    };
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
 
     // Fungsi untuk toggle mode edit
     const toggleEdit = () => {
@@ -81,14 +68,30 @@ export default function CurriculumVitae({ switchComponent }) {
                         <div className="bg-gray-200 rounded-full h-2.5 mx-8">
                             <div
                                 className="bg-[#2B1A70] h-2.5 rounded-full"
-                                style={{ width: `${progress}%` }}
+                                style={{ width: `${progress}%` }} // Gunakan nilai progress dari backend
                             ></div>
                         </div>
                         <div className="flex justify-between items-center mt-2 px-8">
                             <p className="text-gray-800">{`${progress}%`}</p>
-                            <button className="bg-gradient-to-r from-[#384AA0] to-[#5E7ADD] text-white py-2 px-4 rounded-full font-semibold">
-                                Lihat CV &rarr;
-                            </button>
+                            <div>
+                                <button
+                                    onClick={onOpenModal}
+                                    className="bg-gradient-to-r from-[#384AA0] to-[#5E7ADD] text-white py-2 px-4 rounded-full font-semibold mt-4"
+                                >
+                                    Lihat CV &rarr;
+                                </button>
+                                <Modal
+                                    open={open}
+                                    onClose={onCloseModal}
+                                    center
+                                >
+                                    <PreviewCV
+                                        switchComponent={switchComponent}
+                                        setFormData={setFormData}
+                                        formData={formData}
+                                    />
+                                </Modal>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -149,46 +152,30 @@ export default function CurriculumVitae({ switchComponent }) {
                             {activeTab === 1 && (
                                 <InformasiPribadi
                                     profilMahasiswa={profilMahasiswa}
-                                    switchComponent={switchComponent} // Menambahkan prop ini
-                                    setFormData={setFormData} // Menambahkan prop ini
+                                    switchComponent={switchComponent}
+                                    setFormData={setFormData}
                                     formData={formData}
-                                    handleChange={handleChange}
-                                    isEditing={isEditing}
-                                    toggleEdit={toggleEdit}
-                                    handleSubmit={handleSubmit}
                                 />
                             )}
                             {activeTab === 2 && (
                                 <InformasiAkademik
-                                    switchComponent={switchComponent} // Menambahkan prop ini
+                                    switchComponent={switchComponent}
                                     setFormData={setFormData}
                                     formData={formData}
-                                    handleChange={handleChange}
-                                    isEditing={isEditing}
-                                    toggleEdit={toggleEdit}
-                                    handleSubmit={handleSubmit}
                                 />
                             )}
                             {activeTab === 3 && (
                                 <PengalamanOrganisasi
-                                    switchComponent={switchComponent} // Menambahkan prop ini
-                                    setFormData={setFormData} // Menambahkan prop ini
+                                    switchComponent={switchComponent}
+                                    setFormData={setFormData}
                                     formData={formData}
-                                    handleChange={handleChange}
-                                    isEditing={isEditing}
-                                    toggleEdit={toggleEdit}
-                                    handleSubmit={handleSubmit}
                                 />
                             )}
                             {activeTab === 4 && (
                                 <Dokumen
-                                    switchComponent={switchComponent} // Menambahkan prop ini
-                                    setFormData={setFormData} // Menambahkan prop ini
+                                    switchComponent={switchComponent}
+                                    setFormData={setFormData}
                                     formData={formData}
-                                    handleChange={handleChange}
-                                    isEditing={isEditing}
-                                    toggleEdit={toggleEdit}
-                                    handleSubmit={handleSubmit}
                                 />
                             )}
                         </div>

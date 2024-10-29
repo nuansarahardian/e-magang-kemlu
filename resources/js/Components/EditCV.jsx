@@ -18,7 +18,6 @@ export default function EditCV({ switchComponent, defaultTab = 1 }) {
     });
 
     const [isEditing, setIsEditing] = useState(false); // State untuk mode edit
-    const [progress, setProgress] = useState(22); // Contoh progress (22%)
 
     useEffect(() => {
         const savedTab = localStorage.getItem("activeTab");

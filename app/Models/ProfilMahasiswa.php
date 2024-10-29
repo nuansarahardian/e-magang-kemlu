@@ -10,8 +10,10 @@ class ProfilMahasiswa extends Model
     use HasFactory;
 
     protected $table = 'profil_mahasiswa';
-    protected $primaryKey = 'NIM';
-    public $incrementing = false; // NIM bukan auto-increment
+    protected $primaryKey = 'NIM'; // Ganti primary key sesuai dengan kolom primary key di tabel Anda
+    public $incrementing = false; // Jika primary key bukan auto-increment
+    protected $keyType = 'string'; // Tentukan tipe key (misalnya, string untuk NIM)
+
 
     protected $fillable = [
         'NIM',

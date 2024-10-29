@@ -6,10 +6,15 @@ import CardPosisi from "@/Components/CardPosisi";
 import DetailPosisi from "@/Components/DetailPosisi";
 
 export default function PosisiMagang() {
-    const { props } = usePage(); // Mengambil data dari backend melalui Inertia
-    const { positions } = props; // Mengambil data posisi magang yang dikirim dari server
+    const { props } = usePage();
+    const { positions } = props;
 
     const [selectedPosition, setSelectedPosition] = useState(null);
+
+    // Cari status pendaftaran dari posisi yang dipilih
+    const isRegistered = selectedPosition
+        ? selectedPosition.isRegistered
+        : false;
 
     return (
         <div className="relative bg-white min-h-screen overflow-hidden">
@@ -31,7 +36,10 @@ export default function PosisiMagang() {
 
                 {/* DetailPosisi for the right container */}
                 <div className="lg:w-2/3 bg-[#F7F6F8] border border-gray-400 shadow-md rounded-lg p-6">
-                    <DetailPosisi selectedPosition={selectedPosition} />
+                    <DetailPosisi
+                        selectedPosition={selectedPosition}
+                        isRegistered={isRegistered}
+                    />
                 </div>
             </div>
 

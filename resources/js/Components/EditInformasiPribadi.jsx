@@ -56,16 +56,13 @@ export default function EditInformasiPribadi({
         });
     };
 
-    // Fungsi untuk submit data ke backend
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Konversi tanggal ke format backend "YYYY-MM-DD" sebelum dikirim
         const formattedTanggalLahir = formData.tanggalLahir
             ? moment(formData.tanggalLahir, "DD-MM-YYYY").format("DD-MM-YYYY")
             : "";
 
-        // Buat FormData untuk mengirim data termasuk file
         const data = new FormData();
         data.append("namaLengkap", formData.namaLengkap || "");
         data.append("NIM", formData.NIM || "");
@@ -75,16 +72,13 @@ export default function EditInformasiPribadi({
         data.append("noHp", formData.noHp || "");
         data.append("alamatDomisili", formData.alamatDomisili || "");
 
-        // Tambahkan file foto jika ada perubahan
         if (formData.uploadFoto instanceof File) {
             data.append("uploadFoto", formData.uploadFoto);
         }
 
-        // Cek apakah profil mahasiswa sudah ada
-        const routeName =
-            profilData && profilData.NIM
-                ? "profil-mahasiswa.update"
-                : "profil-mahasiswa.store";
+        const routeName = profilData
+            ? "profil-mahasiswa.update"
+            : "profil-mahasiswa.store";
 
         router.post(route(routeName), data, {
             onSuccess: () => {
@@ -94,26 +88,21 @@ export default function EditInformasiPribadi({
                     text: "Data berhasil disimpan!",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.reload(); // Refresh halaman setelah user klik "OK"
+                    window.location.reload();
                 });
             },
             onError: (errors) => {
-                const errorMessages = errors.response?.data?.errors
-                    ? Object.values(errors.response.data.errors)
-                          .flat()
-                          .join(", ")
-                    : "Terjadi kesalahan saat menyimpan data.";
+                const errorMessages = Object.values(errors)
+                    .flat()
+                    .join("<br/>");
 
                 Swal.fire({
                     icon: "error",
-                    title: "Gagal!",
-                    text: errorMessages,
-                    confirmButtonText: "Coba Lagi",
+                    title: "Gagal Menyimpan Data!",
+                    html: errorMessages,
+                    confirmButtonText: "OK",
                 });
-                console.log("Terjadi kesalahan: ", errors);
             },
-
-            replace: true,
         });
     };
 

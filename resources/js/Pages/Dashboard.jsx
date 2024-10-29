@@ -116,12 +116,16 @@ export default function Dashboard() {
                         </div>
 
                         <div className="bg-white shadow-md outline outline-1 outline-gray-200 sm:rounded-lg p-6">
-                            <ul className="space-y-6  ">
+                            <ul className="space-y-6">
                                 <li className="border-b border-gray-300 pb-4">
                                     <a
                                         href="#"
                                         onClick={() => switchComponent("cv")}
-                                        className="hover:text-blue-500 flex items-center font-semibold"
+                                        className={`flex items-center font-semibold hover:text-blue-500 ${
+                                            activeComponent === "cv"
+                                                ? "text-blue-500  border-blue-500"
+                                                : "text-gray-900"
+                                        }`}
                                     >
                                         <DocumentTextIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Curriculum Vitae</span>
@@ -133,7 +137,11 @@ export default function Dashboard() {
                                         onClick={() =>
                                             switchComponent("status")
                                         }
-                                        className="hover:text-blue-500 flex items-center font-semibold"
+                                        className={`flex items-center font-semibold hover:text-blue-500 ${
+                                            activeComponent === "status"
+                                                ? "text-blue-500  border-blue-500"
+                                                : "text-gray-900"
+                                        }`}
                                     >
                                         <ClipboardDocumentIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Status Pendaftaran</span>
@@ -145,7 +153,11 @@ export default function Dashboard() {
                                         onClick={() =>
                                             switchComponent("absensi")
                                         }
-                                        className="hover:text-blue-500 flex items-center font-semibold"
+                                        className={`flex items-center font-semibold hover:text-blue-500 ${
+                                            activeComponent === "absensi"
+                                                ? "text-blue-500  border-blue-500"
+                                                : "text-gray-900"
+                                        }`}
                                     >
                                         <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Absensi Peserta</span>
@@ -157,7 +169,11 @@ export default function Dashboard() {
                                         onClick={() =>
                                             switchComponent("sertifikat")
                                         }
-                                        className="hover:text-blue-500 flex items-center font-semibold"
+                                        className={`flex items-center font-semibold hover:text-blue-500 ${
+                                            activeComponent === "sertifikat"
+                                                ? "text-blue-500  border-blue-500"
+                                                : "text-gray-900"
+                                        }`}
                                     >
                                         <CheckBadgeIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Sertifikat Peserta</span>
@@ -169,19 +185,14 @@ export default function Dashboard() {
                                         onClick={() =>
                                             switchComponent("pengaturan")
                                         }
-                                        className="hover:text-blue-500 flex items-center font-semibold"
+                                        className={`flex items-center font-semibold hover:text-blue-500 ${
+                                            activeComponent === "pengaturan"
+                                                ? "text-blue-500  border-blue-500"
+                                                : "text-gray-900"
+                                        }`}
                                     >
                                         <CogIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Pengaturan Akun</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="text-red-500 hover:text-red-700 flex items-center font-semibold"
-                                    >
-                                        <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" />
-                                        <span>Logout</span>
                                     </a>
                                 </li>
                             </ul>

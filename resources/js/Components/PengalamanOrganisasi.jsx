@@ -8,7 +8,7 @@ export default function PengalamanOrganisasi({ switchComponent }) {
 
     // Function untuk switch ke mode edit
     const handleEditClick = () => {
-        switchComponent("editpengalaman"); // Panggil fungsi untuk mengaktifkan EditPengalaman
+        switchComponent("editcv", 3); // Panggil fungsi untuk mengaktifkan EditPengalaman
     };
 
     // Mengambil data pengalaman dan keterampilan dari props

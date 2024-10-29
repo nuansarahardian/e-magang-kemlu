@@ -7,50 +7,36 @@ use Inertia\Inertia;
 use App\Models\User;
 use App\Models\ProfilMahasiswa;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class InformasiPribadiController extends Controller
 {
     public function show()
     {
-        // Ambil data user yang sedang login dan muat profil mahasiswa terkait
         $user = auth()->user();
+        $profilMahasiswa = $user ? $user->load('profilMahasiswa')->profilMahasiswa : null;
 
-        // Pastikan user terkait ada dan memuat relasi profil mahasiswa
-        $user = $user ? $user->load('profilMahasiswa') : null;
-        $profilMahasiswa = $user ? $user->profilMahasiswa : null;
-
-        // Ambil data dari model User dan gabungkan dengan data dari model ProfilMahasiswa
         $data = [
-            'nama' => $user->name, // Data dari model User
-            'email' => $user->email, // Data dari model User
+            'nama' => $user->name,
+            'email' => $user->email,
             'NIM' => $profilMahasiswa->NIM ?? '',
             'tanggal_lahir' => $profilMahasiswa->tanggal_lahir ?? '',
             'jenis_kelamin' => $profilMahasiswa->jenis_kelamin ?? '',
-
-
             'alamat_KTP' => $profilMahasiswa->alamat_KTP ?? '',
             'alamat_domisili' => $profilMahasiswa->alamat_domisili ?? '',
-   
             'no_telepon' => $profilMahasiswa->no_telepon ?? '',
-         
             'foto' => $profilMahasiswa && !empty($profilMahasiswa->pas_foto)
-            ? asset('storage/' . $profilMahasiswa->pas_foto)
-            : asset('storage/pas_foto/default-profile.png'),
-        
-
+                ? asset('storage/' . $profilMahasiswa->pas_foto)
+                : asset('storage/pas_foto/default-profile.png'),
         ];
-        // dd($profilMahasiswa);
-        
-        return response()->json([
-        'profilMahasiswa' => $data,
-    ]);
+
+        return response()->json(['profilMahasiswa' => $data]);
     }
 
     public function edit()
     {
         $user = auth()->user();
-        $user = $user ? $user->load('profilMahasiswa') : null;
-        $profilMahasiswa = $user ? $user->profilMahasiswa : null;
+        $profilMahasiswa = $user ? $user->load('profilMahasiswa')->profilMahasiswa : null;
 
         $data = $profilMahasiswa ? [
             'namaLengkap' => $user->name,
@@ -62,66 +48,64 @@ class InformasiPribadiController extends Controller
             'pasFoto' => $profilMahasiswa->pas_foto,
         ] : null;
 
-
-        return Inertia::render('Dashboard', [
-            'profilMahasiswa' => $data
-        ]);
+        return Inertia::render('Dashboard', ['profilMahasiswa' => $data]);
     }
 
     public function update(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
+            'NIM' => 'required|string|max:15|unique:profil_mahasiswa,NIM,' . $request->NIM . ',NIM',
             'namaLengkap' => 'required|string|max:255',
-            'tanggalLahir' => 'required|date_format:d-m-Y',
+            'tanggalLahir' => 'required|date',
             'jenisKelamin' => 'required|string',
             'alamatKTP' => 'required|string|max:255',
-            'NIM' => 'required|string|max:20', // Validasi NIM
             'alamatDomisili' => 'required|string|max:255',
             'noHp' => 'required|string|max:15',
             'uploadFoto' => 'nullable|image|max:2048',
         ]);
     
-        $user = auth()->user();
-        $profilMahasiswa = $user->profilMahasiswa;
+        try {
+            $user = auth()->user();
+            $profilMahasiswa = $user->profilMahasiswa;
     
-        // Update nama pada model User
-        $user->name = $request->namaLengkap;
-        $user->save();
+            $user->name = $request->namaLengkap;
+            $user->save();
     
-        // Jika profil mahasiswa tidak ada, buat profil baru
-        if (!$profilMahasiswa) {
-            $profilMahasiswa = new ProfilMahasiswa();
-            $profilMahasiswa->user_id = $user->id; // Relasi dengan user_id
-        }
-    
-        // Update data pada model ProfilMahasiswa
-        $profilMahasiswa->NIM = $request->NIM; // Pastikan NIM diperbarui
-        $profilMahasiswa->tanggal_lahir = $request->tanggalLahir;
-        $profilMahasiswa->jenis_kelamin = $request->jenisKelamin;
-        $profilMahasiswa->alamat_KTP = $request->alamatKTP;
-        $profilMahasiswa->alamat_domisili = $request->alamatDomisili;
-        $profilMahasiswa->no_telepon = $request->noHp;
-    
-        // Update foto jika ada
-        if ($request->hasFile('uploadFoto')) {
-            if ($profilMahasiswa->pas_foto) {
-                Storage::delete('public/' . $profilMahasiswa->pas_foto);
+            if (!$profilMahasiswa) {
+                $profilMahasiswa = new ProfilMahasiswa();
+                $profilMahasiswa->user_id = $user->id;
             }
     
-            $path = $request->file('uploadFoto')->store('pas_foto', 'public');
-            $profilMahasiswa->pas_foto = $path;
-        }
+            $profilMahasiswa->NIM = $request->NIM;
+            $profilMahasiswa->tanggal_lahir = $request->tanggalLahir;
+            $profilMahasiswa->jenis_kelamin = $request->jenisKelamin;
+            $profilMahasiswa->alamat_KTP = $request->alamatKTP;
+            $profilMahasiswa->alamat_domisili = $request->alamatDomisili;
+            $profilMahasiswa->no_telepon = $request->noHp;
     
-        // Simpan profil mahasiswa
-        $profilMahasiswa->save();
-        
-        return redirect()->route('dashboard')->with('success', 'Informasi berhasil diperbarui.');
+            if ($request->hasFile('uploadFoto')) {
+                if ($profilMahasiswa->pas_foto) {
+                    Storage::delete('public/' . $profilMahasiswa->pas_foto);
+                }
+                $path = $request->file('uploadFoto')->store('pas_foto', 'public');
+                $profilMahasiswa->pas_foto = $path;
+            }
+    
+            $profilMahasiswa->save();
+    
+            return redirect()->route('dashboard')->with('success', 'Profil berhasil diperbarui.');
+    
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == '23000') {
+                return back()->withErrors(['NIM' => 'NIM sudah terdaftar untuk mahasiswa lain.']);
+            }
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui profil.']);
+        }
     }
     
 
     public function store(Request $request)
     {
-        // Validasi data inputan
         $validatedData = $request->validate([
             'NIM' => 'required|string|max:15|unique:profil_mahasiswa,NIM',
             'namaLengkap' => 'required|string|max:255',
@@ -133,38 +117,40 @@ class InformasiPribadiController extends Controller
             'uploadFoto' => 'nullable|image|max:2048',
         ]);
     
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
+            $profilMahasiswa = new ProfilMahasiswa();
     
-        // Buat atau update entri profil mahasiswa
-        $profilMahasiswa = ProfilMahasiswa::firstOrNew(['user_id' => $user->id]);
+            $profilMahasiswa->user_id = $user->id;
+            $profilMahasiswa->NIM = $validatedData['NIM'];
+            $profilMahasiswa->tanggal_lahir = $validatedData['tanggalLahir'];
+            $profilMahasiswa->jenis_kelamin = $validatedData['jenisKelamin'];
+            $profilMahasiswa->alamat_KTP = $validatedData['alamatKTP'];
+            $profilMahasiswa->alamat_domisili = $validatedData['alamatDomisili'];
+            $profilMahasiswa->no_telepon = $validatedData['noHp'];
     
-        // Mengisi data
-        $profilMahasiswa->fill([
-            'NIM' => $validatedData['NIM'],
-            'tanggal_lahir' => $validatedData['tanggalLahir'],
-            'jenis_kelamin' => $validatedData['jenisKelamin'],
-            'alamat_KTP' => $validatedData['alamatKTP'],
-            'alamat_domisili' => $validatedData['alamatDomisili'],
-            'no_telepon' => $validatedData['noHp'],
-        ]);
+            if ($request->hasFile('uploadFoto')) {
+                $path = $request->file('uploadFoto')->store('pas_foto', 'public');
+                $profilMahasiswa->pas_foto = $path;
+            }
     
-        // Jika ada file, simpan foto
-        if ($request->hasFile('uploadFoto')) {
-            $path = $request->file('uploadFoto')->store('pas_foto', 'public');
-            $profilMahasiswa->pas_foto = $path;
+            $profilMahasiswa->save();
+    
+            return redirect()->route('dashboard')->with('success', 'Profil berhasil diatur.');
+    
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == '23000') {
+                return back()->withErrors(['NIM' => 'NIM sudah terdaftar untuk mahasiswa lain.']);
+            }
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan profil.']);
         }
-    
-        // Simpan data
-        $profilMahasiswa->save();
-    
-        return redirect()->route('dashboard')->with('success', 'Profil berhasil diatur.');
     }
     
+
     public function destroy($id)
     {
         $profilMahasiswa = ProfilMahasiswa::findOrFail($id);
 
-        // Hapus foto jika ada
         if ($profilMahasiswa->pas_foto) {
             Storage::delete('public/' . $profilMahasiswa->pas_foto);
         }
@@ -174,4 +160,3 @@ class InformasiPribadiController extends Controller
         return redirect()->route('dashboard')->with('success', 'Profil berhasil dihapus.');
     }
 }
-

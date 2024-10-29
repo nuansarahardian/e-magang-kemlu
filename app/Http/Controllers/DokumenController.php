@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ProfilMahasiswa;
+use Illuminate\Support\Facades\Validator;
 
 class DokumenController extends Controller
 {
@@ -55,48 +56,68 @@ class DokumenController extends Controller
     
     
     public function upload(Request $request, $type)
-    {
-        $request->validate([
-            'file' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:2048',
-        ]);
-    
-        $user = auth()->user();
-        $profil = $user->profilMahasiswa;
-    
-        if (!$profil) {
-            return back()->with('error', 'Profil mahasiswa tidak ditemukan.');
-        }
-    
-        try {
-            // Simpan file ke 'dokumen' dalam disk 'public'
-            $path = $request->file('file')->store('dokumen', 'public');
-    
-            // Update field berdasarkan tipe dokumen
-            if ($type === 'KTM') {
-                if ($profil->KTM) {
-                    Storage::disk('public')->delete($profil->KTM);
-                }
-                $profil->KTM = $path;
-            } elseif ($type === 'surat_permohonan') {
-                if ($profil->surat_permohonan) {
-                    Storage::disk('public')->delete($profil->surat_permohonan);
-                }
-                $profil->surat_permohonan = $path;
-            } elseif ($type === 'transkrip_nilai') {
-                if ($profil->transkrip_nilai) {
-                    Storage::disk('public')->delete($profil->transkrip_nilai);
-                }
-                $profil->transkrip_nilai = $path;
-            }
-    
-            $profil->save();
-    
-            return back()->with('success', 'File berhasil diunggah.');
-        } catch (\Exception $e) {
-            \Log::error("Error saat mengunggah file: " . $e->getMessage());
-            return back()->with('error', 'Gagal mengunggah file.');
-        }
+{
+    // Buat validator untuk memvalidasi ukuran file dan tipe file
+    $validator = Validator::make($request->all(), [
+        'file' => 'required|file|mimes:pdf,doc,docx,jpg,png|max:5120', // 5MB
+    ]);
+
+    // Cek apakah validasi gagal
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
     }
+
+    $user = auth()->user();
+    $profil = $user->profilMahasiswa;
+
+    if (!$profil) {
+        return back()->with('error', 'Profil mahasiswa tidak ditemukan.');
+    }
+
+    try {
+        // Ambil instance file
+        $file = $request->file('file');
+
+        // Mendapatkan ukuran file dalam bytes
+        $fileSize = $file->getSize();
+
+        // Mengubah ukuran file ke MB
+        $fileSizeMB = round($fileSize / 1024 / 1024, 2);
+
+        // Mengambil nama asli file
+        $originalName = $file->getClientOriginalName();
+
+        // Simpan file dengan nama asli di folder 'dokumen' dalam disk 'public'
+        $path = $file->storeAs('dokumen', $originalName, 'public');
+
+        // Update field berdasarkan tipe dokumen
+        if ($type === 'KTM') {
+            if ($profil->KTM) {
+                Storage::disk('public')->delete($profil->KTM);
+            }
+            $profil->KTM = $path;
+        } elseif ($type === 'surat_permohonan') {
+            if ($profil->surat_permohonan) {
+                Storage::disk('public')->delete($profil->surat_permohonan);
+            }
+            $profil->surat_permohonan = $path;
+        } elseif ($type === 'transkrip_nilai') {
+            if ($profil->transkrip_nilai) {
+                Storage::disk('public')->delete($profil->transkrip_nilai);
+            }
+            $profil->transkrip_nilai = $path;
+        }
+
+        $profil->save();
+
+        // Kirim pesan sukses bersama ukuran file
+        return back()->with('success', 'File berhasil diunggah (' . $fileSizeMB . ' MB).');
+    } catch (\Exception $e) {
+        \Log::error("Error saat mengunggah file: " . $e->getMessage());
+        return back()->with('error', 'Gagal mengunggah file.');
+    }
+}
+
     
 
     // Fungsi untuk memperbarui file

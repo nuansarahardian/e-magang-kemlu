@@ -56,7 +56,7 @@ const Dokumen = () => {
                 router.delete(`/dokumen/delete/${type}`, {
                     preserveState: true,
                     preserveScroll: true,
-                    only: ["profilData"], // Tambahkan ini agar tetap di posisi yang sama
+
                     onSuccess: () => {
                         Swal.fire(
                             "Berhasil!",
@@ -93,17 +93,27 @@ const Dokumen = () => {
         }
     };
 
-    // Fungsi untuk mengunggah file
     const handleFileChange = (type, event) => {
         const file = event.target.files[0];
         if (file) {
+            const maxFileSize = 2 * 1024 * 1024; // 10MB dalam bytes
+            if (file.size > maxFileSize) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Ukuran file terlalu besar. Maksimal 2MB.",
+                    confirmButtonText: "Coba Lagi",
+                });
+                return;
+            }
+
             const formData = new FormData();
             formData.append("file", file);
 
             router.post(`/dokumen/upload/${type}`, formData, {
-                preserveState: true, // Ini memastikan state tetap
-                preserveScroll: true, // Ini menjaga posisi scroll
-                only: ["profilData"], // Hanya memperbarui data ini dari backend
+                preserveState: true,
+                preserveScroll: true,
+
                 onSuccess: () => {
                     Swal.fire({
                         icon: "success",
