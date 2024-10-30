@@ -41,6 +41,7 @@ const Dokumen = () => {
             type: "transkrip_nilai",
         },
     ];
+
     const handleDelete = (type) => {
         Swal.fire({
             title: "Anda yakin?",
@@ -56,11 +57,10 @@ const Dokumen = () => {
                 router.delete(`/dokumen/delete/${type}`, {
                     preserveState: true,
                     preserveScroll: true,
-
-                    onSuccess: () => {
+                    onSuccess: (page) => {
                         Swal.fire(
                             "Berhasil!",
-                            response.props.flash.success,
+                            page.props.flash.success,
                             "success"
                         ).then(() => {
                             window.location.reload(); // Refresh halaman setelah berhasil dihapus
@@ -96,7 +96,7 @@ const Dokumen = () => {
     const handleFileChange = (type, event) => {
         const file = event.target.files[0];
         if (file) {
-            const maxFileSize = 2 * 1024 * 1024; // 10MB dalam bytes
+            const maxFileSize = 2 * 1024 * 1024; // 2MB dalam bytes
             if (file.size > maxFileSize) {
                 Swal.fire({
                     icon: "error",
@@ -113,7 +113,6 @@ const Dokumen = () => {
             router.post(`/dokumen/upload/${type}`, formData, {
                 preserveState: true,
                 preserveScroll: true,
-
                 onSuccess: () => {
                     Swal.fire({
                         icon: "success",
@@ -136,7 +135,7 @@ const Dokumen = () => {
     };
 
     return (
-        <div className="px-3 ">
+        <div className="px-3">
             <h3 className="text-2xl font-semibold text-gray-800 mb-4">
                 Kelengkapan Dokumen
             </h3>

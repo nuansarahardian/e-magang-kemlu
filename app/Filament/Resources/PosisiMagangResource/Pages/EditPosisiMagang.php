@@ -16,4 +16,8 @@ class EditPosisiMagang extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index'); // Mengarahkan ke halaman index setelah create
+    }
 }

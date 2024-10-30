@@ -56,7 +56,7 @@ Route::get('/dashboard', function () {
     );
 
     // Calculate progress (example logic)
-    $totalParams = 16; // Assume there are 16 parameters that should be filled
+    $totalParams = 15; // Assume there are 16 parameters that should be filled
     $filledParams = 0;
 
     // Check if each parameter is filled
@@ -65,7 +65,7 @@ Route::get('/dashboard', function () {
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['tanggal_lahir']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['jenis_kelamin']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['alamat_KTP']) ? 1 : 0;
-    $filledParams += !empty($profilPribadiArray['profilMahasiswa']['alamat_domisili']) ? 1 : 0;
+
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['no_telepon']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['foto']) ? 1 : 0;
 

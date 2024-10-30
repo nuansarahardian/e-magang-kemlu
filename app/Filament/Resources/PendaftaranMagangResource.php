@@ -62,6 +62,7 @@ class PendaftaranMagangResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+            // ->disableCreateButton(); // Tambahkan baris ini
     }
     
     public static function getRelations(): array
@@ -75,7 +76,7 @@ class PendaftaranMagangResource extends Resource
     {
         return [
             'index' => Pages\ListPendaftaranMagangs::route('/'),
-            'create' => Pages\CreatePendaftaranMagang::route('/create'),
+            // 'create' => Pages\CreatePendaftaranMagang::route('/create'),
             'edit' => Pages\EditPendaftaranMagang::route('/{record}/edit'),
         ];
     }

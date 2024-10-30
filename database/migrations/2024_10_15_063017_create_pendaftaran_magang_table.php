@@ -17,8 +17,8 @@ class CreatePendaftaranMagangTable extends Migration
             $table->dateTime('tanggal_pendaftaran');
             $table->timestamps();
 
-            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade')     ->onUpdate('cascade');;
-            $table->foreign('posisi_magang_per_batch_id')->references('id')->on('posisi_magang')->onDelete('cascade')     ->onUpdate('cascade');;
+            $table->foreign('NIM')->references('NIM')->on('profil_mahasiswa')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreign('posisi_magang_per_batch_id')->references('id')->on('posisi_magang_per_batch')->onDelete('cascade')->onUpdate('cascade');;
          
         });
     }

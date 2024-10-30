@@ -59,7 +59,7 @@ class InformasiPribadiController extends Controller
             'tanggalLahir' => 'required|date',
             'jenisKelamin' => 'required|string',
             'alamatKTP' => 'required|string|max:255',
-            'alamatDomisili' => 'required|string|max:255',
+            'alamatDomisili' => 'nullable|string|max:255',
             'noHp' => 'required|string|max:15',
             'uploadFoto' => 'nullable|image|max:2048',
         ]);
@@ -112,7 +112,7 @@ class InformasiPribadiController extends Controller
             'tanggalLahir' => 'required|date',
             'jenisKelamin' => 'required|string',
             'alamatKTP' => 'required|string|max:255',
-            'alamatDomisili' => 'required|string|max:255',
+            'alamatDomisili' => 'nullable|string|max:255',
             'noHp' => 'required|string|max:15',
             'uploadFoto' => 'nullable|image|max:2048',
         ]);

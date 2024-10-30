@@ -110,6 +110,10 @@ class DatabaseSeeder extends Seeder
                 'status_data' => $userData['status_data'],
             ]);
         }
+
+        // Create pengaturan with default value "Otomatis"
+        Pengaturan::firstOrCreate([
+            'sistem_penerimaan' => 'Otomatis',
+        ]);
     }
 }
-

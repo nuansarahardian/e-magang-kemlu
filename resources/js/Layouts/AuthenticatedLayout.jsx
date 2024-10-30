@@ -4,28 +4,32 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, usePage } from "@inertiajs/react";
 import Swal from "sweetalert2"; // Import SweetAlert2
+import "sweetalert2/dist/sweetalert2.min.css";
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     // Mendapatkan informasi user dari props Inertia.js
     const { auth } = usePage().props;
-
-    // Fungsi untuk menangani klik pada "Posisi Magang"
     const handlePosisiMagangClick = (e) => {
-        if (!auth.user) {
-            e.preventDefault(); // Cegah navigasi default
-            // Tampilkan alert jika pengguna belum login
-            Swal.fire({
-                title: "Anda belum login!",
-                text: "Silakan login terlebih dahulu untuk melihat Posisi Magang.",
-                icon: "warning",
-                confirmButtonText: "Login",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/login"; // Arahkan ke halaman login jika dikonfirmasi
-                }
-            });
+        // Periksa apakah pengguna sudah login dan apakah NIM sudah terisi di profil_mahasiswa
+        if (
+            auth.user &&
+            (!auth.user.profil_mahasiswa || !auth.user.profil_mahasiswa.NIM)
+        ) {
+            e.preventDefault();
+            setTimeout(() => {
+                Swal.fire({
+                    title: "Anda belum mengisi data diri!",
+                    text: "Silakan isi NIM terlebih dahulu untuk melihat Posisi Magang.",
+                    icon: "warning",
+                    confirmButtonText: "Isi Data Diri",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/dashboard"; // Sesuaikan URL ke halaman pengisian data diri
+                    }
+                });
+            }, 100); // Sesuaikan waktu jika diperlukan
         }
     };
 

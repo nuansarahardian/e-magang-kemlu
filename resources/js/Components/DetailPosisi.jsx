@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Disclosure } from "@headlessui/react";
-import { Link } from "@inertiajs/react";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 export default function DetailPosisi({ selectedPosition }) {
-    const { isLoggedIn } = usePage().props;
+    const { auth, progressData } = usePage().props;
+    const { progress, missingFields } = progressData;
+    const isLoggedIn = auth.user !== null;
+
+    // State untuk modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     if (!selectedPosition) {
         return (
             <div className="flex items-center justify-center text-gray-600 text-lg h-full">
@@ -17,12 +22,10 @@ export default function DetailPosisi({ selectedPosition }) {
     // Tentukan label dan style tombol berdasarkan kondisi isRegistered dan isFull
     let applyButtonText = "Apply Now";
     let applyButtonStyle = "bg-[#2D3985] hover:bg-[#24306e]";
-    let isButtonDisabled = false;
 
     if (selectedPosition.isRegistered) {
         applyButtonText = "Sudah Daftar";
         applyButtonStyle = "bg-gray-400 cursor-not-allowed";
-        isButtonDisabled = true;
     }
 
     if (selectedPosition.isFull) {
@@ -30,7 +33,6 @@ export default function DetailPosisi({ selectedPosition }) {
             ? "Sudah Daftar (Kuota Penuh)"
             : "Kuota Sudah Penuh";
         applyButtonStyle = "bg-red-400 cursor-not-allowed";
-        isButtonDisabled = true;
     }
 
     const handleApplyClick = (e) => {
@@ -46,10 +48,30 @@ export default function DetailPosisi({ selectedPosition }) {
                     window.location.href = "/login";
                 }
             });
-        } else if (isButtonDisabled) {
+        } else if (progress < 100) {
             e.preventDefault();
+            Swal.fire({
+                title: "Profil Belum Lengkap!",
+                text: `Silakan lengkapi profil Anda terlebih dahulu. Berikut yang belum diisi:\n\n${missingFields.join(
+                    ", "
+                )}`,
+                icon: "warning",
+                confirmButtonText: "Lengkapi Profil",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/dashboard";
+                }
+            });
+        } else {
+            // Tampilkan modal
+            setIsModalOpen(true);
         }
     };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="w-full h-full bg-white border border-gray-300">
             <div className="relative w-full h-64">
@@ -81,18 +103,14 @@ export default function DetailPosisi({ selectedPosition }) {
                         <h2 className="text-2xl font-bold text-black">
                             {selectedPosition.nama_posisi}
                         </h2>
-                        <Link
-                            href={`/pendaftaran/create/${selectedPosition.id}`}
-                            className={`${applyButtonStyle} text-white font-bold py-2 px-6 rounded-lg w-full lg:w-auto text-center transition-all ease-in-out duration-300 transform ${
-                                !isButtonDisabled ? "hover:scale-105" : ""
-                            }`}
+                        <button
                             onClick={handleApplyClick}
+                            className={`${applyButtonStyle} text-white font-bold py-2 px-6 rounded-lg w-full lg:w-auto text-center transition-all ease-in-out duration-300 transform hover:scale-105`}
                         >
                             {applyButtonText}
-                        </Link>
+                        </button>
                     </div>
 
-                    {/* Status Kuota dan Pendaftaran */}
                     {selectedPosition.isRegistered && (
                         <p className="text-green-600 font-semibold mt-2">
                             Anda sudah terdaftar untuk posisi ini.
@@ -194,6 +212,36 @@ export default function DetailPosisi({ selectedPosition }) {
                     </Disclosure>
                 </div>
             </div>
+
+            {/* Modal Pendaftaran */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <div className="bg-white rounded-lg p-8 w-full max-w-lg">
+                        <h3 className="text-2xl font-semibold mb-4">
+                            Konfirmasi Pendaftaran
+                        </h3>
+                        <p className="text-gray-700 mb-6">
+                            Anda akan mendaftar untuk posisi{" "}
+                            <strong>{selectedPosition.nama_posisi}</strong>.
+                            Apakah Anda yakin ingin melanjutkan?
+                        </p>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={closeModal}
+                                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                            >
+                                Batal
+                            </button>
+                            <Link
+                                href={`/pendaftaran/create/${selectedPosition.id}`}
+                                className="bg-[#2D3985] text-white px-4 py-2 rounded hover:bg-[#24306e]"
+                            >
+                                Daftar Sekarang
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
