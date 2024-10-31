@@ -19,7 +19,8 @@ import StatusPendaftaran from "@/Components/StatusPendaftaran";
 import PengaturanAkun from "@/Components/PengaturanAkun";
 
 export default function Dashboard() {
-    const { profilData } = usePage().props;
+    const { profilData, historiPendaftaran } = usePage().props;
+    console.log(historiPendaftaran);
 
     const [activeComponent, setActiveComponent] = useState("cv");
 
@@ -77,12 +78,16 @@ export default function Dashboard() {
                         setFormData={setFormData}
                     />
                 );
-            case "absensi":
-                return <Absensi />;
+            // case "absensi":
+            //     return <Absensi />;
             case "sertifikat":
                 return <Sertifikat />;
             case "status":
-                return <StatusPendaftaran />;
+                return (
+                    <StatusPendaftaran
+                        historiPendaftaran={historiPendaftaran}
+                    />
+                );
             case "pengaturan":
                 return <PengaturanAkun />;
             default:
@@ -147,7 +152,7 @@ export default function Dashboard() {
                                         <span>Status Pendaftaran</span>
                                     </a>
                                 </li>
-                                <li className="border-b border-gray-300 pb-4">
+                                {/* <li className="border-b border-gray-300 pb-4">
                                     <a
                                         href="#"
                                         onClick={() =>
@@ -162,7 +167,7 @@ export default function Dashboard() {
                                         <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
                                         <span>Absensi Peserta</span>
                                     </a>
-                                </li>
+                                </li> */}
                                 <li className="border-b border-gray-300 pb-4">
                                     <a
                                         href="#"

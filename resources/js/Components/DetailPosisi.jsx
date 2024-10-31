@@ -4,7 +4,7 @@ import { Link, usePage } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 export default function DetailPosisi({ selectedPosition }) {
-    const { auth, progressData } = usePage().props;
+    const { auth, progressData, hasAcceptedStatus } = usePage().props; // Mendapatkan hasAcceptedStatus dari props
     const { progress, missingFields } = progressData;
     const isLoggedIn = auth.user !== null;
 
@@ -19,23 +19,61 @@ export default function DetailPosisi({ selectedPosition }) {
         );
     }
 
-    // Tentukan label dan style tombol berdasarkan kondisi isRegistered dan isFull
+    // Tentukan label dan style tombol berdasarkan kondisi isRegistered, isFull, sistem penerimaan, dan status diterima
     let applyButtonText = "Apply Now";
     let applyButtonStyle = "bg-[#2D3985] hover:bg-[#24306e]";
+    let isButtonDisabled = false;
 
     if (selectedPosition.isRegistered) {
         applyButtonText = "Sudah Daftar";
         applyButtonStyle = "bg-gray-400 cursor-not-allowed";
+        isButtonDisabled = true;
     }
 
-    if (selectedPosition.isFull) {
+    if (
+        selectedPosition.sistem_penerimaan === "Otomatis" &&
+        selectedPosition.isFull
+    ) {
         applyButtonText = selectedPosition.isRegistered
             ? "Sudah Daftar (Kuota Penuh)"
             : "Kuota Sudah Penuh";
         applyButtonStyle = "bg-red-400 cursor-not-allowed";
+        isButtonDisabled = true;
+    }
+
+    // Jika pengguna sudah diterima di posisi lain, ubah status tombol dan tampilkan alert saat apply
+    if (hasAcceptedStatus) {
+        applyButtonText = "Pendaftaran Ditutup";
+        applyButtonStyle = "bg-gray-400 cursor-not-allowed";
+        isButtonDisabled = true;
     }
 
     const handleApplyClick = (e) => {
+        if (isButtonDisabled) {
+            e.preventDefault();
+
+            // Tampilkan alert jika pengguna sudah diterima di posisi lain
+            if (hasAcceptedStatus) {
+                Swal.fire({
+                    title: "Pendaftaran Ditutup!",
+                    text: "Anda sudah diterima di posisi magang ini atau posisi lain, sehingga tidak dapat mendaftar lagi.",
+                    icon: "info",
+                    confirmButtonText: "OK",
+                });
+            } else if (
+                selectedPosition.sistem_penerimaan === "Otomatis" &&
+                selectedPosition.isFull
+            ) {
+                Swal.fire({
+                    title: "Kuota Sudah Penuh!",
+                    text: "Maaf, kuota untuk posisi ini sudah penuh.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            }
+            return;
+        }
+
         if (!isLoggedIn) {
             e.preventDefault();
             Swal.fire({
@@ -105,6 +143,7 @@ export default function DetailPosisi({ selectedPosition }) {
                         </h2>
                         <button
                             onClick={handleApplyClick}
+                            disabled={isButtonDisabled} // Disable tombol jika diperlukan
                             className={`${applyButtonStyle} text-white font-bold py-2 px-6 rounded-lg w-full lg:w-auto text-center transition-all ease-in-out duration-300 transform hover:scale-105`}
                         >
                             {applyButtonText}
@@ -116,11 +155,12 @@ export default function DetailPosisi({ selectedPosition }) {
                             Anda sudah terdaftar untuk posisi ini.
                         </p>
                     )}
-                    {selectedPosition.isFull && (
-                        <p className="text-red-600 font-semibold mt-2">
-                            Kuota sudah penuh.
-                        </p>
-                    )}
+                    {selectedPosition.sistem_penerimaan === "Otomatis" &&
+                        selectedPosition.isFull && (
+                            <p className="text-red-600 font-semibold mt-2">
+                                Kuota sudah penuh.
+                            </p>
+                        )}
                 </div>
             </div>
 
@@ -157,22 +197,28 @@ export default function DetailPosisi({ selectedPosition }) {
                                     {selectedPosition.tanggal_berakhir}
                                 </td>
                             </tr>
-                            <tr className="bg-gray-50">
-                                <td className="border border-gray-300 px-4 py-2 text-gray-600 text-[15px]">
-                                    Kuota
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px]">
-                                    {selectedPosition.kuota} Orang
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-600 text-[15px]">
-                                    Jumlah Pendaftar
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px]">
-                                    {selectedPosition.jumlah_pendaftar} Orang
-                                </td>
-                            </tr>
+                            {selectedPosition.sistem_penerimaan ===
+                                "Otomatis" && (
+                                <>
+                                    <tr className="bg-gray-50">
+                                        <td className="border border-gray-300 px-4 py-2 text-gray-600 text-[15px]">
+                                            Kuota
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px]">
+                                            {selectedPosition.kuota} Orang
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="border border-gray-300 px-4 py-2 text-gray-600 text-[15px]">
+                                            Jumlah Pendaftar
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px]">
+                                            {selectedPosition.jumlah_pendaftar}{" "}
+                                            Orang
+                                        </td>
+                                    </tr>
+                                </>
+                            )}
                         </tbody>
                     </table>
                 </div>

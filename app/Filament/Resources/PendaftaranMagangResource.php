@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PendaftaranMagangResource\Pages;
@@ -9,7 +8,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Builder;
+use App\Notifications\PendaftaranBerhasil;
 
 class PendaftaranMagangResource extends Resource
 {
@@ -61,10 +62,28 @@ class PendaftaranMagangResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                BulkAction::make('Set Status Diterima')
+                ->action(function ($records) {
+                    $pendaftaranMagangs = PendaftaranMagang::whereIn('id', $records->pluck('id')->toArray())->get();
+            
+                    foreach ($pendaftaranMagangs as $pendaftaran) {
+                        $pendaftaran->update(['status' => 'diterima']);
+            
+                        // Muat relasi `posisiMagangPerBatch` beserta `batch` dan `posisiMagang`
+                        $posisiMagang = $pendaftaran->posisiMagangPerBatch->load('batch', 'posisiMagang');
+            
+                        // Kirim notifikasi dengan objek `posisiMagangPerBatch` lengkap
+                        $pendaftaran->user->notify(new PendaftaranBerhasil($posisiMagang));
+                    }
+                })
+                ->requiresConfirmation()
+                ->color('success')
+                ->label('Set Status Diterima'),
+            
             ]);
-            // ->disableCreateButton(); // Tambahkan baris ini
     }
     
+
     public static function getRelations(): array
     {
         return [

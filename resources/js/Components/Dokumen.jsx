@@ -80,16 +80,12 @@ const Dokumen = () => {
     };
 
     // Referensi input file untuk masing-masing dokumen
-    const fileInputRefs = {
-        KTM: useRef(null),
-        surat_permohonan: useRef(null),
-        transkrip_nilai: useRef(null),
-    };
+    const fileInputRefs = useRef({});
 
     // Fungsi untuk membuka file explorer
     const triggerFileInput = (type) => {
-        if (fileInputRefs[type]) {
-            fileInputRefs[type].current.click();
+        if (fileInputRefs.current[type]) {
+            fileInputRefs.current[type].click();
         }
     };
 
@@ -197,7 +193,11 @@ const Dokumen = () => {
                                     <>
                                         <input
                                             type="file"
-                                            ref={fileInputRefs[doc.type]}
+                                            ref={(el) =>
+                                                (fileInputRefs.current[
+                                                    doc.type
+                                                ] = el)
+                                            }
                                             onChange={(e) =>
                                                 handleFileChange(doc.type, e)
                                             }

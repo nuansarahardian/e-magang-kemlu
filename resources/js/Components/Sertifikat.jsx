@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function Sertifikat() {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -7,9 +7,9 @@ export default function Sertifikat() {
     const handleDownload = () => {
         setIsDownloading(true);
         // Simulasi pengunduhan
-        const link = document.createElement('a');
-        link.href = '/path/to/1.jpeg'; // Ubah path sesuai dengan letak gambar
-        link.download = 'Sertifikat.jpeg';
+        const link = document.createElement("a");
+        link.href = "/path/to/1.jpeg"; // Ubah path sesuai dengan letak gambar
+        link.download = "Sertifikat.jpeg";
         link.click();
         setIsDownloading(false);
     };
@@ -25,8 +25,8 @@ export default function Sertifikat() {
             <div className="flex-grow bg-white py-12 p-8">
                 <div className="max-w-4xl mx-auto text-center">
                     {/* Gambar Sertifikat */}
-                    <img 
-                        src="/images/1.jpeg" // Ubah path sesuai dengan lokasi gambar
+                    <img
+                        src="/images/sertif.png" // Ubah path sesuai dengan lokasi gambar
                         alt="Sertifikat"
                         className="w-full h-auto rounded-lg shadow-md mb-6"
                     />
@@ -36,7 +36,7 @@ export default function Sertifikat() {
                         onClick={handleDownload}
                         className="bg-gradient-to-r from-[#FFB900] to-[#BB9124] text-white py-3 px-6 rounded-lg hover:opacity-90 transition w-full sm:w-auto"
                     >
-                        {isDownloading ? 'Mengunduh...' : 'Download Sertifikat'}
+                        {isDownloading ? "Mengunduh..." : "Download Sertifikat"}
                     </button>
                 </div>
             </div>

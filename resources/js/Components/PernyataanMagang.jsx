@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
-const PernyataanMagang = () => {
-    // State untuk melacak apakah setiap item telah dicentang atau belum
+const PernyataanMagang = ({ onAllItemsChecked }) => {
     const [checkedItems, setCheckedItems] = useState({
         item1: false,
         item2: false,
@@ -12,13 +12,18 @@ const PernyataanMagang = () => {
         item7: false,
     });
 
-    // Fungsi untuk meng-handle checklist
     const handleCheck = (item) => {
         setCheckedItems((prevState) => ({
             ...prevState,
             [item]: !prevState[item],
         }));
     };
+
+    // Menggunakan useEffect untuk mengirim status checklist ke parent setiap kali checkedItems berubah
+    useEffect(() => {
+        const allItemsChecked = Object.values(checkedItems).every(Boolean);
+        onAllItemsChecked(allItemsChecked); // Mengirim status ke parent
+    }, [checkedItems, onAllItemsChecked]);
 
     return (
         <div>
@@ -27,7 +32,8 @@ const PernyataanMagang = () => {
             </h3>
             <p className="text-gray-600 mb-6">
                 Dengan ini saya menyatakan setuju dan komitmen dengan
-                kepesertaan dalam proses rekrutmen Perusahaan:
+                kepesertaan dalam proses rekrutmen Badan Strategi Kebijakan Luar
+                Negeri Kementerian Luar Negeri:
             </p>
 
             <ul className="space-y-4 mb-8">
@@ -40,9 +46,10 @@ const PernyataanMagang = () => {
                     />
                     <span className="text-gray-700">
                         Menjalankan seluruh rangkaian proses yang berjalan di
-                        MAGENTA dengan penuh tanggung jawab, termasuk namun
-                        tidak terbatas pada proses seleksi, pembekalan,
-                        pelaksanaan, dan pembuatan laporan akhir program.
+                        Badan Strategi Kebijakan Luar Negeri Kementerian Luar
+                        Negeri dengan penuh tanggung jawab, termasuk namun tidak
+                        terbatas pada proses seleksi, pembekalan, pelaksanaan,
+                        dan pembuatan laporan akhir program.
                     </span>
                 </li>
                 <li className="flex items-start">
@@ -121,19 +128,11 @@ const PernyataanMagang = () => {
                     <span className="text-gray-700">
                         Dengan ini Pengguna menyatakan telah membaca, mengerti,
                         setuju dan patuh pada Syarat dan Ketentuan Penggunaan
-                        serta Kebijakan Privasi Magenta.
+                        serta Kebijakan Privasi Badan Strategi Kebijakan Luar
+                        Negeri Kementerian Luar Negeri.
                     </span>
                 </li>
             </ul>
-
-            <div className="flex justify-between mt-4">
-                <button className="px-6 py-2 bg-pink-100 text-pink-600 rounded-lg font-medium hover:bg-pink-200 transition">
-                    Kembali
-                </button>
-                <button className="px-6 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition">
-                    Daftar
-                </button>
-            </div>
         </div>
     );
 };

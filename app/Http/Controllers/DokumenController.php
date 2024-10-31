@@ -136,27 +136,31 @@ class DokumenController extends Controller
         }
     
         try {
-            // Cek dan hapus file berdasarkan tipe dokumen
+            $deleted = false;
             if ($type === 'KTM' && $profil->KTM && Storage::disk('public')->exists($profil->KTM)) {
                 Storage::disk('public')->delete($profil->KTM);
                 $profil->KTM = null;
+                $deleted = true;
             } elseif ($type === 'surat_permohonan' && $profil->surat_permohonan && Storage::disk('public')->exists($profil->surat_permohonan)) {
                 Storage::disk('public')->delete($profil->surat_permohonan);
                 $profil->surat_permohonan = null;
+                $deleted = true;
             } elseif ($type === 'transkrip_nilai' && $profil->transkrip_nilai && Storage::disk('public')->exists($profil->transkrip_nilai)) {
                 Storage::disk('public')->delete($profil->transkrip_nilai);
                 $profil->transkrip_nilai = null;
+                $deleted = true;
             } else {
                 return back()->with('error', 'File tidak ditemukan atau sudah dihapus.');
             }
     
-            $profil->save();
-       // Redirect ke halaman yang sama dengan pesan sukses
-       return redirect()->back()->with('success', 'File berhasil dihapus.');
-    } catch (\Exception $e) {
-        \Log::error("Error saat menghapus file: " . $e->getMessage());
-        return redirect()->back()->with('error', 'Gagal menghapus file.');
-    }
+            if ($deleted) {
+                $profil->save();
+                return back()->with('success', 'File berhasil dihapus.');
+            }
+        } catch (\Exception $e) {
+            \Log::error("Error saat menghapus file: " . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus file.');
+        }
     }
     
     

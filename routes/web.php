@@ -9,9 +9,12 @@ use App\Http\Controllers\InformasiPribadiController;
 use App\Http\Controllers\InformasiAkademikController;
 use App\Http\Controllers\PengalamanKeterampilanController;
 use App\Http\Controllers\DokumenController;
-
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\StatusPendaftaranController;
 
+
+
+use App\Http\Controllers\SuratPenerimaanController;
 
 
 
@@ -24,30 +27,33 @@ Route::get('/', function () {
     ]);
 });
 
+
+
 Route::get('/dashboard', function () {
     $user = auth()->user();
 
-    // Get data from InformasiPribadiController
+    // Ambil data dari beberapa controller
     $profilPribadiController = new InformasiPribadiController();
     $profilPribadiData = $profilPribadiController->show();
-    $profilPribadiArray = json_decode($profilPribadiData->getContent(), true); // Convert to array
+    $profilPribadiArray = json_decode($profilPribadiData->getContent(), true);
 
-    // Get data from InformasiAkademikController
     $profilAkademikController = new InformasiAkademikController();
     $profilAkademikData = $profilAkademikController->show();
-    $profilAkademikArray = json_decode($profilAkademikData->getContent(), true); // Convert to array
+    $profilAkademikArray = json_decode($profilAkademikData->getContent(), true);
 
-    // Get data from PengalamanKeterampilanController
     $pengalamanKeterampilanController = new PengalamanKeterampilanController();
     $pengalamanKeterampilanData = $pengalamanKeterampilanController->show();
-    $pengalamanKeterampilanArray = json_decode($pengalamanKeterampilanData->getContent(), true); // Convert to array
+    $pengalamanKeterampilanArray = json_decode($pengalamanKeterampilanData->getContent(), true);
 
-    // Get data from DokumenController
     $dokumenController = new DokumenController();
     $dokumenData = $dokumenController->showAllDocuments();
-    $dokumenArray = json_decode($dokumenData->getContent(), true); // Convert to array
+    $dokumenArray = json_decode($dokumenData->getContent(), true);
 
-    // Combine all data
+    // Mengambil data histori pendaftaran dari StatusPendaftaranController
+    $statusPendaftaranController = new StatusPendaftaranController();
+    $historiPendaftaran = $statusPendaftaranController->index();
+
+    // Gabungkan semua data
     $data = array_merge(
         $profilPribadiArray['profilMahasiswa'] ?? [],
         $profilAkademikArray['profilAkademik'] ?? [],
@@ -55,43 +61,39 @@ Route::get('/dashboard', function () {
         $dokumenArray['dokumen'] ?? []
     );
 
-    // Calculate progress (example logic)
-    $totalParams = 15; // Assume there are 16 parameters that should be filled
+    // Menghitung progress (logika pengisian)
+    $totalParams = 15;
     $filledParams = 0;
 
-    // Check if each parameter is filled
+    // Cek setiap parameter yang terisi
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['nama']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['NIM']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['tanggal_lahir']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['jenis_kelamin']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['alamat_KTP']) ? 1 : 0;
-
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['no_telepon']) ? 1 : 0;
     $filledParams += !empty($profilPribadiArray['profilMahasiswa']['foto']) ? 1 : 0;
-
     $filledParams += !empty($profilAkademikArray['profilAkademik']['universitas']) ? 1 : 0;
     $filledParams += !empty($profilAkademikArray['profilAkademik']['fakultas']) ? 1 : 0;
     $filledParams += !empty($profilAkademikArray['profilAkademik']['jurusan']) ? 1 : 0;
     $filledParams += !empty($profilAkademikArray['profilAkademik']['IPK']) ? 1 : 0;
     $filledParams += !empty($profilAkademikArray['profilAkademik']['semester']) ? 1 : 0;
-
     $filledParams += !empty($dokumenArray['dokumen']['KTM']) ? 1 : 0;
     $filledParams += !empty($dokumenArray['dokumen']['surat_permohonan']) ? 1 : 0;
     $filledParams += !empty($dokumenArray['dokumen']['transkrip_nilai']) ? 1 : 0;
 
-    // Calculate progress percentage
+    // Menghitung persentase progress
     $progress = ($filledParams / $totalParams) * 100;
 
-    // Send data to React view using Inertia
+    // Mengirim data ke view menggunakan Inertia
     return Inertia::render('Dashboard', [
         'profilData' => $data,
-        'progress' => $progress
+        'progress' => $progress,
+        'historiPendaftaran' => $historiPendaftaran,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dokumen/view/{type}', [DokumenController::class, 'show'])
-    ->middleware(['auth', 'verified'])
-    ->name('dokumen.view');
+
 
     Route::get('/pendaftaran/create/{id}', [PendaftaranController::class, 'create'])
     ->middleware(['auth', 'verified'])
@@ -102,7 +104,10 @@ Route::post('/pendaftaran/store', [PendaftaranController::class, 'store'])
     ->name('pendaftaran.store');
 
 
- 
+    Route::get('/dokumen/view/{type}', [DokumenController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('dokumen.view');
+
     
 // Route untuk Dokumen
 Route::post('/dokumen/upload/{type}', [DokumenController::class, 'upload'])
@@ -114,6 +119,25 @@ Route::post('/dokumen/update/{type}', [DokumenController::class, 'update'])
     ->name('dokumen.update');
 
 Route::delete('/dokumen/delete/{type}', [DokumenController::class, 'delete'])
+    ->middleware(['auth', 'verified'])
+    ->name('dokumen.destroy');
+
+
+    Route::get('/dokumen/view/{type}', [PendaftaranController::class, 'show'])
+    ->middleware(['auth', 'verified'])
+    ->name('dokumen.view');
+
+    
+// Route untuk Dokumen
+Route::post('/dokumen/upload/{type}', [PendaftaranController::class, 'upload'])
+    ->middleware(['auth', 'verified'])
+    ->name('dokumen.upload');
+
+Route::post('/dokumen/update/{type}', [PendaftaranController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('dokumen.update');
+
+Route::delete('/dokumen/delete/{type}', [PendaftaranController::class, 'delete'])
     ->middleware(['auth', 'verified'])
     ->name('dokumen.destroy');
 
@@ -167,5 +191,13 @@ Route::get('/daftar-magang', function () {
 Route::get('/detail-posisi/{role}', function ($role) {
     return Inertia::render('DetailPosisi', ['role' => $role]);
 })->name('detail-posisi');
+
+
+
+
+Route::get('/surat-penerimaan/{id}/download', [SuratPenerimaanController::class, 'downloadSurat'])
+    ->middleware(['auth', 'verified'])
+    ->name('surat.penerimaan.download');
+
 
 require __DIR__.'/auth.php';

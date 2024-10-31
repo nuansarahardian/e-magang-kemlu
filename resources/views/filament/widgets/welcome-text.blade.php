@@ -1,5 +1,5 @@
 <x-filament-widgets::widget>
     <x-filament::section>
- Halo nama saya nuansa
+Selamat Datang Admin, di <b> E-Magang </b>BSKLN Kemlu
     </x-filament::section>
 </x-filament-widgets::widget>

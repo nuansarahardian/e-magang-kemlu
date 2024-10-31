@@ -5,7 +5,7 @@ import Footer from "@/Components/Footer";
 import CardPosisi from "@/Components/CardPosisi";
 import DetailPosisi from "@/Components/DetailPosisi";
 
-export default function PosisiMagang() {
+export default function PosisiMagang({ hasAcceptedStatus }) {
     const { props } = usePage();
     const { positions } = props;
 
@@ -39,6 +39,7 @@ export default function PosisiMagang() {
                     <DetailPosisi
                         selectedPosition={selectedPosition}
                         isRegistered={isRegistered}
+                        hasAcceptedStatus={hasAcceptedStatus}
                     />
                 </div>
             </div>

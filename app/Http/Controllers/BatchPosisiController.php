@@ -25,6 +25,11 @@ class BatchPosisiController extends Controller
                 ->with('error', 'Silakan lengkapi profil Anda dengan mengisi NIM terlebih dahulu.');
         }
 
+        // Cek apakah pengguna sudah memiliki status "diterima" di salah satu pendaftaran
+        $hasAcceptedStatus = PendaftaranMagang::where('NIM', $userNIM)
+            ->where('status', 'diterima')
+            ->exists();
+
         // Ambil semua posisi magang per batch diurutkan berdasarkan `batch_id`, dan kelompokkan berdasarkan `posisi_magang_id`
         $positions = PosisiMagangPerBatch::with(['batch', 'posisiMagang', 'pengaturan'])
             ->orderBy('batch_id')
@@ -66,10 +71,11 @@ class BatchPosisiController extends Controller
             })
             ->flatten(1)
             ->values();
-
+            // dd($hasAcceptedStatus);
         return Inertia::render('PosisiMagang', [
             'positions' => $positions,
             'isLoggedIn' => $isLoggedIn,
+            'hasAcceptedStatus' => $hasAcceptedStatus, // Kirimkan status "diterima" ke view
         ]);
     }
 
