@@ -8,6 +8,7 @@ class CreatePosisiMagangTable extends Migration
     public function up()
     {
         Schema::create('posisi_magang', function (Blueprint $table) {
+            $table->string('kode_posisi')->unique(); // Kode posisi unik dan opsional
             $table->bigIncrements('id');
             $table->string('nama_posisi');
             $table->text('deskripsi');

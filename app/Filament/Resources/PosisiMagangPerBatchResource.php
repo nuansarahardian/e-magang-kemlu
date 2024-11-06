@@ -24,7 +24,15 @@ class PosisiMagangPerBatchResource extends Resource
     protected static ?string $model = PosisiMagangPerBatch::class;
 
 
-    
+    public static function getNavigationLabel(): string
+    {
+        return 'Posisi Magang Per Batch'; // Custom singular label
+    }
+    public static function getPluralModelLabel(): string
+{
+    return 'Posisi Magang Per Batch'; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+}
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form

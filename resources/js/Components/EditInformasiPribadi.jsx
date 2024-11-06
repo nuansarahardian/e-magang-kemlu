@@ -33,6 +33,8 @@ export default function EditInformasiPribadi({
                 alamatDomisili: profilData.alamat_domisili || "",
                 noHp: profilData.no_telepon || "",
                 uploadFoto: profilData.pas_foto || "",
+                kontakDarurat: profilData.kontak_darurat || "",
+                noAsuransi: profilData.no_asuransi || "",
             });
         } else {
             // Jika profilData tidak ada (mode create), set nilai default kosong
@@ -45,6 +47,8 @@ export default function EditInformasiPribadi({
                 alamatDomisili: "",
                 noHp: "",
                 uploadFoto: "",
+                kontakDarurat: "",
+                noAsuransi: "",
             });
         }
     }, [profilData]);
@@ -71,6 +75,8 @@ export default function EditInformasiPribadi({
         data.append("alamatKTP", formData.alamatKTP || "");
         data.append("noHp", formData.noHp || "");
         data.append("alamatDomisili", formData.alamatDomisili || "");
+        data.append("kontakDarurat", formData.kontakDarurat || "");
+        data.append("noAsuransi", formData.noAsuransi || "");
 
         if (formData.uploadFoto instanceof File) {
             data.append("uploadFoto", formData.uploadFoto);
@@ -235,12 +241,42 @@ export default function EditInformasiPribadi({
                             required
                         />
                     </div>
+                    <div className="grid grid-cols-1 gap-y-2">
+                        <label className="text-lg font-semibold text-gray-700 flex">
+                            Nomor Kontak Darurat
+                        </label>
+                        <input
+                            type="text"
+                            name="kontakDarurat"
+                            value={formData.kontakDarurat || ""}
+                            onChange={handleChange}
+                            placeholder="Masukkan Nomor Handphone"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div className="grid grid-cols-1 gap-y-2">
+                        <label className="text-lg font-semibold text-gray-700 flex">
+                            Nomor Asuransi
+                        </label>
+                        <input
+                            type="text"
+                            name="noAsuransi"
+                            value={formData.noAsuransi || ""}
+                            onChange={handleChange}
+                            placeholder="Masukkan Nomor Handphone"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
                     {/* Upload Foto 3x4 */}
                     <div className="grid grid-cols-1 gap-y-2">
                         <label className="text-lg font-semibold text-gray-700 flex">
-                            Upload Foto 3x4{" "}
-                            <p className="text-red-500 ml-1">*</p>
+                            Upload Pas Foto 3x4
+                            <p className="text-red-500 ml-1*"></p>
                         </label>
+                        <p className="text-slate-400 text-sm ml-1">
+                            Foto formal dengan background berwarna merah
+                        </p>
+
                         <input
                             type="file"
                             name="uploadFoto"

@@ -15,17 +15,29 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 
-
 class PosisiMagangResource extends Resource
 {
     protected static ?string $model = PosisiMagang::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+    public static function getNavigationLabel(): string
+    {
+        return 'Posisi Magang'; // Custom singular label
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return 'Posisi Magang '; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('kode_posisi')
+                    ->label('Kode Posisi')
+                    ->required()
+                    ->maxLength(10)
+                    ->unique(ignoreRecord: true), // Pastikan kode_posisi unik
                 Forms\Components\TextInput::make('nama_posisi')
                     ->required()
                     ->maxLength(255),
@@ -44,9 +56,13 @@ class PosisiMagangResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('kode_posisi') // Tambahkan kolom kode_posisi di tabel
+                    ->label('Kode Posisi')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('nama_posisi')
                     ->searchable(),
-                    TextColumn::make('deskripsi') // Menambahkan deskripsi di tabel
+                TextColumn::make('deskripsi') // Menambahkan deskripsi di tabel
                     ->limit(50) // Membatasi tampilan deskripsi di tabel (opsional)
                     ->label('Deskripsi'),
                 ImageColumn::make('gambar') // Menampilkan gambar di tabel

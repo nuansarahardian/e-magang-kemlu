@@ -56,8 +56,14 @@ class BatchPosisiController extends Controller
                             'kuota' => $position->kuota ?? 0,
                             'jumlah_pendaftar' => $position->jumlah_pendaftar ?? 0,
                             'deskripsi' => $position->posisiMagang->deskripsi ?? '',
+                            'kode' => $position->posisiMagang->kode_posisi ?? '',
                             'isRegistered' => $isRegistered,
+                            'sistem_penerimaan' => $position->sistem_penerimaan ?? '',
                             'isFull' => $isFull,
+                            'gambar' => $position->posisiMagang->gambar 
+                            ? asset('storage/' . $position->posisiMagang->gambar) 
+                            : asset('images/default.jpg'),
+                        
                         ];
                     }
 
@@ -71,7 +77,7 @@ class BatchPosisiController extends Controller
             })
             ->flatten(1)
             ->values();
-            // dd($hasAcceptedStatus);
+            // dd($positions);
         return Inertia::render('PosisiMagang', [
             'positions' => $positions,
             'isLoggedIn' => $isLoggedIn,

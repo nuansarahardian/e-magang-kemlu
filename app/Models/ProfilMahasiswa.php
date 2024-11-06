@@ -28,6 +28,8 @@ class ProfilMahasiswa extends Model
         'IPK',
         'no_telepon',
         'semester',
+        'kontak_darurat',
+        'no_asuransi',
         'KTM',
         'pas_foto',
         'surat_permohonan',

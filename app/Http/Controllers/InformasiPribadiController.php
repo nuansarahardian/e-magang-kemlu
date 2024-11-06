@@ -25,6 +25,8 @@ class InformasiPribadiController extends Controller
             'alamat_KTP' => $profilMahasiswa->alamat_KTP ?? '',
             'alamat_domisili' => $profilMahasiswa->alamat_domisili ?? '',
             'no_telepon' => $profilMahasiswa->no_telepon ?? '',
+            'no_asuransi' => $profilMahasiswa->no_asuransi ?? '',
+            'kontak_darurat' => $profilMahasiswa->kontak_darurat ?? '',
             'foto' => $profilMahasiswa && !empty($profilMahasiswa->pas_foto)
                 ? asset('storage/' . $profilMahasiswa->pas_foto)
                 : asset('storage/pas_foto/default-profile.png'),
@@ -45,6 +47,8 @@ class InformasiPribadiController extends Controller
             'alamatKTP' => $profilMahasiswa->alamat_KTP,
             'alamatDomisili' => $profilMahasiswa->alamat_domisili,
             'noHp' => $profilMahasiswa->no_telepon,
+            'kontakDarurat' => $profilMahasiswa->kontak_darurat,
+            'noAsuransi' => $profilMahasiswa->no_asuransi,
             'pasFoto' => $profilMahasiswa->pas_foto,
         ] : null;
 
@@ -61,6 +65,8 @@ class InformasiPribadiController extends Controller
             'alamatKTP' => 'required|string|max:255',
             'alamatDomisili' => 'nullable|string|max:255',
             'noHp' => 'required|string|max:15',
+            'kontakDarurat' => 'nullable|string|max:15',
+            'noAsuransi' => 'nullable|string|max:15',
             'uploadFoto' => 'nullable|image|max:2048',
         ]);
     
@@ -82,6 +88,8 @@ class InformasiPribadiController extends Controller
             $profilMahasiswa->alamat_KTP = $request->alamatKTP;
             $profilMahasiswa->alamat_domisili = $request->alamatDomisili;
             $profilMahasiswa->no_telepon = $request->noHp;
+            $profilMahasiswa->no_asuransi = $request->noAsuransi;
+            $profilMahasiswa->kontak_darurat = $request->kontakDarurat;
     
             if ($request->hasFile('uploadFoto')) {
                 if ($profilMahasiswa->pas_foto) {
@@ -114,6 +122,8 @@ class InformasiPribadiController extends Controller
             'alamatKTP' => 'required|string|max:255',
             'alamatDomisili' => 'nullable|string|max:255',
             'noHp' => 'required|string|max:15',
+            'kontakDarurat' => 'nullable|string|max:15',
+            'noAsuransi' => 'nullable|string|max:15',
             'uploadFoto' => 'nullable|image|max:2048',
         ]);
     
@@ -128,6 +138,8 @@ class InformasiPribadiController extends Controller
             $profilMahasiswa->alamat_KTP = $validatedData['alamatKTP'];
             $profilMahasiswa->alamat_domisili = $validatedData['alamatDomisili'];
             $profilMahasiswa->no_telepon = $validatedData['noHp'];
+            $profilMahasiswa->no_asuransi = $validatedData['noAsuransi'];
+            $profilMahasiswa->kontak_darurat = $validatedData['kontakDarurat'];
     
             if ($request->hasFile('uploadFoto')) {
                 $path = $request->file('uploadFoto')->store('pas_foto', 'public');

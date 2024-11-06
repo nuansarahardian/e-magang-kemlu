@@ -17,7 +17,15 @@ class PengaturanResource extends Resource
     protected static ?string $model = Pengaturan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    public static function getNavigationLabel(): string
+    {
+        return 'Pengaturan'; // Custom singular label
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return 'Pengaturan '; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+    }
     public static function form(Form $form): Form
     {
         return $form

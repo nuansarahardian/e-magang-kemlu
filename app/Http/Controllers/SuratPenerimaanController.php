@@ -21,21 +21,20 @@ class SuratPenerimaanController extends Controller
         $tanggalBerakhir = Carbon::parse($pendaftaran->posisiMagangPerBatch->batch->tanggal_berakhir)->translatedFormat('d F Y');
 
         $data = [
+         
             'nama' => $pendaftaran->user->name,
             'nim' => $pendaftaran->user->profilMahasiswa->NIM,
+            'nomorRegistrasi' => $pendaftaran->unique_id,
             'universitas' => $pendaftaran->user->profilMahasiswa->universitas,
             'jurusan' => $pendaftaran->user->profilMahasiswa->jurusan,
             'fakultas' => $pendaftaran->user->profilMahasiswa->fakultas,
-            'nama_perusahaan' => 'PT. Maleo Edukasi Teknologi - Educourse.id',
-            'bidang_usaha' => 'Edukasi Teknologi',
-            'jabatan' => 'CEO',
             'posisi' => $pendaftaran->posisiMagangPerBatch->posisiMagang->nama_posisi,
             'batch' => $pendaftaran->posisiMagangPerBatch->batch->nama_batch,
             'tanggal_mulai' => $tanggalMulai,
             'tanggal_berakhir' => $tanggalBerakhir,
             'tanggal_sekarang' => Carbon::now()->translatedFormat('d F Y'),
         ];
-// dd($data);
+
         $pdf = PDF::loadView('pdf.surat_penerimaan', $data)->setPaper('a4');
         return $pdf->download("Surat_Penerimaan_{$data['nim']}.pdf");
     }

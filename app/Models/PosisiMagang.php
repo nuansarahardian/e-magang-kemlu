@@ -11,6 +11,7 @@ class PosisiMagang extends Model
     protected $table = 'posisi_magang';
     protected $fillable = [
         'nama_posisi',
+        'kode_posisi',
         'deskripsi',
         'gambar',
     ];

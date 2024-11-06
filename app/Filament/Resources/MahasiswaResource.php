@@ -1,111 +1,59 @@
 <?php
+
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\MahasiswaResource\Pages;
 use App\Models\ProfilMahasiswa;
-use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
-use Illuminate\Support\Facades\Hash;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Actions\Action; // Ensure Action is imported correctly
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\BulkActionGroup;
 
 class MahasiswaResource extends Resource
 {
     protected static ?string $model = ProfilMahasiswa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
-    protected static ?string $navigationLabel = 'Mahasiswa';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+   
+    public static function getNavigationLabel(): string
+    {
+        return 'Profil Mahasiswa'; // Custom singular label
+    }
+    public static function getPluralModelLabel(): string
+    {
+        return 'Profil Mahasiswa '; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('NIM')
-                    ->required()
-                    ->maxLength(50),
-                TextInput::make('user_name')
-                    ->label('Nama Pengguna')
-                    ->required()
-                    ->afterStateUpdated(function ($state, $set, $get) {
-                        $user = User::firstOrCreate(
-                            ['email' => $get('user_email') ?? $state . '@example.com'],
-                            [
-                                'name' => $state,
-                                'password' => $get('user_password') ? Hash::make($get('user_password')) : Hash::make('defaultpassword')
-                            ]
-                        );
-                        $set('user_id', $user->id);
-                    })
-                    ->afterStateHydrated(function ($state, $set, $record) {
-                        if ($record && $record->user) {
-                            $set('user_name', $record->user->name);
-                            $set('user_email', $record->user->email);
-                            $set('user_id', $record->user->id);
-                        }
-                    }),
-                TextInput::make('user_email')
-                    ->label('Email Pengguna')
-                    ->required(),
-                TextInput::make('user_password')
-                    ->label('Password Pengguna')
-                    ->password()
-                    ->required(),
-                TextInput::make('user_id')
-                    ->hidden()
-                    ->required(),
-                DatePicker::make('tanggal_lahir')
-                    ->required(),
-                Select::make('jenis_kelamin')
-                    ->options([
-                        'Laki-laki' => 'Laki-laki',
-                        'Perempuan' => 'Perempuan',
-                    ])
-                    ->required(),
-                TextInput::make('universitas')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('fakultas')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('jurusan')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('IPK')
-                    ->numeric()
-                    ->required(),
-                TextInput::make('no_telepon')
-                    ->label('No Telepon')
-                    ->required()
-                    ->maxLength(15),
-                TextInput::make('semester')
-                    ->label('Semester')
-                    ->numeric()
-                    ->required(),
-                TextInput::make('KTM')
-                    ->label('Kartu Tanda Mahasiswa')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('pas_foto')
-                    ->label('Pas Foto')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('surat_permohonan')
-                    ->label('Surat Permohonan')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('transkrip_nilai')
-                    ->label('Transkrip Nilai')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('status_data')
-                    ->label('Status Data')
-                    ->required()
-                    ->maxLength(50),
+                Forms\Components\TextInput::make('NIM')->label('NIM')->required(),
+                Forms\Components\TextInput::make('user.name')->label('Nama Mahasiswa')->required()->disabled(),
+                Forms\Components\DatePicker::make('tanggal_lahir')->label('Tanggal Lahir')->required(),
+                Forms\Components\TextInput::make('jenis_kelamin')->label('Jenis Kelamin')->required(),
+                Forms\Components\TextInput::make('universitas')->label('Universitas')->required(),
+                Forms\Components\TextInput::make('fakultas')->label('Fakultas')->required(),
+                Forms\Components\TextInput::make('alamat_KTP')->label('Alamat KTP')->required(),
+                Forms\Components\TextInput::make('alamat_domisili')->label('Alamat Domisili')->required(),
+                Forms\Components\TextInput::make('jurusan')->label('Jurusan')->required(),
+                Forms\Components\TextInput::make('IPK')->label('IPK')->numeric()->required(),
+                Forms\Components\TextInput::make('no_telepon')->label('No Telepon')->required(),
+                Forms\Components\TextInput::make('semester')->label('Semester')->numeric()->required(),
+                Forms\Components\FileUpload::make('KTM')->label('KTM')->image(),
+                Forms\Components\FileUpload::make('pas_foto')->label('Pas Foto')->image(),
+                Forms\Components\FileUpload::make('surat_permohonan')->label('Surat Permohonan')->image(),
+                Forms\Components\FileUpload::make('transkrip_nilai')->label('Transkrip Nilai')->image(),
+                Forms\Components\TextInput::make('status_data')->label('Status Data')->required(),
             ]);
     }
 
@@ -113,39 +61,169 @@ class MahasiswaResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('NIM')->label('NIM')->sortable()->searchable(),
-                TextColumn::make('user.name')
-                    ->label('Nama Pengguna')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('tanggal_lahir')
+                Tables\Columns\TextColumn::make('NIM')
+                    ->label('NIM')
+                    ->wrapHeader()
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 100px;']),
+                    
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nama Mahasiswa')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 150px;']),
+
+                Tables\Columns\TextColumn::make('tanggal_lahir')
                     ->label('Tanggal Lahir')
-                    ->dateTime('d/m/Y') // Format tanggal
-                    ->sortable(),
-                TextColumn::make('jenis_kelamin')->label('Jenis Kelamin')->sortable(),
-                TextColumn::make('universitas')->label('Universitas')->sortable(),
-                TextColumn::make('fakultas')->label('Fakultas')->sortable(),
-                TextColumn::make('jurusan')->label('Jurusan')->sortable(),
-                TextColumn::make('IPK')->label('IPK')->sortable(),
-                TextColumn::make('no_telepon')->label('No Telepon')->sortable(),
-                TextColumn::make('semester')->label('Semester')->sortable(),
-                TextColumn::make('KTM')->label('Kartu Tanda Mahasiswa')->sortable(),
-                TextColumn::make('pas_foto')->label('Pas Foto')->sortable(),
-                TextColumn::make('surat_permohonan')->label('Surat Permohonan')->sortable(),
-                TextColumn::make('transkrip_nilai')->label('Transkrip Nilai')->sortable(),
-                TextColumn::make('status_data')->label('Status Data')->sortable(),
+                    ->date()
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 100px;']),
+                    
+                Tables\Columns\TextColumn::make('jenis_kelamin')
+                    ->label('Jenis Kelamin')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 100px;']),
+
+                Tables\Columns\TextColumn::make('universitas')
+                    ->label('Universitas')
+                    ->wrapHeader()
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 120px;']),
+                    
+                Tables\Columns\TextColumn::make('fakultas')
+                    ->label('Fakultas')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 120px;']),
+
+                Tables\Columns\TextColumn::make('alamat_KTP')
+                    ->label('Alamat KTP')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 150px;']),
+
+                Tables\Columns\TextColumn::make('alamat_domisili')
+                    ->label('Alamat Domisili')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 150px;']),
+
+                Tables\Columns\TextColumn::make('jurusan')
+                    ->label('Jurusan')
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 100px;']),
+
+                Tables\Columns\TextColumn::make('IPK')
+                    ->label('IPK')
+                    ->extraAttributes(['style' => 'width: 60px;']),
+
+                Tables\Columns\TextColumn::make('no_telepon')
+                    ->label('No Telepon')
+                    ->extraAttributes(['style' => 'width: 120px;']),
+
+                Tables\Columns\TextColumn::make('semester')
+                    ->label('Semester')
+                    ->extraAttributes(['style' => 'width: 80px;']),
+
+                Tables\Columns\ImageColumn::make('KTM')
+                    ->label('KTM')
+                    ->disk('public')
+                    ->extraAttributes(['style' => 'width: 80px;']),
+
+                Tables\Columns\ImageColumn::make('pas_foto')
+                    ->label('Pas Foto')
+                    ->disk('public')
+                    ->extraAttributes(['style' => 'width: 80px;']),
+
+                Tables\Columns\TextColumn::make('surat_permohonan')
+                    ->label('Surat Permohonan')
+                    ->formatStateUsing(fn ($state) => $state 
+                        ? "<a href='".asset('storage/' . $state)."' target='_blank'>View</a> | <a href='".asset('storage/' . $state)."' download>Download</a>" 
+                        : 'Tidak ada file')
+                    ->html()
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 150px;']),
+
+                Tables\Columns\TextColumn::make('transkrip_nilai')
+                    ->label('Transkrip Nilai')
+                    ->formatStateUsing(fn ($state) => $state 
+                        ? "<a href='".asset('storage/' . $state)."' target='_blank'>View</a> | <a href='".asset('storage/' . $state)."' download>Download</a>" 
+                        : 'Tidak ada file')
+                    ->html()
+                    ->extraAttributes(['style' => 'white-space: normal; word-wrap: break-word; width: 150px;']),
+            
             ])
-            ->filters([
-                // Anda bisa menambahkan filter di sini jika diperlukan
+            ->filters([/* Tambahkan filter jika diperlukan */])
+            ->actions([
+                ViewAction::make(),
+                EditAction::make(),
+               
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('NIM')->label('NIM'),
+                Infolists\Components\TextEntry::make('user.name')->label('Nama Mahasiswa'),
+                Infolists\Components\TextEntry::make('tanggal_lahir')->label('Tanggal Lahir')->date(),
+                Infolists\Components\TextEntry::make('jenis_kelamin')->label('Jenis Kelamin'),
+                Infolists\Components\TextEntry::make('universitas')->label('Universitas'),
+                Infolists\Components\TextEntry::make('fakultas')->label('Fakultas'),
+                Infolists\Components\TextEntry::make('alamat_KTP')->label('Alamat KTP'),
+                Infolists\Components\TextEntry::make('alamat_domisili')->label('Alamat Domisili'),
+                Infolists\Components\TextEntry::make('jurusan')->label('Jurusan'),
+                Infolists\Components\TextEntry::make('IPK')->label('IPK'),
+                Infolists\Components\TextEntry::make('no_telepon')->label('No Telepon'),
+                Infolists\Components\TextEntry::make('semester')->label('Semester'),
+                Infolists\Components\ImageEntry::make('KTM')->label('KTM')->disk('public'),
+                Infolists\Components\ImageEntry::make('pas_foto')->label('Pas Foto')->disk('public'),
+                Infolists\Components\TextEntry::make('surat_permohonan')
+                    ->label('Surat Permohonan')
+                    ->formatStateUsing(fn ($state) => $state
+                        ? "<a href='".asset('storage/' . $state)."' target='_blank' class='btn btn-primary' style='margin-right: 5px;'>View</a>
+                           <a href='".asset('storage/' . $state)."' download class='btn btn-secondary'>Download</a>"
+                        : 'Tidak ada file')
+                    ->html(),
+                Infolists\Components\TextEntry::make('transkrip_nilai')
+                    ->label('Transkrip Nilai')
+                    ->formatStateUsing(fn ($state) => $state
+                        ? "<a href='".asset('storage/' . $state)."' target='_blank' class='btn btn-primary' style='margin-right: 5px;'>View</a>
+                           <a href='".asset('storage/' . $state)."' download class='btn btn-secondary'>Download</a>"
+                        : 'Tidak ada file')
+                    ->html(),
+                Infolists\Components\TextEntry::make('keterampilan')
+                    ->label('Keterampilan')
+                    ->formatStateUsing(fn ($record) =>
+                        $record->keterampilan->isNotEmpty()
+                            ? $record->keterampilan->map(fn ($keterampilan) => 
+                                "{$keterampilan->nama_keterampilan} - Level {$keterampilan->level}"
+                              )->join('<br>')
+                            : 'Belum Input Keterampilan'
+                    )
+                    ->html(),
+                Infolists\Components\TextEntry::make('pengalaman')
+                    ->label('Pengalaman')
+                    ->formatStateUsing(fn ($record) => 
+                        $record->pengalaman->isNotEmpty()
+                            ? $record->pengalaman->map(fn ($pengalaman) => 
+                                "<strong>{$pengalaman->posisi}</strong> di {$pengalaman->instansi}<br>
+                                {$pengalaman->tanggal_mulai} - {$pengalaman->tanggal_berakhir}<br>
+                                {$pengalaman->deskripsi}"
+                              )->join('<br><br>')
+                            : 'Belum Input Pengalaman'
+                    )
+                    ->html(),
+                    
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            // Tambahkan relasi lain jika ada
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => MahasiswaResource\Pages\ListMahasiswas::route('/'),
-            'create' => MahasiswaResource\Pages\CreateMahasiswa::route('/create'),
-            'edit' => MahasiswaResource\Pages\EditMahasiswa::route('/{record}/edit'),
+            'index' => Pages\ListMahasiswas::route('/'),
+            'create' => Pages\CreateMahasiswa::route('/create'),
+            'view' => Pages\ViewMahasiswa::route('/{record}'),
+            'edit' => Pages\EditMahasiswa::route('/{record}/edit'),
         ];
     }
 }

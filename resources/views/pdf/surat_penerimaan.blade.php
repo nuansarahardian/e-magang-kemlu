@@ -66,9 +66,11 @@
 
         <div class="title">SURAT PENERIMAAN MAGANG</div>
 
+        <p>Nomor Registrasi : {{ $unique_id ?? 'ID tidak tersedia' }} </p>
+
         <p>Kepada Yth.</p>
         <p>Kepala Jurusan {{$jurusan}}<br>
-           Fakultas {{$fakultas}}<br>
+            {{$fakultas}}<br>
            {{$universitas}}
         </p>
 

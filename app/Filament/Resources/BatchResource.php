@@ -18,6 +18,15 @@ class BatchResource extends Resource
     protected static ?string $model = Batch::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-date-range';
+    public static function getNavigationLabel(): string
+    {
+        return 'Periode Magang'; // Custom singular label
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Periode Magang '; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+    }
 
     public static function form(Form $form): Form
     {

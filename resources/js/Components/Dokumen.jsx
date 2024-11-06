@@ -17,7 +17,7 @@ const Dokumen = () => {
             type: "KTM",
         },
         {
-            category: "Surat Permohonan",
+            category: "Surat Pengantar/Permohonan dari Universitas",
             name: profilData.surat_permohonan
                 ? profilData.surat_permohonan
                 : "Dokumen belum diupload",

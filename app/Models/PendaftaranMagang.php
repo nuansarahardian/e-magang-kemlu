@@ -11,6 +11,7 @@ class PendaftaranMagang extends Model
 
     protected $table = 'pendaftaran_magang';
     protected $fillable = [
+        'unique_id',
         'NIM',
         'posisi_magang_per_batch_id',
         'status',

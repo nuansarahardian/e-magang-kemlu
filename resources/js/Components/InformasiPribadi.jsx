@@ -29,6 +29,8 @@ export default function InformasiPribadi({ switchComponent }) {
     const tanggalLahir = formatTanggal(profilData?.tanggal_lahir);
     const alamatDomisili = profilData?.alamat_domisili || "Tidak ada data";
     const noTelepon = profilData?.no_telepon || "Tidak ada data";
+    const kontakDarurat = profilData?.kontak_darurat || "Tidak ada data";
+    const noAsuransi = profilData?.no_asuransi || "Tidak ada data";
 
     return (
         <div className="px-3  ">
@@ -112,6 +114,19 @@ export default function InformasiPribadi({ switchComponent }) {
                             Nomor Telepon
                         </label>
                         <p className="text-lg text-gray-700">{noTelepon}</p>
+                    </div>
+                    {/* Nomor Telepon */}
+                    <div className="grid grid-cols-1 gap-y-2">
+                        <label className="text-lg font-semibold text-gray-700">
+                            Kontak Darurat
+                        </label>
+                        <p className="text-lg text-gray-700">{kontakDarurat}</p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-y-2">
+                        <label className="text-lg font-semibold text-gray-700">
+                            Nomor Asuransi
+                        </label>
+                        <p className="text-lg text-gray-700">{noAsuransi}</p>
                     </div>
                 </div>
             </div>

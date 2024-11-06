@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use PDF;
+use Carbon\Carbon;
 
 class PendaftaranBerhasil extends Notification
 {
@@ -41,37 +41,49 @@ class PendaftaranBerhasil extends Notification
      */
     public function toMail($notifiable)
     {
-        // Generate PDF Surat Penerimaan
-        $pdfData = [
+        // Access the first PendaftaranMagang related to ProfilMahasiswa
+        $pendaftaranMagang = $notifiable->profilMahasiswa->pendaftaranMagang->first();
+
+        // Ensure the pendaftaranMagang exists and is accepted
+        if (!$pendaftaranMagang || $pendaftaranMagang->status !== 'diterima') {
+            abort(403, 'Surat penerimaan hanya dapat diunduh untuk pendaftar yang diterima.');
+        }
+
+        // Format the dates
+        $tanggalMulai = Carbon::parse($pendaftaranMagang->posisiMagangPerBatch->batch->tanggal_mulai)->translatedFormat('d F Y');
+        $tanggalBerakhir = Carbon::parse($pendaftaranMagang->posisiMagangPerBatch->batch->tanggal_berakhir)->translatedFormat('d F Y');
+
+        // Prepare PDF data
+        $data = [
             'nama' => $notifiable->name,
-            'nim' => $notifiable->profilMahasiswa->NIM ?? 'N/A',
-            'universitas' => $notifiable->profilMahasiswa->universitas ?? 'N/A',
-            'jurusan' => $notifiable->profilMahasiswa->jurusan ?? 'N/A',
-            'fakultas' => $notifiable->profilMahasiswa->fakultas ?? 'N/A',
+            'nim' => $notifiable->profilMahasiswa->NIM,
+            'unique_id' => $pendaftaranMagang->unique_id,
+            'universitas' => $notifiable->profilMahasiswa->universitas,
+            'jurusan' => $notifiable->profilMahasiswa->jurusan,
+            'fakultas' => $notifiable->profilMahasiswa->fakultas,
             'posisi' => $this->posisiMagang->posisiMagang->nama_posisi ?? 'Posisi Tidak Diketahui',
             'batch' => $this->posisiMagang->batch->nama_batch ?? 'Batch Tidak Diketahui',
-            'tanggal_mulai' => $this->posisiMagang->batch->tanggal_mulai,
-            'tanggal_berakhir' => $this->posisiMagang->batch->tanggal_berakhir,
+            'tanggal_mulai' => $tanggalMulai,
+            'tanggal_berakhir' => $tanggalBerakhir,
+            'tanggal_sekarang' => Carbon::now()->translatedFormat('d F Y'),
         ];
 
-        $pdf = PDF::loadView('pdf.surat_penerimaan', $pdfData)->setPaper('a4');
+        // Generate PDF
+        $pdf = PDF::loadView('pdf.surat_penerimaan', $data)->setPaper('a4');
 
-        // Logo URL
-   
-
+        // Send email with attached PDF
         return (new MailMessage)
             ->subject('Penerimaan Program Magang di BSKLN Kementerian Luar Negeri')
             ->greeting('Halo, ' . $notifiable->name)
-            
             ->line('Selamat! Anda telah diterima untuk mengikuti program magang di Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri RI.')
             ->line('**Detail Magang:**')
             ->line('Nama: ' . $notifiable->name)
-            ->line('Universitas: ' . ($notifiable->profilMahasiswa->universitas ?? 'Tidak Diketahui'))
+            ->line('Universitas: ' . $notifiable->profilMahasiswa->universitas)
             ->line('Posisi: ' . $this->posisiMagang->posisiMagang->nama_posisi ?? 'Posisi Tidak Diketahui')
-            ->line('Periode: ' . $this->posisiMagang->batch->tanggal_mulai . ' - ' . $this->posisiMagang->batch->tanggal_berakhir)
+            ->line('Periode: ' . $tanggalMulai . ' - ' . $tanggalBerakhir)
             ->line('Lokasi: Kementerian Luar Negeri, Jakarta')
-            ->line('Harap menghubungi nomor admin di bawah ini atau membalas email ini. Informasi lebih lanjut mengenai orientasi dan penugasan akan dikirimkan setelahnya.')
-            ->line('Selamat bergabung dengan BSKLN, dan kami nantikan kontribusi terbaik Anda!')
+            ->line('Harap menghubungi nomor admin di bawah ini atau membalas email ini untuk informasi lebih lanjut.')
+            ->line('Selamat bergabung dengan BSKLN!')
             ->line('')
             ->line('Salam,')
             ->line('BSKLN - Kementerian Luar Negeri RI')

@@ -20,7 +20,15 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationLabel = 'Users';
 
+    public static function getNavigationLabel(): string
+    {
+        return 'Akun Pengguna'; // Custom singular label
+    }
 
+    public static function getPluralModelLabel(): string
+    {
+        return 'Akun Pengguna '; // Ubah sesuai dengan label yang diinginkan tanpa 's'
+    }
     public static function form(Form $form): Form
     {
         return $form

@@ -11,9 +11,6 @@ use App\Http\Controllers\PengalamanKeterampilanController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\StatusPendaftaranController;
-
-
-
 use App\Http\Controllers\SuratPenerimaanController;
 
 
@@ -191,6 +188,11 @@ Route::get('/daftar-magang', function () {
 Route::get('/detail-posisi/{role}', function ($role) {
     return Inertia::render('DetailPosisi', ['role' => $role]);
 })->name('detail-posisi');
+// routes/web.php
+// routes/web.php
+use App\Http\Controllers\CvMahasiswaController;
+
+Route::get('/mahasiswa/{id}/download-cv', [CvMahasiswaController::class, 'download'])->name('mahasiswa.download_cv');
 
 
 

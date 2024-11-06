@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('semester', 2)->nullable(); // Jadikan nullable
             $table->string('KTM', 255)->nullable(); // Jadikan nullable
             $table->string('pas_foto', 255)->nullable(); // Jadikan nullable
+            $table->string('kontak_darurat', 25)->nullable(); // Jadikan nullable
+            $table->string('no_asuransi', 25)->nullable(); // Jadikan nullable
             $table->string('surat_permohonan', 255)->nullable(); // Jadikan nullable
             $table->string('transkrip_nilai', 255)->nullable(); // Jadikan nullable
             $table->enum('status_data', ['data_belum_lengkap', 'data_lengkap'])->nullable(); // Jadikan nullable

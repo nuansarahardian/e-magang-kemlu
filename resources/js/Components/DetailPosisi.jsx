@@ -43,7 +43,7 @@ export default function DetailPosisi({ selectedPosition }) {
 
     // Jika pengguna sudah diterima di posisi lain, ubah status tombol dan tampilkan alert saat apply
     if (hasAcceptedStatus) {
-        applyButtonText = "Pendaftaran Ditutup";
+        applyButtonText = "Anda sudah diterima";
         applyButtonStyle = "bg-gray-400 cursor-not-allowed";
         isButtonDisabled = true;
     }
@@ -114,7 +114,7 @@ export default function DetailPosisi({ selectedPosition }) {
         <div className="w-full h-full bg-white border border-gray-300">
             <div className="relative w-full h-64">
                 <img
-                    src={selectedPosition.gambar || "/images/3.jpeg"}
+                    src={selectedPosition.gambar}
                     alt="Detail Image"
                     className="object-cover w-full h-full"
                 />
@@ -137,8 +137,8 @@ export default function DetailPosisi({ selectedPosition }) {
 
             <div className="p-8">
                 <div className="mb-0">
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                        <h2 className="text-2xl font-bold text-black">
+                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 my-auto">
+                        <h2 className="text-2xl font-bold text-black max-w-96">
                             {selectedPosition.nama_posisi}
                         </h2>
                         <button
@@ -184,7 +184,7 @@ export default function DetailPosisi({ selectedPosition }) {
                                 <td className="border border-gray-300 px-4 py-2 text-gray-600 text-[15px]">
                                     Batch
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px]">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-800 text-[15px] ">
                                     {selectedPosition.nama_batch}
                                 </td>
                             </tr>

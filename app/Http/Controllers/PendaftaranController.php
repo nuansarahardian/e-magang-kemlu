@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Notifications\PendaftaranBerhasil;
+use App\Notifications\DaftarBerhasil;
 use Illuminate\Support\Facades\Validator;
 
 class PendaftaranController extends Controller
@@ -155,7 +156,6 @@ class PendaftaranController extends Controller
             return back()->with('error', 'Gagal mengunggah file.');
         }
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -176,12 +176,27 @@ class PendaftaranController extends Controller
         }
     
         $tanggalPendaftaran = \Carbon\Carbon::createFromFormat('d-m-Y H:i:s', $request->tanggal_pendaftaran)->format('Y-m-d H:i:s');
-        $posisiMagang = PosisiMagangPerBatch::find($request->posisi_magang_per_batch_id);
+        $posisiMagang = PosisiMagangPerBatch::with('posisiMagang', 'batch')->find($request->posisi_magang_per_batch_id);
+        
+        // Ambil sistem penerimaan dari $posisiMagang
         $sistemPenerimaan = $posisiMagang->sistem_penerimaan;
+    
+        // Ambil kode_posisi, id_batch, dan tahun kegiatan
+        $kodePosisi = $posisiMagang->posisiMagang->kode_posisi;
+        $kodeBatch = $posisiMagang->batch->id;
+        $tahunKegiatan = \Carbon\Carbon::parse($posisiMagang->batch->tanggal_mulai)->format('Y');
+    
+        // Hitung jumlah pendaftaran yang sudah ada pada posisi dan batch ini untuk menentukan nomor urut
+        $jumlahPendaftaran = PendaftaranMagang::where('posisi_magang_per_batch_id', $request->posisi_magang_per_batch_id)->count();
+        $nomorUrut = $jumlahPendaftaran + 1;
+    
+        // Format unique ID: "KODE_POSISI/ID_BATCH/TAHUN/NO_URUT"
+        $uniqueId = "{$kodePosisi}/{$kodeBatch}/{$tahunKegiatan}/" . str_pad($nomorUrut, 5, '0', STR_PAD_LEFT);
     
         if ($sistemPenerimaan === 'Otomatis') {
             if ($posisiMagang->jumlah_pendaftar < $posisiMagang->kuota) {
                 $pendaftaran = PendaftaranMagang::create([
+                    'unique_id' => $uniqueId,
                     'NIM' => $NIM,
                     'posisi_magang_per_batch_id' => $request->posisi_magang_per_batch_id,
                     'status' => 'diterima',
@@ -194,21 +209,22 @@ class PendaftaranController extends Controller
                     $posisiMagang->save();
                 }
     
-                // Kirim notifikasi hanya jika sistem penerimaan otomatis
                 $user->notify(new PendaftaranBerhasil($posisiMagang));
                 return redirect()->route('posisi-magang')->with('success', 'Pendaftaran berhasil!');
             } else {
                 return redirect()->route('posisi-magang')->with('error', 'Kuota untuk posisi ini sudah penuh.');
             }
         } else {
-            // Untuk pengaturan manual, simpan pendaftaran tanpa notifikasi
             PendaftaranMagang::create([
+                'unique_id' => $uniqueId,
                 'NIM' => $NIM,
                 'posisi_magang_per_batch_id' => $request->posisi_magang_per_batch_id,
                 'status' => 'mendaftar',
                 'tanggal_pendaftaran' => $tanggalPendaftaran,
             ]);
-    
+            $posisiMagang->increment('jumlah_pendaftar');
+            $user->notify(new DaftarBerhasil($posisiMagang));
+            
             return redirect()->route('posisi-magang')->with('success', 'Pendaftaran berhasil, menunggu seleksi admin.');
         }
     }
