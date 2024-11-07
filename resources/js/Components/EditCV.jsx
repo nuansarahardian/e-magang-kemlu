@@ -59,34 +59,34 @@ export default function EditCV({ switchComponent, defaultTab = 1 }) {
                 <div className="bg-white">
                     {/* Tab navigation */}
                     <div className="bg-white border-b border-gray-200">
-                        <div className="flex pl-10 space-x-10 pt-1">
+                        <div className="flex flex-col sm:flex-row pl-4 sm:pl-10 space-y-2 sm:space-y-0 sm:space-x-6 pt-1">
                             <button
                                 onClick={() => handleTabClick(1)}
-                                className={`pb-4 pt-4 ${
+                                className={`pb-2 sm:pb-4 pt-4 text-sm sm:text-lg ${
                                     activeTab === 1
                                         ? "border-b-2 border-[#384AA0] text-[#384AA0] font-semibold"
                                         : "text-gray-500 hover:text-gray-700 font-medium"
-                                } text-lg`}
+                                }`}
                             >
                                 Informasi Pribadi
                             </button>
                             <button
                                 onClick={() => handleTabClick(2)}
-                                className={`pb-4 pt-4 ${
+                                className={`pb-2 sm:pb-4 pt-4 text-sm sm:text-lg ${
                                     activeTab === 2
                                         ? "border-b-2 border-[#384AA0] text-[#384AA0] font-semibold"
                                         : "text-gray-500 hover:text-gray-700 font-medium"
-                                } text-lg`}
+                                }`}
                             >
                                 Informasi Akademik
                             </button>
                             <button
                                 onClick={() => handleTabClick(3)}
-                                className={`pb-4 pt-4 ${
+                                className={`pb-2 sm:pb-4 pt-4 text-sm sm:text-lg ${
                                     activeTab === 3
                                         ? "border-b-2 border-[#384AA0] text-[#384AA0] font-semibold"
                                         : "text-gray-500 hover:text-gray-700 font-medium"
-                                } text-lg`}
+                                }`}
                             >
                                 Keterampilan dan Pengalaman
                             </button>
@@ -94,8 +94,8 @@ export default function EditCV({ switchComponent, defaultTab = 1 }) {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-grow bg-white p-8">
-                        <div className="max-w-4xl mx-auto">
+                    <div className="flex-grow bg-white p-4 sm:p-8">
+                        <div className="max-w-full sm:max-w-4xl mx-auto">
                             {activeTab === 1 && (
                                 <EditInformasiPribadi
                                     profilData={profilData}

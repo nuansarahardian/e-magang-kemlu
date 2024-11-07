@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid"; // Pastikan menggunakan Heroicons
-import { router } from "@inertiajs/react"; // Import router dari Inertia.js
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { router } from "@inertiajs/react";
 import Swal from "sweetalert2"; // Import SweetAlert2
 
 export default function EditInformasiAkademik({
@@ -10,7 +10,6 @@ export default function EditInformasiAkademik({
     handleChange,
     switchComponent,
 }) {
-    // Inisialisasi data form dengan data dari profilData saat pertama kali dimuat
     useEffect(() => {
         if (profilData) {
             setFormData({
@@ -22,7 +21,6 @@ export default function EditInformasiAkademik({
                 KTM: profilData.KTM || "",
             });
         } else {
-            // Jika profilData tidak ada (mode create), set nilai default kosong
             setFormData({
                 asalUniversitas: "",
                 fakultas: "",
@@ -35,18 +33,17 @@ export default function EditInformasiAkademik({
     }, [profilData]);
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Mencegah perilaku default form
+        e.preventDefault(); // Prevent default form submission
 
-        // Buat FormData untuk mengirim data
         const data = new FormData();
-        data.append("universitas", formData.asalUniversitas); // Ganti dengan nama yang benar
+        data.append("universitas", formData.asalUniversitas);
         data.append("fakultas", formData.fakultas);
         data.append("jurusan", formData.jurusan);
         data.append("IPK", formData.ipk);
         data.append("semester", formData.semester);
         data.append("KTM", formData.KTM);
 
-        // Kirim data ke backend
+        // Post the data to the server
         router.post(route("profil-akademik.store"), data, {
             onSuccess: () => {
                 Swal.fire({
@@ -55,7 +52,7 @@ export default function EditInformasiAkademik({
                     text: "Data akademik berhasil disimpan!",
                     confirmButtonText: "OK",
                 }).then(() => {
-                    window.location.reload(); // Refresh halaman setelah user klik "OK"
+                    window.location.reload(); // Refresh the page after the alert
                 });
             },
             onError: (errors) => {
@@ -63,7 +60,7 @@ export default function EditInformasiAkademik({
                     ? Object.values(errors.response.data.errors)
                           .flat()
                           .join(", ")
-                    : "Terjadi kesalahan saat menyimpan data.";
+                    : "Isi terlebih dahulu NIM dan data pribadi anda!";
 
                 Swal.fire({
                     icon: "error",
@@ -71,7 +68,6 @@ export default function EditInformasiAkademik({
                     text: errorMessages,
                     confirmButtonText: "Coba Lagi",
                 });
-                console.log("Terjadi kesalahan: ", errors);
             },
             replace: true,
         });
@@ -83,16 +79,16 @@ export default function EditInformasiAkademik({
 
     return (
         <div className="px-3">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
                 Informasi Akademik
             </h3>
-            <form onSubmit={handleSubmit} className="space-y-8">
-                <div className="grid grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {/* Asal Universitas */}
-                    <div className="grid grid-cols-1 gap-y-2">
-                        <label className="text-lg font-semibold text-gray-700 flex">
+                    <div className="grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700 flex">
                             Asal Universitas{" "}
-                            <p className="text-red-500 ml-1">*</p>
+                            <span className="text-red-500 ml-1">*</span>
                         </label>
                         <input
                             type="text"
@@ -100,19 +96,20 @@ export default function EditInformasiAkademik({
                             value={formData.asalUniversitas}
                             onChange={handleChange}
                             placeholder="Masukkan Asal Universitas"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                             Tuliskan nama universitas lengkap tanpa disingkat.
                             Contoh: "Universitas Indonesia"
                         </p>
                     </div>
 
                     {/* Fakultas */}
-                    <div className="grid grid-cols-1 gap-y-2">
-                        <label className="text-lg font-semibold text-gray-700 flex">
-                            Fakultas <p className="text-red-500 ml-1">*</p>
+                    <div className="grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700 flex">
+                            Fakultas{" "}
+                            <span className="text-red-500 ml-1">*</span>
                         </label>
                         <input
                             type="text"
@@ -120,19 +117,20 @@ export default function EditInformasiAkademik({
                             value={formData.fakultas}
                             onChange={handleChange}
                             placeholder="Masukkan Fakultas"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                             Tuliskan nama fakultas lengkap tanpa disingkat.
                             Contoh: "Fakultas Ilmu Sosial dan Ilmu Politik"
                         </p>
                     </div>
 
                     {/* Jurusan/Prodi */}
-                    <div className="grid grid-cols-1 gap-y-2">
-                        <label className="text-lg font-semibold text-gray-700 flex">
-                            Jurusan/Prodi <p className="text-red-500 ml-1">*</p>
+                    <div className="grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700 flex">
+                            Jurusan/Prodi{" "}
+                            <span className="text-red-500 ml-1">*</span>
                         </label>
                         <input
                             type="text"
@@ -140,19 +138,19 @@ export default function EditInformasiAkademik({
                             value={formData.jurusan}
                             onChange={handleChange}
                             placeholder="Masukkan Jurusan/Prodi"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                             Tuliskan nama jurusan atau program studi lengkap
                             tanpa disingkat. Contoh: "Hubungan Internasional"
                         </p>
                     </div>
 
                     {/* IPK */}
-                    <div className="grid grid-cols-1 gap-y-2">
-                        <label className="text-lg font-semibold text-gray-700 flex">
-                            IPK <p className="text-red-500 ml-1">*</p>
+                    <div className="grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700 flex">
+                            IPK <span className="text-red-500 ml-1">*</span>
                         </label>
                         <input
                             type="text"
@@ -160,63 +158,55 @@ export default function EditInformasiAkademik({
                             value={formData.ipk}
                             onChange={handleChange}
                             placeholder="Masukkan IPK"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         />
-                        <p className="text-sm text-gray-500">
+                        <p className="text-xs sm:text-sm text-gray-500">
                             Tuliskan IPK dengan pemisah titik. Contoh: "3.75"
                         </p>
                     </div>
 
-                    {/* Semester (Dropdown with Icon) */}
-                    <div className="relative grid grid-cols-1 gap-y-2">
-                        <label className="text-lg font-semibold text-gray-700 flex">
-                            Semester <p className="text-red-500 ml-1">*</p>
+                    {/* Semester */}
+                    <div className="relative grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700 flex">
+                            Semester{" "}
+                            <span className="text-red-500 ml-1">*</span>
                         </label>
                         <div className="relative">
                             <select
                                 name="semester"
                                 value={formData.semester}
                                 onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                             >
                                 <option value="">Pilih Semester</option>
-
                                 <option value="4">4</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
                                 <option value="7">7</option>
                                 <option value="8">8</option>
                             </select>
-                            {/* Icon Chevron */}
-                            <ChevronDownIcon className="absolute right-3 top-3 h-5 w-5 text-gray-500 pointer-events-none" />
+                            <ChevronDownIcon className="absolute right-3 top-3 h-4 w-4 sm:h-5 sm:w-5 text-gray-500 pointer-events-none" />
                         </div>
                     </div>
-
-                    {/* Upload KTM */}
                 </div>
-                <div className="flex  justify-end gap-2">
-                    {/* Tombol Batalkan */}
-                    <div className="flex justify-end space-x-4 mt-6">
-                        <button
-                            type="button" // Ubah menjadi "button" agar tidak melakukan submit
-                            onClick={handleCancel} // Panggil fungsi handleCancel untuk kembali ke CurriculumVitae
-                            className="bg-[#5E7ADD]/20 text-[#162360] py-3 px-6 rounded-lg hover:bg-[#5E7ADD] transition w-full sm:w-auto font-bold"
-                        >
-                            Batalkan
-                        </button>
-                    </div>
 
-                    {/* Tombol Simpan */}
-                    <div className="flex justify-end space-x-4 mt-6">
-                        <button
-                            type="submit"
-                            className="bg-[#162360] text-white hover:bg-blue-800 py-3 px-6 rounded-lg  transition w-full sm:w-auto font-bold"
-                        >
-                            Simpan Perubahan
-                        </button>
-                    </div>
+                {/* Buttons */}
+                <div className="flex justify-end space-x-2 sm:space-x-4 mt-4">
+                    <button
+                        type="button"
+                        onClick={handleCancel}
+                        className="bg-[#5E7ADD]/20 text-[#162360] py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-[#5E7ADD] transition font-bold w-full sm:w-auto"
+                    >
+                        Batalkan
+                    </button>
+                    <button
+                        type="submit"
+                        className="bg-[#162360] text-white hover:bg-blue-800 py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition font-bold w-full sm:w-auto"
+                    >
+                        Simpan Perubahan
+                    </button>
                 </div>
             </form>
         </div>

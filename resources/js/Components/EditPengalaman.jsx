@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { router } from "@inertiajs/react";
 import moment from "moment";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 
 export default function EditPengalaman({
     profilData,
@@ -127,7 +127,6 @@ export default function EditPengalaman({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validasi untuk memastikan semua input keterampilan terisi
         const validSkills = skills.every(
             (skill) => skill.nama_keterampilan && skill.level
         );
@@ -183,13 +182,18 @@ export default function EditPengalaman({
                 Swal.fire("Berhasil!", "Data berhasil disimpan!", "success");
             },
             onError: (errors) => {
-                Swal.fire(
-                    "Gagal!",
-                    "Terjadi kesalahan saat menyimpan.",
-                    "error"
-                );
+                const errorMessages = errors.response?.data?.errors
+                    ? Object.values(errors.response.data.errors)
+                          .flat()
+                          .join(", ")
+                    : "Isi terlebih dahulu NIM dan data pribadi anda!";
+                Swal.fire("Gagal!", errorMessages, "error");
             },
         });
+    };
+
+    const handleCancel = () => {
+        switchComponent("cv");
     };
 
     const toggleExperienceCollapse = (index) => {
@@ -200,20 +204,20 @@ export default function EditPengalaman({
 
     return (
         <div className="px-3">
-            <h3 className="text-3xl font-semibold text-gray-900 mb-6">
+            <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6">
                 Pengalaman Organisasi & Profesional
             </h3>
             {/* Section: Keterampilan */}
             <div className="mb-10">
-                <h4 className="text-xl font-medium text-gray-700 mb-3">
+                <h4 className="text-lg sm:text-xl font-medium text-gray-700 mb-3">
                     Keterampilan
                 </h4>
                 {skills.map((skill, index) => (
                     <div
                         key={skill.id || index}
-                        className="grid grid-cols-12 gap-4 mb-5 items-center"
+                        className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-5 items-center"
                     >
-                        <div className="col-span-5">
+                        <div className="col-span-12 sm:col-span-5">
                             <input
                                 type="text"
                                 value={skill.nama_keterampilan}
@@ -228,7 +232,7 @@ export default function EditPengalaman({
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                             />
                         </div>
-                        <div className="col-span-5">
+                        <div className="col-span-12 sm:col-span-5">
                             <select
                                 value={skill.level || ""}
                                 onChange={(e) =>
@@ -246,7 +250,7 @@ export default function EditPengalaman({
                                 <option value="mahir">Mahir</option>
                             </select>
                         </div>
-                        <div className="col-span-2 flex justify-end">
+                        <div className="col-span-12 sm:col-span-2 flex justify-end">
                             <button
                                 type="button"
                                 onClick={() => removeSkill(skill.id, index)}
@@ -260,14 +264,15 @@ export default function EditPengalaman({
                 <button
                     type="button"
                     onClick={addSkillField}
-                    className="bg-blue-500 text-white py-2 px-5 rounded hover:bg-blue-600 transition-all"
+                    className="bg-orange-400 text-white py-2 px-5 rounded-md font-medium hover:bg-orange-600 transition-all"
                 >
                     + Tambah Keterampilan
                 </button>
             </div>
+
             {/* Section: Pengalaman */}
             <div>
-                <h4 className="text-xl font-medium text-gray-700 mb-3">
+                <h4 className="text-lg sm:text-xl font-medium text-gray-700 mb-3">
                     Pengalaman Organisasi & Profesional
                 </h4>
                 {experiences.map((experience, index) => (
@@ -281,8 +286,8 @@ export default function EditPengalaman({
                             {experience.posisi || "Nama Jabatan"}
                         </button>
                         {experience.isOpen && (
-                            <div className="grid grid-cols-12 gap-4 mb-4">
-                                <div className="col-span-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 mb-4">
+                                <div className="col-span-12 sm:col-span-6">
                                     <input
                                         type="text"
                                         value={experience.instansi}
@@ -297,7 +302,7 @@ export default function EditPengalaman({
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                                     />
                                 </div>
-                                <div className="col-span-6">
+                                <div className="col-span-12 sm:col-span-6">
                                     <input
                                         type="text"
                                         value={experience.posisi}
@@ -312,7 +317,7 @@ export default function EditPengalaman({
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                                     />
                                 </div>
-                                <div className="col-span-6">
+                                <div className="col-span-12 sm:col-span-6">
                                     <DatePicker
                                         selected={experience.tanggal_mulai}
                                         onChange={(date) =>
@@ -327,7 +332,7 @@ export default function EditPengalaman({
                                         placeholderText="Tanggal Mulai"
                                     />
                                 </div>
-                                <div className="col-span-6">
+                                <div className="col-span-12 sm:col-span-6">
                                     <DatePicker
                                         selected={experience.tanggal_berakhir}
                                         onChange={(date) =>
@@ -357,7 +362,7 @@ export default function EditPengalaman({
                                         rows="3"
                                     ></textarea>
                                 </div>
-                                <div className="col-span-12 flex justify-end">
+                                <div className="flex space-x-2 sm:space-x-4 mt-4">
                                     <button
                                         type="button"
                                         onClick={() =>
@@ -366,7 +371,7 @@ export default function EditPengalaman({
                                                 index
                                             )
                                         }
-                                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm"
+                                        className="bg-red-600 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-red-700 transition duration-200 ease-in-out shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 text-sm"
                                     >
                                         Hapus Pengalaman
                                     </button>
@@ -378,16 +383,24 @@ export default function EditPengalaman({
                 <button
                     type="button"
                     onClick={addExperienceField}
-                    className="bg-blue-500 text-white py-2 px-5 rounded hover:bg-blue-600 transition-all"
+                    className="bg-orange-400 text-white py-2 px-5 rounded-md font-medium hover:bg-orange-600 transition-all"
                 >
                     + Tambah Pengalaman
                 </button>
             </div>
-            <div className="flex justify-end space-x-4 mt-6">
+
+            <div className="flex justify-end space-x-2 sm:space-x-4 mt-6">
+                <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="bg-[#5E7ADD]/20 text-[#162360] py-2 sm:py-3 px-4 sm:px-6 rounded-lg hover:bg-[#5E7ADD] transition font-bold w-full sm:w-auto"
+                >
+                    Batalkan
+                </button>
                 <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="bg-[#FFB900] text-white py-3 px-6 rounded-lg hover:bg-yellow-600 transition w-full sm:w-auto"
+                    className="bg-[#162360] text-white hover:bg-blue-800 py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition font-bold w-full sm:w-auto"
                 >
                     Simpan Semua Data
                 </button>

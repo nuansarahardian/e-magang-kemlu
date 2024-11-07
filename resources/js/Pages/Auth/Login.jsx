@@ -1,12 +1,13 @@
-import React from "react";
-import Checkbox from "@/Components/Checkbox";
-import InputError from "@/Components/InputError";
+import React, { useState } from "react";
+import { Link, useForm } from "@inertiajs/react";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Head, Link, useForm } from "@inertiajs/react";
-import Header from "@/Components/Header"; // Import Header
-import Footer from "@/Components/Footer"; // Import Footer
+import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline"; // Adjusted import for Heroicons v2
+import Checkbox from "@/Components/Checkbox"; // Adjust the path if needed
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -14,6 +15,9 @@ export default function Login({ status, canResetPassword }) {
         password: "",
         remember: false,
     });
+
+    // State to control password visibility
+    const [showPassword, setShowPassword] = useState(false);
 
     const submit = (e) => {
         e.preventDefault();
@@ -24,14 +28,14 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <>
-            <Header /> {/* Render Header */}
+            <Header />
             <div className="min-h-screen flex">
                 {/* Left container for image */}
                 <div className="relative hidden lg:flex w-1/2">
                     <div
                         className="w-full h-full bg-cover bg-center"
                         style={{
-                            backgroundImage: "url(/images/3.jpeg)", // Replace with your image
+                            backgroundImage: "url(/images/3.jpeg)",
                             zIndex: 0,
                         }}
                     ></div>
@@ -55,14 +59,16 @@ export default function Login({ status, canResetPassword }) {
                                 <InputLabel
                                     htmlFor="email"
                                     value="Email"
-                                    className="mb-2 text-sm font-medium text-gray-700"
+                                    className="mb-2 text-sm font-medium !text-gray-500"
                                 />
                                 <TextInput
                                     id="email"
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full p-3 border !border-gray-300 rounded-md shadow-sm
+                                    !focus:ring-blue-500 !focus:border-blue-500
+                                    !bg-slate-100 !text-gray-900 !placeholder-gray-500"
                                     autoComplete="username"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -79,19 +85,37 @@ export default function Login({ status, canResetPassword }) {
                                 <InputLabel
                                     htmlFor="password"
                                     value="Password"
-                                    className="mb-2 text-sm font-medium text-gray-700"
+                                    className="mb-2 text-sm font-medium !text-gray-500"
                                 />
-                                <TextInput
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    value={data.password}
-                                    className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    autoComplete="current-password"
-                                    onChange={(e) =>
-                                        setData("password", e.target.value)
-                                    }
-                                />
+                                <div className="relative">
+                                    <TextInput
+                                        id="password"
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        } // Toggle type
+                                        name="password"
+                                        value={data.password}
+                                        className="mt-1 block w-full p-3 border !border-gray-300 rounded-md shadow-sm
+                                        !focus:ring-blue-500 !focus:border-blue-500
+                                        !bg-slate-100 !text-gray-900 !placeholder-gray-500"
+                                        autoComplete="current-password"
+                                        onChange={(e) =>
+                                            setData("password", e.target.value)
+                                        }
+                                    />
+                                    <span
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
+                                        className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+                                    >
+                                        {showPassword ? (
+                                            <EyeSlashIcon className="h-5 w-5" />
+                                        ) : (
+                                            <EyeIcon className="h-5 w-5" />
+                                        )}
+                                    </span>
+                                </div>
                                 <InputError
                                     message={errors.password}
                                     className="mt-2 text-red-500"
@@ -150,7 +174,7 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
             </div>
-            <Footer /> {/* Render Footer */}
+            <Footer />
         </>
     );
 }

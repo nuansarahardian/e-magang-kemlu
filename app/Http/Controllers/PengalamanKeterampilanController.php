@@ -5,13 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Keterampilan;
 use App\Models\Pengalaman;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Inertia\Inertia;
 
 class PengalamanKeterampilanController extends Controller
 {
     public function show()
     {
         $user = auth()->user();
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated.'], 401);
+        }
+
         $NIM = $user->profilMahasiswa->NIM ?? null;
+
+        // Handle case where NIM is not found
+        if (!$NIM) {
+            return response()->json(['error' => 'NIM not found.'], 404);
+        }
 
         $pengalaman = Pengalaman::where('NIM', $NIM)->get();
         $keterampilan = Keterampilan::where('NIM', $NIM)->get();
@@ -27,7 +41,18 @@ class PengalamanKeterampilanController extends Controller
     public function storeOrUpdate(Request $request)
     {
         $user = auth()->user();
-        $NIM = $user->profilMahasiswa->NIM;
+
+        // Check if user is authenticated
+        if (!$user) {
+            return redirect()->route('login')->withErrors('User not authenticated.');
+        }
+
+        $NIM = $user->profilMahasiswa->NIM ?? null;
+
+        // Handle case where NIM is not found
+        if (!$NIM) {
+            return redirect()->route('dashboard')->withErrors('NIM tidak ditemukan.');
+        }
 
         // 1. Proses Keterampilan
         $skills = $request->input('skills', []);
@@ -78,23 +103,29 @@ class PengalamanKeterampilanController extends Controller
                 ]);
             }
         }
+
         return redirect()->route('dashboard')->with('success', 'Data Berhasil Disimpan');
     }
 
     public function destroyKeterampilan($id)
     {
-        $keterampilan = Keterampilan::findOrFail($id);
-        $keterampilan->delete();
-
-        return redirect()->route('dashboard')->with('success', 'Data Berhasil Dihapus');
-    
+        try {
+            $keterampilan = Keterampilan::findOrFail($id);
+            $keterampilan->delete();
+            return redirect()->route('dashboard')->with('success', 'Data Berhasil Dihapus');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('dashboard')->withErrors('Data keterampilan tidak ditemukan.');
+        }
     }
 
     public function destroyPengalaman($id)
     {
-        $pengalaman = Pengalaman::findOrFail($id);
-        $pengalaman->delete();
-        return redirect()->route('dashboard')->with('success', 'Data Berhasil Dihapus');
-    
+        try {
+            $pengalaman = Pengalaman::findOrFail($id);
+            $pengalaman->delete();
+            return redirect()->route('dashboard')->with('success', 'Data Berhasil Dihapus');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('dashboard')->withErrors('Data pengalaman tidak ditemukan.');
+        }
     }
 }

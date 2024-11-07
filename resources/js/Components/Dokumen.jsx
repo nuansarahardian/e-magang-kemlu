@@ -3,10 +3,8 @@ import { usePage, router } from "@inertiajs/react";
 import Swal from "sweetalert2";
 
 const Dokumen = () => {
-    // Mengambil data dari Inertia props
     const { profilData } = usePage().props;
 
-    // Pastikan data dokumen selalu ada dengan memberikan nilai default
     const documents = [
         {
             category: "KTM",
@@ -63,11 +61,10 @@ const Dokumen = () => {
                             page.props.flash.success,
                             "success"
                         ).then(() => {
-                            window.location.reload(); // Refresh halaman setelah berhasil dihapus
+                            window.location.reload();
                         });
                     },
                     onError: (errors) => {
-                        console.log("Terjadi kesalahan: ", errors);
                         Swal.fire(
                             "Gagal!",
                             "Terjadi kesalahan saat menghapus dokumen.",
@@ -79,10 +76,8 @@ const Dokumen = () => {
         });
     };
 
-    // Referensi input file untuk masing-masing dokumen
     const fileInputRefs = useRef({});
 
-    // Fungsi untuk membuka file explorer
     const triggerFileInput = (type) => {
         if (fileInputRefs.current[type]) {
             fileInputRefs.current[type].click();
@@ -92,7 +87,7 @@ const Dokumen = () => {
     const handleFileChange = (type, event) => {
         const file = event.target.files[0];
         if (file) {
-            const maxFileSize = 2 * 1024 * 1024; // 2MB dalam bytes
+            const maxFileSize = 2 * 1024 * 1024;
             if (file.size > maxFileSize) {
                 Swal.fire({
                     icon: "error",
@@ -118,7 +113,6 @@ const Dokumen = () => {
                     });
                 },
                 onError: (errors) => {
-                    console.log("Terjadi kesalahan: ", errors);
                     Swal.fire({
                         icon: "error",
                         title: "Gagal!",
@@ -132,23 +126,23 @@ const Dokumen = () => {
 
     return (
         <div className="px-3">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 sm:mb-4">
                 Kelengkapan Dokumen
             </h3>
-            <p className="text-sm text-gray-600 mb-6">
+            <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
                 Lengkapi dokumen untuk mempermudah proses pendaftaran magang.
             </p>
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
                 {documents.map((doc, index) => (
                     <div key={index} className="space-y-2">
-                        <h4 className="text-lg font-medium text-gray-700">
+                        <h4 className="text-lg sm:text-xl font-medium text-gray-700">
                             {doc.category}
                         </h4>
-                        <div className="flex items-center justify-between border border-gray-200 p-4 rounded-lg bg-gray-50">
-                            <div className="flex items-center">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border border-gray-200 p-3 sm:p-4 rounded-lg bg-gray-50">
+                            <div className="flex items-start sm:items-center mb-2 sm:mb-0">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-6 w-6 text-gray-500 mr-3"
+                                    className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 mr-2 sm:mr-3"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -161,22 +155,22 @@ const Dokumen = () => {
                                     />
                                 </svg>
                                 <div>
-                                    <p className="font-semibold text-gray-700">
+                                    <p className="text-sm sm:text-base font-semibold text-gray-700">
                                         {doc.name}
                                     </p>
                                     {doc.date && (
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-xs sm:text-sm text-gray-500">
                                             {doc.date}
                                         </p>
                                     )}
                                 </div>
                             </div>
-                            <div className="flex space-x-3">
+                            <div className="flex space-x-2 sm:space-x-3">
                                 {doc.isUploaded ? (
                                     <>
                                         <a
                                             href={doc.url}
-                                            className="px-3 py-1 bg-[#5E7ADD]/20 text-[#162360] rounded hover:bg-[#5E7ADD] font-semibold"
+                                            className="text-xs sm:text-sm px-2 sm:px-3 py-1 bg-[#5E7ADD]/20 text-[#162360] rounded hover:bg-[#5E7ADD] font-semibold"
                                         >
                                             Lihat file
                                         </a>
@@ -184,7 +178,7 @@ const Dokumen = () => {
                                             onClick={() =>
                                                 handleDelete(doc.type)
                                             }
-                                            className="px-3 py-1 bg-[#162360] text-white hover:bg-blue-800 rounded"
+                                            className="text-xs sm:text-sm px-2 sm:px-3 py-1 bg-[#162360] text-white hover:bg-blue-800 rounded"
                                         >
                                             Delete
                                         </button>
@@ -207,7 +201,7 @@ const Dokumen = () => {
                                             onClick={() =>
                                                 triggerFileInput(doc.type)
                                             }
-                                            className="px-3 py-1 bg-[#5E7ADD]/20 text-[#162360] rounded hover:bg-[#5E7ADD] font-semibold"
+                                            className="text-xs sm:text-sm px-2 sm:px-3 py-1 bg-[#5E7ADD]/20 text-[#162360] rounded hover:bg-[#5E7ADD] font-semibold"
                                         >
                                             Upload file
                                         </button>

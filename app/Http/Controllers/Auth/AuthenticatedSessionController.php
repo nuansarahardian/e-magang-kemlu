@@ -29,13 +29,28 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
+        $credentials = $request->only('email', 'password');
+    
+        // Coba autentikasi
+        if (!Auth::attempt($credentials)) {
+            // Cek apakah email terdaftar
+            $user = \App\Models\User::where('email', $request->email)->first();
+            if (!$user) {
+                return back()->withErrors([
+                    'email' => 'Email belum terdaftar.'
+                ])->onlyInput('email');
+            } else {
+                return back()->withErrors([
+                    'password' => 'Kata sandi yang Anda masukkan salah.'
+                ])->onlyInput('email');
+            }
+        }
+    
         $request->session()->regenerate();
-
+    
         return redirect()->intended(route('dashboard', absolute: false));
     }
-
+    
     /**
      * Destroy an authenticated session.
      */

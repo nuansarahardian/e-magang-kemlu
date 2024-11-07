@@ -4,23 +4,18 @@ import Footer from "@/Components/Footer";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
     DocumentTextIcon,
-    CalendarIcon,
     CheckBadgeIcon,
-    ArrowRightOnRectangleIcon,
     ClipboardDocumentIcon,
-    CogIcon,
 } from "@heroicons/react/24/outline";
 
 import CurriculumVitae from "@/Components/CurriculumVitae";
 import EditCV from "@/Components/EditCV";
-import Absensi from "@/Components/Absensi";
 import Sertifikat from "@/Components/Sertifikat";
 import StatusPendaftaran from "@/Components/StatusPendaftaran";
 import PengaturanAkun from "@/Components/PengaturanAkun";
 
 export default function Dashboard() {
     const { profilData, historiPendaftaran } = usePage().props;
-    console.log(historiPendaftaran);
 
     const [activeComponent, setActiveComponent] = useState("cv");
 
@@ -37,21 +32,18 @@ export default function Dashboard() {
         setActiveComponent(componentName);
         localStorage.setItem("activeComponent", componentName);
         if (defaultTab) {
-            localStorage.setItem("activeTab", defaultTab); // Simpan tab yang harus dibuka di EditCV
+            localStorage.setItem("activeTab", defaultTab);
         }
     };
 
     useEffect(() => {
-        // Cek jika pengguna datang dari halaman lain atau mengakses ulang
         const navigationType =
             window.performance.getEntriesByType("navigation")[0];
 
         if (navigationType && navigationType.type === "navigate") {
-            // Jika pengguna datang dari halaman lain, atur ke komponen default
             setActiveComponent("cv");
             localStorage.removeItem("activeComponent");
         } else {
-            // Jika halaman di-refresh, gunakan komponen yang disimpan
             const savedComponent = localStorage.getItem("activeComponent");
             if (savedComponent) {
                 setActiveComponent(savedComponent);
@@ -60,7 +52,6 @@ export default function Dashboard() {
     }, []);
 
     const renderComponent = () => {
-        console.log("Komponen aktif:", activeComponent);
         switch (activeComponent) {
             case "cv":
                 return (
@@ -78,8 +69,6 @@ export default function Dashboard() {
                         setFormData={setFormData}
                     />
                 );
-            // case "absensi":
-            //     return <Absensi />;
             case "sertifikat":
                 return <Sertifikat />;
             case "status":
@@ -101,9 +90,9 @@ export default function Dashboard() {
             <div className="absolute top-0 left-0 w-40 h-40 bg-gradient-to-br from-[#FFB900] to-[#FFDD57] rounded-full blur-3xl opacity-30 z-0"></div>
             <div className="absolute bottom-0 right-0 w-56 h-56 bg-gradient-to-br from-[#5E7ADD] to-[#384AA0] rounded-full blur-3xl opacity-30 z-0"></div>
 
-            <div className="py-12 relative z-10">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 flex">
-                    <div className="w-1/4 flex flex-col space-y-8 mr-8">
+            <div className="py-12 relative z-10 p-8">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 flex flex-col lg:flex-row">
+                    <div className="w-full lg:w-1/4 flex flex-col space-y-8 mb-8 lg:mb-0 lg:mr-8">
                         <div className="bg-white shadow-md outline outline-1 outline-gray-200 sm:rounded-lg p-6">
                             <div className="text-center">
                                 <img
@@ -128,7 +117,7 @@ export default function Dashboard() {
                                         onClick={() => switchComponent("cv")}
                                         className={`flex items-center font-semibold hover:text-blue-500 ${
                                             activeComponent === "cv"
-                                                ? "text-blue-500  border-blue-500"
+                                                ? "text-blue-500 border-blue-500"
                                                 : "text-gray-900"
                                         }`}
                                     >
@@ -144,7 +133,7 @@ export default function Dashboard() {
                                         }
                                         className={`flex items-center font-semibold hover:text-blue-500 ${
                                             activeComponent === "status"
-                                                ? "text-blue-500  border-blue-500"
+                                                ? "text-blue-500 border-blue-500"
                                                 : "text-gray-900"
                                         }`}
                                     >
@@ -152,22 +141,6 @@ export default function Dashboard() {
                                         <span>Status Pendaftaran</span>
                                     </a>
                                 </li>
-                                {/* <li className="border-b border-gray-300 pb-4">
-                                    <a
-                                        href="#"
-                                        onClick={() =>
-                                            switchComponent("absensi")
-                                        }
-                                        className={`flex items-center font-semibold hover:text-blue-500 ${
-                                            activeComponent === "absensi"
-                                                ? "text-blue-500  border-blue-500"
-                                                : "text-gray-900"
-                                        }`}
-                                    >
-                                        <CalendarIcon className="w-5 h-5 mr-2 text-gray-500" />
-                                        <span>Absensi Peserta</span>
-                                    </a>
-                                </li> */}
                                 <li className="border-b border-gray-300 pb-4">
                                     <a
                                         href="#"
@@ -176,7 +149,7 @@ export default function Dashboard() {
                                         }
                                         className={`flex items-center font-semibold hover:text-blue-500 ${
                                             activeComponent === "sertifikat"
-                                                ? "text-blue-500  border-blue-500"
+                                                ? "text-blue-500 border-blue-500"
                                                 : "text-gray-900"
                                         }`}
                                     >
@@ -184,27 +157,13 @@ export default function Dashboard() {
                                         <span>Sertifikat Peserta</span>
                                     </a>
                                 </li>
-                                <li className="border-b border-gray-300 pb-4">
-                                    <a
-                                        href="#"
-                                        onClick={() =>
-                                            switchComponent("pengaturan")
-                                        }
-                                        className={`flex items-center font-semibold hover:text-blue-500 ${
-                                            activeComponent === "pengaturan"
-                                                ? "text-blue-500  border-blue-500"
-                                                : "text-gray-900"
-                                        }`}
-                                    >
-                                        <CogIcon className="w-5 h-5 mr-2 text-gray-500" />
-                                        <span>Pengaturan Akun</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div className="w-3/4 h-fit ">{renderComponent()}</div>
+                    <div className="w-full lg:w-3/4 h-fit">
+                        {renderComponent()}
+                    </div>
                 </div>
             </div>
 

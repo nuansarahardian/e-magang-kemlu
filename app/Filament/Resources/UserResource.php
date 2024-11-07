@@ -45,8 +45,15 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('roles') // Menambahkan Select untuk role
+                    ->multiple() // Memungkinkan pemilihan multiple
+                    ->relationship('roles', 'name') // Menentukan relasi dan field yang ditampilkan
+                    ->required() // Optional: tambahkan jika role harus diisi
+                    ->label('Roles') // Label untuk field role
+                    ->searchable(), // Memungkinkan pencarian pada dropdown
             ]);
     }
+    
 
     public static function table(Table $table): Table
     {

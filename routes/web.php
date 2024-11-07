@@ -13,73 +13,14 @@ use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\StatusPendaftaranController;
 use App\Http\Controllers\SuratPenerimaanController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', [BerandaController::class, 'index'])
   ->name('home');
 
-Route::get('/dashboard', function () {
-  $user = auth()->user();
-
-  // Ambil data dari beberapa controller
-  $profilPribadiController = new InformasiPribadiController();
-  $profilPribadiData = $profilPribadiController->show();
-  $profilPribadiArray = json_decode($profilPribadiData->getContent(), true);
-
-  $profilAkademikController = new InformasiAkademikController();
-  $profilAkademikData = $profilAkademikController->show();
-  $profilAkademikArray = json_decode($profilAkademikData->getContent(), true);
-
-  $pengalamanKeterampilanController = new PengalamanKeterampilanController();
-  $pengalamanKeterampilanData = $pengalamanKeterampilanController->show();
-  $pengalamanKeterampilanArray = json_decode($pengalamanKeterampilanData->getContent(), true);
-
-  $dokumenController = new DokumenController();
-  $dokumenData = $dokumenController->showAllDocuments();
-  $dokumenArray = json_decode($dokumenData->getContent(), true);
-
-  // Mengambil data histori pendaftaran dari StatusPendaftaranController
-  $statusPendaftaranController = new StatusPendaftaranController();
-  $historiPendaftaran = $statusPendaftaranController->index();
-
-  // Gabungkan semua data
-  $data = array_merge(
-    $profilPribadiArray['profilMahasiswa'] ?? [],
-    $profilAkademikArray['profilAkademik'] ?? [],
-    $pengalamanKeterampilanArray['pengalamanKeterampilan'] ?? [],
-    $dokumenArray['dokumen'] ?? []
-  );
-
-  // Menghitung progress (logika pengisian)
-  $totalParams = 15;
-  $filledParams = 0;
-
-  // Cek setiap parameter yang terisi
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['nama']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['NIM']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['tanggal_lahir']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['jenis_kelamin']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['alamat_KTP']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['no_telepon']) ? 1 : 0;
-  $filledParams += !empty($profilPribadiArray['profilMahasiswa']['foto']) ? 1 : 0;
-  $filledParams += !empty($profilAkademikArray['profilAkademik']['universitas']) ? 1 : 0;
-  $filledParams += !empty($profilAkademikArray['profilAkademik']['fakultas']) ? 1 : 0;
-  $filledParams += !empty($profilAkademikArray['profilAkademik']['jurusan']) ? 1 : 0;
-  $filledParams += !empty($profilAkademikArray['profilAkademik']['IPK']) ? 1 : 0;
-  $filledParams += !empty($profilAkademikArray['profilAkademik']['semester']) ? 1 : 0;
-  $filledParams += !empty($dokumenArray['dokumen']['KTM']) ? 1 : 0;
-  $filledParams += !empty($dokumenArray['dokumen']['surat_permohonan']) ? 1 : 0;
-  $filledParams += !empty($dokumenArray['dokumen']['transkrip_nilai']) ? 1 : 0;
-
-  // Menghitung persentase progress
-  $progress = ($filledParams / $totalParams) * 100;
-
-  // Mengirim data ke view menggunakan Inertia
-  return Inertia::render('Dashboard', [
-    'profilData' => $data,
-    'progress' => $progress,
-    'historiPendaftaran' => $historiPendaftaran,
-  ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+  Route::get('/dashboard', [DashboardController::class, 'index'])
+  ->middleware(['auth', 'verified'])
+  ->name('dashboard');
 
 
 
