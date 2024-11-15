@@ -1,16 +1,12 @@
 import React from "react";
 
 export default function StatusPendaftaran({ historiPendaftaran = [] }) {
-    console.log('historiPendaftaran:', historiPendaftaran);
-    const handleDownload = (id, status) => {
-        if (status === "diterima") {
-            if (id) {
-                window.location.href = `/surat-penerimaan/${id}/download`;
-            } else {
-                alert("ID tidak ditemukan.");
-            }
+    // console.log("historiPendaftaran:", historiPendaftaran);
+    const handleDownload = (id) => {
+        if (id) {
+            window.location.href = `/surat-penerimaan/${id}/download`;
         } else {
-            alert("Surat hanya bisa diunduh untuk status 'diterima'.");
+            alert("ID tidak ditemukan.");
         }
     };
 
@@ -25,8 +21,13 @@ export default function StatusPendaftaran({ historiPendaftaran = [] }) {
 
                 <div className="p-8 space-y-6">
                     {historiPendaftaran.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
-                            <h3 className="text-2xl font-semibold text-gray-800">
+                        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center ">
+                            <img
+                                src="storage/images/blank.png"
+                                className="w-60 mb-8"
+                                alt=""
+                            />
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">
                                 Anda belum melakukan pendaftaran.
                             </h3>
                             <p className="text-gray-600">
@@ -38,14 +39,14 @@ export default function StatusPendaftaran({ historiPendaftaran = [] }) {
                         historiPendaftaran.map((pendaftaran, index) => (
                             <div
                                 key={index}
-                                className="bg-[#F7F6F8] border border-gray-200 rounded-xl p-6 shadow-sm flex items-center justify-between"
+                                className="bg-[#F7F6F8] border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col sm:flex-row items-center sm:items-start justify-between space-y-4 sm:space-y-0"
                             >
                                 <img
                                     src={pendaftaran.gambar}
                                     alt="gambar posisi"
-                                    className="w-20 h-20 rounded-full object-cover"
+                                    className="w-20 h-20 rounded-md object-cover"
                                 />
-                                <div className="ml-6 flex-1">
+                                <div className="sm:ml-6 flex-1 text-center sm:text-left">
                                     <h3 className="text-lg font-semibold text-gray-900">
                                         {pendaftaran.posisi}
                                     </h3>
@@ -53,18 +54,40 @@ export default function StatusPendaftaran({ historiPendaftaran = [] }) {
                                         {pendaftaran.nomor_registrasi}
                                     </p>
                                     <p className="text-sm text-gray-500 mt-1">
-                                        {pendaftaran.batch}
+                                        {pendaftaran.nama_batch}
                                     </p>
+
+                                    <div className="flex gap-2 mt-4 justify-center sm:justify-start">
+                                        <div className="gap-1 flex flex-col">
+                                            <p className="text-sm text-gray-500 ">
+                                                Tanggal Mulai Magang{" "}
+                                            </p>
+                                            <p className="text-sm text-gray-500 ">
+                                                Tanggal Berakhir{" "}
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col text-sm text-gray-500 gap-1">
+                                            <b>{pendaftaran.tanggal_mulai}</b>
+                                            <b>
+                                                {pendaftaran.tanggal_berakhir}
+                                            </b>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="text-right">
+
+                                <div className="text-center sm:text-right">
                                     <span
-                                        className={`px-4 py-2 rounded-full text-sm font-medium mb-2 inline-block ${
+                                        className={`px-4 py-1 rounded-full text-md font-bold mb-2 inline-block ${
                                             pendaftaran.status === "diterima"
-                                                ? "bg-[#328945] text-white"
+                                                ? "bg-yellow-100 text-yellow-600 border-1 border border-yellow-600" // Kuning untuk diterima
+                                                : pendaftaran.status === "aktif"
+                                                ? "bg-blue-100 text-blue-600 border-1 border border-blue-600" // Biru untuk aktif
+                                                : pendaftaran.status === "lulus"
+                                                ? "bg-green-100 text-green-600 border-1 border border-green-600" // Hijau untuk lulus
                                                 : pendaftaran.status ===
-                                                  "Proses"
-                                                ? "bg-[#FFB900] text-white"
-                                                : "bg-[#B50000] text-white"
+                                                  "tidak lulus"
+                                                ? "bg-red-100 text-red-600 border-1 border border-red-600" // Merah untuk tidak lulus
+                                                : "bg-gray-300 text-black" // Default untuk status yang tidak diketahui
                                         }`}
                                     >
                                         {pendaftaran.status}
@@ -72,6 +95,7 @@ export default function StatusPendaftaran({ historiPendaftaran = [] }) {
                                     <p className="text-sm text-gray-500 mt-2">
                                         {pendaftaran.tanggal_pendaftaran}
                                     </p>
+
                                     <button
                                         onClick={() =>
                                             handleDownload(
@@ -81,9 +105,7 @@ export default function StatusPendaftaran({ historiPendaftaran = [] }) {
                                         }
                                         className="bg-[#384AA0] text-white mt-4 px-4 py-2 rounded-lg hover:bg-blue-600"
                                     >
-                                        {pendaftaran.status === "diterima"
-                                            ? "Unduh Surat Penerimaan"
-                                            : "Tidak Tersedia"}
+                                        Unduh Surat Penerimaan
                                     </button>
                                 </div>
                             </div>

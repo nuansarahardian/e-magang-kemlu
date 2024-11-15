@@ -99,7 +99,7 @@ export default function Header() {
                                     href="/register"
                                     className="bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
                                 >
-                                    Registrasi
+                                    Buat Akun
                                 </Link>
                                 <Link
                                     href="/login"
@@ -195,7 +195,7 @@ export default function Header() {
                                             href="/register"
                                             className="block w-full text-center bg-[#162360] text-white px-4 py-2 rounded hover:bg-blue-800 font-semibold text-base"
                                         >
-                                            Registrasi
+                                            Buat Akun
                                         </Link>
                                         <Link
                                             href="/login"

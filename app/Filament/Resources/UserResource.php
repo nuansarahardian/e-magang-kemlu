@@ -66,8 +66,13 @@ class UserResource extends Resource
             
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable()      ->toggleable(isToggledHiddenByDefault: true),
+                    
+                Tables\Columns\TextColumn::make( 'email_verified_at')
+                ->label('Verifikasi Email')
+                    ->dateTime()
+                    ->sortable(),
+            
                     Tables\Columns\TextColumn::make('roles.name') // Menampilkan nama role pengguna
                     ->label('Role')
                     ->sortable(),

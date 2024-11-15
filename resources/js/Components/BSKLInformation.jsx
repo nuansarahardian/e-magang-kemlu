@@ -49,51 +49,23 @@ export default function BSKLNSection() {
                 {/* Section Header */}
                 <div className="text-center mb-12">
                     <h2 className="font-extrabold text-3xl sm:text-4xl lg:text-5xl text-[#162360] tracking-wide">
-                        Strategi Kebijakan BSKLN
+                        Badan Strategi Kebijakan Luar Negeri (BSKLN) <br />
+                        Kementerian Luar Negeri
                     </h2>
-                    <p
-                        className="text-[#5E7ADD] text-lg mt-4 max-w-3xl mx-auto"
-                        style={{ lineHeight: "1.6", fontWeight: 600 }}
-                    >
-                        Memahami kebijakan strategis yang dirancang oleh BSKLN
-                        untuk kawasan global dan isu-isu strategis lainnya.
-                    </p>
                 </div>
 
                 {/* Asymmetrical Card Layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* First Row - 2 cards spanning 2 columns each */}
-                    <motion.div
-                        ref={cardRef1}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={isVisible1 ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.5 }}
-                        className="relative col-span-12 lg:col-span-6 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
-                    >
-                        <h3 className="text-2xl font-bold text-[#162360] mb-4">
-                            Apa itu BSKLN?
-                        </h3>
-                        <p
-                            className="text-gray-600"
-                            style={{ fontWeight: 500 }}
-                        >
-                            BSKLN adalah lembaga strategis yang bertugas
-                            merumuskan kebijakan luar negeri Indonesia serta
-                            memberikan rekomendasi diplomatik dan strategi untuk
-                            kepentingan nasional.
-                        </p>
-                        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
-                    </motion.div>
-
                     <motion.div
                         ref={cardRef2}
                         initial={{ opacity: 0, y: 20 }}
                         animate={isVisible2 ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5 }}
-                        className="relative col-span-12 lg:col-span-6 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
+                        className="relative col-span-12 lg:col-span-12 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
                     >
                         <h3 className="text-2xl font-bold text-[#162360] mb-4">
-                            Tugas BSKLN
+                            Tugas dan Wewenang Badan Strategi Kebijakan Luar
+                            Negeri (BSKLN)
                         </h3>
                         <p
                             className="text-gray-600"
@@ -116,13 +88,13 @@ export default function BSKLNSection() {
                         className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
                     >
                         <h3 className="text-xl font-bold text-[#162360] mb-4">
-                            Strategi Asia Pasifik & Afrika
+                            Pusat Strategi Kebijakan Kawasan Aspasaf
                         </h3>
                         <p
                             className="text-gray-600"
                             style={{ fontWeight: 500 }}
                         >
-                            Melaksanakana penyusunan kebijakan teknis, rencana,
+                            Melaksanakan penyusunan kebijakan teknis, rencana,
                             dan program analisis, serta penetapan dan pemberian
                             rekomendasi strategi kebijakan di bidang
                             penyelangaraan hubungan luar negeri dan politik luar
@@ -140,13 +112,13 @@ export default function BSKLNSection() {
                         className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
                     >
                         <h3 className="text-xl font-bold text-[#162360] mb-4">
-                            Strategi Amerika & Eropa
+                            Pusat Strategi Kebijakan Kawasan Amerop
                         </h3>
                         <p
                             className="text-gray-600"
                             style={{ fontWeight: 500 }}
                         >
-                            Melaksanakana penyusunan kebijakan teknis, rencana,
+                            Melaksanakan penyusunan kebijakan teknis, rencana,
                             dan program analisis, serta penetapan dan pemberian
                             rekomendasi strategi kebijakan di bidang
                             penyelangaraan hubungan luar negeri dan politik luar
@@ -163,13 +135,13 @@ export default function BSKLNSection() {
                         className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
                     >
                         <h3 className="text-xl font-bold text-[#162360] mb-4">
-                            Strategi Kebijakan Multilateral
+                            Pusat Strategi Kebijakan Multilateral
                         </h3>
                         <p
                             className="text-gray-600"
                             style={{ fontWeight: 500 }}
                         >
-                            Melaksanakana penyusunan kebijakan teknis, rencana,
+                            Melaksanakan penyusunan kebijakan teknis, rencana,
                             dan program analisis, serta penetapan dan pemberian
                             rekomendasi strategi kebijakan di bidang
                             penyelangaraan hubungan luar negeri dan politik luar
@@ -186,13 +158,13 @@ export default function BSKLNSection() {
                         className="relative col-span-12 lg:col-span-3 bg-white border border-gray-200 rounded-3xl p-8 text-center shadow-lg transition-transform duration-700 overflow-hidden"
                     >
                         <h3 className="text-xl font-bold text-[#162360] mb-4">
-                            Isu Khusus & Analisis Data
+                            Pusat Strategi Kebijakan Isu Khusus & Analisis Data
                         </h3>
                         <p
                             className="text-gray-600"
                             style={{ fontWeight: 500 }}
                         >
-                            Melaksanakana penyusunan kebijakan teknis, rencana,
+                            Melaksanakan penyusunan kebijakan teknis, rencana,
                             dan program analisis data, serta sinkronisasi
                             perumusan, penetapan dan pemberian rekomendasi
                             strategi kebijakan terhadap isu khusus di bidang

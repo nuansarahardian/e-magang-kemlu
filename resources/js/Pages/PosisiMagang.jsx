@@ -8,6 +8,7 @@ import DetailPosisi from "@/Components/DetailPosisi";
 export default function PosisiMagang({ hasAcceptedStatus }) {
     const { props } = usePage();
     const { positions } = props;
+    console.log(positions);
 
     const [selectedPosition, setSelectedPosition] = useState(null);
 
@@ -27,7 +28,7 @@ export default function PosisiMagang({ hasAcceptedStatus }) {
 
             <div className="container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-6 relative z-10">
                 {/* CardPosisi for the left container */}
-                <div className="lg:w-1/3 bg-[#F7F6F8] border border-gray-400 shadow-md rounded-lg p-8">
+                <div className="lg:w-1/3 bg-[#fdfdff] border border-gray-300  shadow-sm rounded-lg p-8">
                     <CardPosisi
                         positions={positions}
                         setSelectedPosition={setSelectedPosition}
@@ -35,7 +36,7 @@ export default function PosisiMagang({ hasAcceptedStatus }) {
                 </div>
 
                 {/* DetailPosisi for the right container */}
-                <div className="lg:w-2/3 bg-[#F7F6F8] border border-gray-400 shadow-md rounded-lg p-6">
+                <div className="lg:w-2/3 ">
                     <DetailPosisi
                         selectedPosition={selectedPosition}
                         isRegistered={isRegistered}

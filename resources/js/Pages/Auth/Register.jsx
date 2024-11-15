@@ -44,10 +44,14 @@ export default function Register() {
 
                 <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12 bg-white">
                     <div className="max-w-md w-full space-y-8">
-                        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
+                        <h2 className="text-3xl font-bold text-gray-800 text-center !mb-2">
                             Buat Akun Baru
                         </h2>
-
+                        <p className="text-sm font-medium !text-gray-500 !mt-4 text-center">
+                            Gunakan alamat email aktif yang Anda miliki untuk
+                            membuat akun. Email ini akan digunakan untuk
+                            keperluan proses pendaftaran di platform e-magang.
+                        </p>
                         <form onSubmit={submit} className="space-y-6">
                             {/* Name input */}
                             <div>

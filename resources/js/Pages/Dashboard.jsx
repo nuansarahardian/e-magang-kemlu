@@ -7,16 +7,16 @@ import {
     CheckBadgeIcon,
     ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
-
 import CurriculumVitae from "@/Components/CurriculumVitae";
 import EditCV from "@/Components/EditCV";
 import Sertifikat from "@/Components/Sertifikat";
 import StatusPendaftaran from "@/Components/StatusPendaftaran";
 import PengaturanAkun from "@/Components/PengaturanAkun";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import Swal from "sweetalert2";
 
 export default function Dashboard() {
-    const { profilData, historiPendaftaran } = usePage().props;
-
+    const { flash, profilData, historiPendaftaran } = usePage().props;
     const [activeComponent, setActiveComponent] = useState("cv");
 
     const [formData, setFormData] = useState({
@@ -28,6 +28,19 @@ export default function Dashboard() {
         alamatDomisili: "",
         uploadFoto: "",
     });
+
+    useEffect(() => {
+        if (flash && flash.verified) {
+            // Pastikan `flash` ada sebelum mengecek `verified`
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "Email Anda berhasil terverifikasi!",
+                confirmButtonText: "OK",
+            });
+        }
+    }, [flash]);
+
     const switchComponent = (componentName, defaultTab) => {
         setActiveComponent(componentName);
         localStorage.setItem("activeComponent", componentName);
@@ -162,7 +175,15 @@ export default function Dashboard() {
                     </div>
 
                     <div className="w-full lg:w-3/4 h-fit">
-                        {renderComponent()}
+                        <TransitionGroup>
+                            <CSSTransition
+                                key={activeComponent}
+                                timeout={300}
+                                classNames="fade" // Terapkan kelas animasi fade
+                            >
+                                <div>{renderComponent()}</div>
+                            </CSSTransition>
+                        </TransitionGroup>
                     </div>
                 </div>
             </div>

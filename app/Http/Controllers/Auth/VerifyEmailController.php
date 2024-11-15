@@ -20,6 +20,7 @@ class VerifyEmailController extends Controller
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
+            session()->flash('verified', true);
         }
 
         return redirect()->intended(route('dashboard', absolute: false).'?verified=1');

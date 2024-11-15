@@ -1,14 +1,16 @@
 <?php
 namespace App\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\PendaftaranMagang;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
 
 class StatusPendaftaranController extends Controller
 {
     public function index()
     {
+        Carbon::setLocale('id');
         // Mengambil user yang sedang login
         $user = Auth::user();
         
@@ -30,7 +32,8 @@ class StatusPendaftaranController extends Controller
                     'nomor_registrasi' => $pendaftaran->unique_id ?? 'Tidak tersedia',
                     'id' => $pendaftaran->id ?? 'Tidak tersedia',
                     'posisi' => $pendaftaran->posisiMagangPerBatch->posisiMagang->nama_posisi ?? 'Tidak tersedia',
-                    'batch' => $pendaftaran->posisiMagangPerBatch->batch->nama_batch ?? 'Tidak tersedia',
+                    'nama_batch' => $pendaftaran->posisiMagangPerBatch->batch->nama_batch ?? 'Tidak tersedia',
+                    'batch' => $pendaftaran->posisiMagangPerBatch->batch->is_active ?? 'Tidak tersedia',
                     'status' => $pendaftaran->status,
                     'tanggal_pendaftaran' => date('d M Y', strtotime($pendaftaran->tanggal_pendaftaran)),
                     'gambar' => $pendaftaran->posisiMagangPerBatch->posisiMagang->gambar 
@@ -47,8 +50,8 @@ class StatusPendaftaranController extends Controller
                     'fakultas' => $pendaftaran->user->profilMahasiswa->fakultas ?? 'Tidak tersedia', // Fakultas
                     'universitas' => $pendaftaran->user->profilMahasiswa->universitas ?? 'Tidak tersedia', // Universitas
                     'posisi_magang' => $pendaftaran->posisiMagangPerBatch->posisiMagang->nama_posisi ?? 'Tidak tersedia', // Posisi Magang
-                    'tanggal_mulai' => $pendaftaran->posisiMagangPerBatch->batch->tanggal_mulai ?? 'Tidak tersedia', // Tanggal Mulai
-                    'tanggal_berakhir' => $pendaftaran->posisiMagangPerBatch->batch->tanggal_berakhir ?? 'Tidak tersedia', // Tanggal Berakhir
+                    'tanggal_mulai' => Carbon::parse($pendaftaran->posisiMagangPerBatch->batch->tanggal_mulai)->translatedFormat('d F Y') ?? 'Tidak tersedia', // Tanggal Mulai
+        'tanggal_berakhir' => Carbon::parse($pendaftaran->posisiMagangPerBatch->batch->tanggal_berakhir)->translatedFormat('d F Y') ?? 'Tidak tersedia', // Tanggal Berakhir
                 ];
             });
         }

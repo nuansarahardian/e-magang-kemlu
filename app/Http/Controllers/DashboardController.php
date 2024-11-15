@@ -57,13 +57,14 @@ class DashboardController extends Controller
 
     private function calculateProgress($profilPribadiArray, $profilAkademikArray, $dokumenArray)
     {
-        $totalParams = 15;
+        $totalParams = 16;
         $filledParams = 0;
 
         // Check each filled parameter
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['nama']) ? 1 : 0;
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['NIM']) ? 1 : 0;
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['tanggal_lahir']) ? 1 : 0;
+        $filledParams += !empty($profilPribadiArray['profilMahasiswa']['tempat_lahir']) ? 1 : 0;
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['jenis_kelamin']) ? 1 : 0;
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['alamat_KTP']) ? 1 : 0;
         $filledParams += !empty($profilPribadiArray['profilMahasiswa']['no_telepon']) ? 1 : 0;

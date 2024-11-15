@@ -11,7 +11,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\InformasiPribadiController;
 use App\Http\Controllers\InformasiAkademikController;
 use App\Http\Controllers\DokumenController;
-
+use Carbon\Carbon;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             'success' => Color::Green,
             'warning' => Color::Amber,
         ]);
-
+        Carbon::setLocale('id');
         // Unguard all models
         Model::unguard();
 

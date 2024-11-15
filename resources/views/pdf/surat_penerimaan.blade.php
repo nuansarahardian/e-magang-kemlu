@@ -25,7 +25,11 @@
             text-align: right;
         }
         .content {
-            margin-top: 30px;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+        .content1 {
+            margin-top: 4px;
             line-height: 1.8;
         }
         .label {
@@ -48,7 +52,7 @@
         .logo {
             display: block;
             margin: 0 auto;
-            width: 80px;
+            width: 120px;
             height: auto;
         }
     </style>
@@ -66,19 +70,19 @@
 
         <div class="title">SURAT PENERIMAAN MAGANG</div>
 
-        <p>Nomor Registrasi : {{ $unique_id ?? 'ID tidak tersedia' }} </p>
+        <p>Nomor Registrasi : {{ $nomor_registrasi ?? 'ID tidak tersedia' }} </p>
 
         <p>Kepada Yth.</p>
         <p>Kepala Jurusan {{$jurusan}}<br>
             {{$fakultas}}<br>
-           {{$universitas}}
+           {{$universitas}} <br>
+           di Tempat
         </p>
 
         <p class="content">Dengan hormat,</p>
         
-        <p class="content">Bersama surat ini</p>
-    
-        <p>Menerangkan bahwa:</p>
+        <p class="content1">Bersama surat ini menerangkan bahwa:</p>
+
         <p>
             <span class="label">Nama</span>: {{ $nama }}<br>
             <span class="label">Status</span>: Mahasiswa Aktif<br>
@@ -86,10 +90,9 @@
             <span class="label">NIM</span>: {{ $nim }}
         </p>
 
-        <p>Dengan persetujuan Kementerian Luar Negeri dapat diterima di kementerian sebagai 
-        <strong>{{ $posisi }}</strong> sejak {{ $tanggal_mulai }} s.d. {{ $tanggal_berakhir }}. 
-        Demikian surat keterangan ini kami buat atas permintaan yang bersangkutan sebagai surat 
-        izin magang atas syarat kelulusan. Atas perhatian dan kerjasamanya kami ucapkan terimakasih.
+        <p>Telah diterima sebagai peserta magang di <strong>{{ $posisi }}</strong> Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri, untuk periode magang <b>{{ $tanggal_mulai }} </b>s.d. <b>{{ $tanggal_berakhir }}</b> . 
+            <br> <br>
+            Demikian Surat Penerimaan Magang ini diterbitkan untuk dapat dipergunakan sebagai mana mestinya.
         </p>
 
         <div class="signature">

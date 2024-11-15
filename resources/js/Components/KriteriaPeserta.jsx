@@ -51,8 +51,7 @@ export default function KriteriaPeserta() {
                                 className="text-gray-600 group-hover:text-white transition-colors duration-700 min-h-[60px]"
                                 style={{ fontWeight: 500 }}
                             >
-                                Peserta harus berada pada jenjang pendidikan S1,
-                                atau S2.
+                                Peserta harus berada pada jenjang pendidikan S1.
                             </p>
                         </div>
                         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
@@ -71,7 +70,7 @@ export default function KriteriaPeserta() {
                                 className="text-gray-600 group-hover:text-white transition-colors duration-700 min-h-[60px]"
                                 style={{ fontWeight: 500 }}
                             >
-                                Minimal semester 4 untuk mahasiswa S1.
+                                Minimal semester 4.
                             </p>
                         </div>
                         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
@@ -90,8 +89,8 @@ export default function KriteriaPeserta() {
                                 className="text-gray-600 group-hover:text-white transition-colors duration-700 min-h-[60px]"
                                 style={{ fontWeight: 500 }}
                             >
-                                Hubungan Internasional, Ilmu Ekonomi, Hukum,
-                                Sastra, Statistika.
+                                Hubungan Internasional, Ilmu Ekonomi, Ilmu
+                                Komunikasi, Hukum, Sastra, dan Ilmu Politik.
                             </p>
                         </div>
                         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>
@@ -104,13 +103,13 @@ export default function KriteriaPeserta() {
                         <div className="relative z-10">
                             <PresentationChartBarIcon className="h-12 w-12 text-[#5E7ADD] mb-4 mx-auto group-hover:text-white transition-all duration-700" />
                             <h3 className="text-xl font-bold text-[#162360] mb-2 group-hover:text-white transition-colors duration-700">
-                                Microsoft Office
+                                Office Tools
                             </h3>
                             <p
                                 className="text-gray-600 group-hover:text-white transition-colors duration-700 min-h-[60px]"
                                 style={{ fontWeight: 500 }}
                             >
-                                Menguasai Microsoft Office untuk menunjang
+                                Menguasai aplikasi perkantoran untuk menunjang
                                 tugas-tugas administrasi.
                             </p>
                         </div>
@@ -130,8 +129,8 @@ export default function KriteriaPeserta() {
                                 className="text-gray-600 group-hover:text-white transition-colors duration-700 min-h-[60px]"
                                 style={{ fontWeight: 500 }}
                             >
-                                Kemampuan berbahasa Inggris yang baik, baik
-                                lisan maupun tulisan.
+                                Kemampuan berbahasa Inggris, baik lisan maupun
+                                tulisan.
                             </p>
                         </div>
                         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#5E7ADD] to-[#384AA0]"></div>

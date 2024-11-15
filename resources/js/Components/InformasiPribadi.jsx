@@ -24,6 +24,7 @@ export default function InformasiPribadi({ switchComponent }) {
     const NIM = profilData?.NIM || "Tidak ada data";
     const jenisKelamin = profilData?.jenis_kelamin || "Tidak ada data";
     const alamatKTP = profilData?.alamat_KTP || "Tidak ada data";
+    const tempatLahir = profilData?.tempat_lahir || "Tidak ada data";
     const tanggalLahir = formatTanggal(profilData?.tanggal_lahir);
     const alamatDomisili = profilData?.alamat_domisili || "Tidak ada data";
     const noTelepon = profilData?.no_telepon || "Tidak ada data";
@@ -91,6 +92,14 @@ export default function InformasiPribadi({ switchComponent }) {
                         </label>
                         <p className="text-sm sm:text-lg text-gray-700">
                             {tanggalLahir}
+                        </p>
+                    </div>
+                    <div className="grid gap-y-2">
+                        <label className="text-sm sm:text-lg font-semibold text-gray-700">
+                            Tempat Lahir
+                        </label>
+                        <p className="text-sm sm:text-lg text-gray-700">
+                            {tempatLahir}
                         </p>
                     </div>
 

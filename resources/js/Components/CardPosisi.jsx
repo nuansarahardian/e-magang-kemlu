@@ -6,13 +6,13 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function CardPosisi({ setSelectedPosition }) {
-    const { props } = usePage(); // Mengambil data dari backend melalui Inertia
-    const { positions = [] } = props; // Default ke array kosong jika tidak ada data
+    const { props } = usePage();
+    const { positions = [] } = props;
 
     const [selectedBatch, setSelectedBatch] = useState("Semua Batch");
     const [selectedIssue, setSelectedIssue] = useState("Semua Isu");
+    const [activePosition, setActivePosition] = useState(null); // State untuk posisi yang dipilih
 
-    // Data filter untuk Batch dan Isu dari posisi yang ada
     const batches = [
         "Semua Batch",
         ...new Set(positions.map((pos) => pos.nama_batch || "Tidak Diketahui")),
@@ -24,7 +24,6 @@ export default function CardPosisi({ setSelectedPosition }) {
         ),
     ];
 
-    // Filter posisi berdasarkan batch dan isu
     const filteredPositions = positions.filter((position) => {
         const matchBatch =
             selectedBatch === "Semua Batch" ||
@@ -35,15 +34,18 @@ export default function CardPosisi({ setSelectedPosition }) {
         return matchBatch && matchIssue;
     });
 
+    const handleCardClick = (position) => {
+        setActivePosition(position); // Set posisi yang dipilih
+        setSelectedPosition(position); // Panggil callback dengan posisi yang dipilih
+    };
+
     return (
         <div className="w-full h-full overflow-y-auto rounded-lg">
             <h2 className="text-[24px] font-extrabold mb-6 text-[#162360]">
                 Posisi Magang
             </h2>
 
-            {/* Filter Controls */}
             <div className="flex justify-between mb-6 gap-4">
-                {/* Filter Batch */}
                 <div className="relative w-full lg:w-1/2">
                     <select
                         className="appearance-none border border-gray-300 rounded-lg p-3 text-sm focus:ring focus:ring-blue-500 focus:outline-none w-full shadow-sm"
@@ -59,7 +61,6 @@ export default function CardPosisi({ setSelectedPosition }) {
                     <ChevronDownIcon className="absolute right-3 top-3 h-5 w-5 text-gray-400" />
                 </div>
 
-                {/* Filter Isu */}
                 <div className="relative w-full lg:w-1/2">
                     <select
                         className="appearance-none border border-gray-300 rounded-lg p-3 text-sm focus:ring focus:ring-blue-500 focus:outline-none w-full shadow-sm"
@@ -76,7 +77,6 @@ export default function CardPosisi({ setSelectedPosition }) {
                 </div>
             </div>
 
-            {/* Wrapper untuk card */}
             <div className="max-h-[320px] md:max-h-[640px] overflow-y-auto space-y-4">
                 {filteredPositions.length === 0 ? (
                     <div className="flex flex-col items-center justify-center text-center py-16">
@@ -98,28 +98,37 @@ export default function CardPosisi({ setSelectedPosition }) {
                     filteredPositions.map((position, index) => (
                         <div
                             key={index}
-                            onClick={() => setSelectedPosition(position)}
-                            className="cursor-pointer border border-gray-300 rounded-lg p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 bg-white"
+                            onClick={() => handleCardClick(position)}
+                            className={`cursor-pointer border rounded-lg p-6 flex flex-col justify-between shadow-sm hover:!bg-slate-200 transition-shadow duration-300 bg-gradient-to-br from-white to-blue-50/10 ${
+                                activePosition === position
+                                    ? "border-blue-500 !bg-blue-100"
+                                    : "border-gray-300"
+                            }`}
                         >
-                            <h3 className="text-base font-bold text-black truncate mb-1">
+                            <h3 className="text-lg font-bold text-[#162360] mb-1">
                                 {position.nama_posisi || "Tidak Diketahui"}
                             </h3>
-                            <p className="text-sm text-gray-600 mb-2">
+                            <p className="text-sm text-gray-900 mb-2">
                                 {position.nama_batch || "Tidak Diketahui"}
                             </p>
 
-                            {/* Additional Info */}
-                            <div className="space-y-1 text-[#86858D] text-sm">
-                                <div className="flex items-center">
-                                    <span>Kuota: {position.kuota} Orang</span>
+                            <div className="space-y-3 text-[#86858D] text-sm">
+                                <div className="grid grid-cols-2 gap-x-4">
+                                    <div className="flex flex-col gap-y-2 ">
+                                        <span>Kuota</span>
+                                        <span>Jumlah Pendaftar</span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-y-2 font-medium text-black">
+                                        <span>{position.kuota} Mahasiswa</span>
+                                        <span>
+                                            {position.jumlah_pendaftar}{" "}
+                                            Mahasiswa
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center">
-                                    <span>
-                                        Jumlah Pendaftar:{" "}
-                                        {position.jumlah_pendaftar}
-                                    </span>
-                                </div>
-                                <div className="flex items-center">
+
+                                <div className="mt-2 text-gray-600 text-sm font-medium">
                                     <span>
                                         {position.tanggal_mulai} -{" "}
                                         {position.tanggal_berakhir}

@@ -60,7 +60,16 @@ const Footer = () => {
                             </p>
                             <div className="flex items-center space-x-2">
                                 <FontAwesomeIcon icon={faPhone} />
-                                <p>(021) 344 1508 | Hotline: 085 283 751 123</p>
+                                <p>
+                                    (021) 344 1508 |{" "}
+                                    <a
+                                        href="https://wa.me/6285283751123"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Hotline: 085 283 751 123
+                                    </a>
+                                </p>
                             </div>
                         </div>
 
@@ -89,7 +98,7 @@ const Footer = () => {
                                 />
                             </a>
                             <a
-                                href="https://youtube.com"
+                                href="https://www.youtube.com/@bsklnkemlu2051"
                                 aria-label="YouTube"
                                 target="_blank"
                                 rel="noopener noreferrer"

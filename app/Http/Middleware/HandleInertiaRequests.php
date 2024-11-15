@@ -35,7 +35,10 @@ class HandleInertiaRequests extends Middleware
             'user' => fn () => $request->user()
                 ? $request->user()->load('profilMahasiswa') // Muat relasi profilMahasiswa
                 : null,
-        ],
+            ],
+            'flash' => [
+                'verified' => session('verified', false) // Menyertakan session flash `verified`
+            ],
     ];
 }
 

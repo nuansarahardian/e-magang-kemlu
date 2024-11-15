@@ -129,8 +129,12 @@ const Dokumen = () => {
             <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 sm:mb-4">
                 Kelengkapan Dokumen
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-gray-600  mb-2 sm:mb-3">
                 Lengkapi dokumen untuk mempermudah proses pendaftaran magang.
+            </p>
+            <p className="sm:text-sm mb-3 sm:mb-4 text-xs text-yellow-600 bg-yellow-100/50 rounded-xl py-2 px-4 w-fit border border-1 border-yellow-400">
+                File yang diizinkan adalah <b>PDF. png, jpg, jpeg.</b> dengan
+                maksimal ukuran <b>2MB</b> .
             </p>
             <div className="space-y-6 sm:space-y-8">
                 {documents.map((doc, index) => (

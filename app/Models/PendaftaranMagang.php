@@ -24,6 +24,12 @@ class PendaftaranMagang extends Model
         return $this->hasOneThrough(User::class, ProfilMahasiswa::class, 'NIM', 'id', 'NIM', 'user_id');
     }
 
+       // Relasi ke ProfilMahasiswa
+       public function profilMahasiswa()
+       {
+           return $this->belongsTo(ProfilMahasiswa::class, 'NIM', 'NIM'); // pastikan nama kolom foreign key dan local key sesuai
+       }
+   
     // Relasi ke posisi magang
     public function posisiMagangPerBatch()
     {

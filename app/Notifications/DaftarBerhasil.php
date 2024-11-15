@@ -29,9 +29,9 @@ class DaftarBerhasil extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Pendaftaran Program Magang Berhasil')
+            ->subject('Pendaftaran Program Magang BSKLN Kementerian Luar Negeri Berhasil.')
             ->greeting('Halo, ' . $notifiable->name)
-            ->line('Terima kasih telah mendaftar untuk program magang di Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri RI.')
+            ->line('Terima kasih Anda telah mendaftar pada program magang di Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri RI.')
             ->line('Pendaftaran Anda telah berhasil kami terima. Kami akan segera meninjau aplikasi Anda.')
             ->line('Untuk melihat status dan detail pendaftaran, silakan login ke akun Anda.')
             ->action('Lihat Detail Pendaftaran', url('/login'))

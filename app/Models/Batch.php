@@ -10,6 +10,7 @@ class Batch extends Model
 
     protected $fillable = [
         'nama_batch',
+        'tanggal_pendaftaran',
         'tanggal_mulai',
         'tanggal_berakhir',
         'is_open',

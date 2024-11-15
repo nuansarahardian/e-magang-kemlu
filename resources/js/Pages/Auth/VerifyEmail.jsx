@@ -23,11 +23,12 @@ export default function VerifyEmail({ status }) {
                     </h2>
 
                     <div className="mb-4 text-sm text-gray-600">
-                        Terima kasih telah mendaftar! Sebelum memulai, bisakah
-                        Anda memverifikasi alamat email Anda dengan mengklik
-                        tautan yang baru saja kami kirimkan ke email Anda? Jika
-                        Anda tidak menerima email tersebut, kami akan dengan
-                        senang hati mengirimkan yang baru.
+                        Terima kasih telah membuat akun! Sebelum memulai,
+                        bisakah Anda memverifikasi alamat email Anda dengan
+                        mengklik tautan yang baru saja kami kirimkan ke email
+                        yang anda masukkan? <br /> <br /> Jika Anda tidak
+                        menerima email tersebut, silahkan klik tombol dibawah
+                        ini untuk mendapatkan email baru. <br /> <br />
                     </div>
 
                     {status === "verification-link-sent" && (
@@ -46,7 +47,6 @@ export default function VerifyEmail({ status }) {
                                 Kirim Ulang Email Verifikasi
                             </PrimaryButton>
                         </div>
-
                         <div className="text-center mt-4">
                             <Link
                                 href={route("logout")}
@@ -57,6 +57,13 @@ export default function VerifyEmail({ status }) {
                                 Keluar
                             </Link>
                         </div>
+
+                        <p className="mb-4 text-sm text-yellow-600 bg-yellow-100/50 rounded-xl p-4 border border-1 border-yellow-400">
+                            Gunakan web browser yang sama untuk membuka web{" "}
+                            <b> e-magang</b> dengan Gmail anda untuk login
+                            otomatis, atau silahkan login kembali melalui tautan
+                            verifikasi yang dikirimkan ke email anda.
+                        </p>
                     </form>
                 </div>
             </div>

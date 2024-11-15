@@ -2,8 +2,8 @@ import React from 'react';
 
 const cards = [
   {
-    title: "Mempresentasikan proyek akhir",
-    subtitle: "Presentasi Proyek",
+    title: "Mempresentasikan Proyek",
+    subtitle: "Presentasi tugas individu, tugas kelompok, dan tugas akhir",
     background: "bg-gradient-to-br from-[#FF5F6D] to-[#FFC371]",
     image: "url('/images/1.jpeg')", // Replace with actual image paths
   },
@@ -14,7 +14,7 @@ const cards = [
     image: "url('/images/2.jpeg')",
   },
   {
-    title: "Menghadiri pertemuan diplomatik",
+    title: "Terlibat dalam persiapan pertemuan diplomatik",
     subtitle: "",
     background: "bg-gradient-to-br from-[#8360c3] to-[#2ebf91]",
     image: "url('/images/3.jpeg')",

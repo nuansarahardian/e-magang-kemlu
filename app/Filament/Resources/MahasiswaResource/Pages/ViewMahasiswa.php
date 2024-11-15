@@ -16,9 +16,12 @@ class ViewMahasiswa extends ViewRecord
             Actions\EditAction::make(),
             Actions\Action::make('download_cv')
                 ->label('Download CV')
-                // ->icon('heroicon-o-document-download')
-                ->url(fn ($record) => route('mahasiswa.download_cv', $record->NIM))
-            
+                ->url(fn ($record) => route('mahasiswa.download_cv', $record->NIM)),
+            Actions\Action::make('download_sertifikat')
+                ->label('Download Sertifikat')
+                ->url(fn ($record) => route('mahasiswa.download_sertifikat', $record->NIM))
+                ->color('success')
+                ->visible(fn ($record) => !empty($record->nomor_registrasi)), // Show button only if nomor_registrasi is set
         ];
     }
 }

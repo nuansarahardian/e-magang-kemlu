@@ -18,6 +18,7 @@ class ProfilMahasiswa extends Model
     protected $fillable = [
         'NIM',
         'user_id',
+        'tempat_lahir',
         'tanggal_lahir',
         'jenis_kelamin',
         'universitas',

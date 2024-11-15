@@ -10,8 +10,9 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama_batch');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_berakhir');
+            $table->datetime('tanggal_pendaftaran');
+            $table->datetime('tanggal_mulai');
+            $table->datetime('tanggal_berakhir');
             $table->boolean('is_open')->default(true);
             $table->boolean('is_active')->default(false);
             $table->timestamps();

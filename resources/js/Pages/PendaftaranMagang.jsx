@@ -136,7 +136,7 @@ const PendaftaranMagang = () => {
                                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                             }`}
                         >
-                            {processing ? "Processing..." : "Ya, Simpan"}
+                            {processing ? "Processing..." : "Daftar"}
                         </button>
                     </div>
                 </>

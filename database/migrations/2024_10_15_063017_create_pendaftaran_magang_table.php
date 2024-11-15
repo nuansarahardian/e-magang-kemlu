@@ -12,7 +12,7 @@ class CreatePendaftaranMagangTable extends Migration
             $table->string('unique_id')->unique(); // Tambahkan kolom unique_id
             $table->string('NIM', 50);
             $table->unsignedBigInteger('posisi_magang_per_batch_id');
-            $table->enum('status', ['mendaftar', 'proses', 'diterima', 'ditolak']);
+            $table->enum('status', ['diterima', 'aktif', 'lulus', 'tidak lulus']);
             $table->dateTime('tanggal_pendaftaran');
             $table->timestamps();
 

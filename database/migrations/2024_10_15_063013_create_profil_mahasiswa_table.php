@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('universitas', 75)->nullable(); // Jadikan nullable
             $table->string('fakultas', 75)->nullable(); // Jadikan nullable
             $table->string('jurusan', 50)->nullable(); // Jadikan nullable
+            $table->string('tempat_lahir', 50)->nullable(); // Jadikan nullable
             $table->string('alamat_KTP', 255)->nullable(); // Jadikan nullable
             $table->string('alamat_domisili', 255)->nullable(); // Jadikan nullable
             $table->string('IPK', 5)->nullable(); // Jadikan nullable

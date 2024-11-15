@@ -79,9 +79,13 @@ export default function EditInformasiAkademik({
 
     return (
         <div className="px-3">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-                Informasi Akademik
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1 sm:mb-2">
+                Edit Informasi Akademik
             </h3>
+            <p className="sm:text-sm mb-3 sm:mb-4 text-xs text-yellow-600 bg-yellow-100/50 rounded-xl text-center p-2 border border-1 border-yellow-400">
+                Pastikan data diisi dengan lengkap dan benar, karena informasi
+                ini akan dipakai untuk berbagai keperluan administrasi.
+            </p>
             <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {/* Asal Universitas */}

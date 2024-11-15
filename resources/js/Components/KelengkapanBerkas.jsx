@@ -91,11 +91,22 @@ const KelengkapanBerkas = ({ dataPribadi, documents }) => {
             </div>
 
             <h3
-                className="text-2xl font-semibold mb-4"
+                className="text-2xl font-semibold mb-2"
                 style={{ color: "#1E40AF" }}
             >
                 Cek Kelengkapan Berkas
             </h3>
+
+            <p className=" text-orange-400 bg-orange-100/50 w-fit px-2 rounded-xl border border-1 border-orange-500 mb-4 mt-4">
+                <p className="text-orange-600 mb-4 mt-2 ml-2">
+                    {" "}
+                    <p className="font-bold">Catatan Penting:</p> Pastikan
+                    dokumen yang Anda unggah adalah dokumen resmi dan asli atas
+                    nama Anda. Mengunggah dokumen palsu atau dokumen milik orang
+                    lain akan mengakibatkan pembatalan pendaftaran dan sanksi
+                    lainnya sesuai peraturan.
+                </p>{" "}
+            </p>
 
             <div className="space-y-8">
                 {documents.map((section, index) => (

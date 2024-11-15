@@ -3,6 +3,7 @@ import React from "react";
 import { Modal } from "react-responsive-modal";
 import { usePage } from "@inertiajs/react";
 import "react-responsive-modal/styles.css";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 // Import komponen
 import InformasiPribadi from "./InformasiPribadi";
@@ -140,35 +141,45 @@ export default function CurriculumVitae({ switchComponent }) {
 
                 <div className="flex-grow bg-white p-4 md:p-8">
                     <div className="max-w-full md:max-w-4xl mx-auto">
-                        {activeTab === 1 && (
-                            <InformasiPribadi
-                                profilMahasiswa={profilMahasiswa}
-                                switchComponent={switchComponent}
-                                setFormData={setFormData}
-                                formData={formData}
-                            />
-                        )}
-                        {activeTab === 2 && (
-                            <InformasiAkademik
-                                switchComponent={switchComponent}
-                                setFormData={setFormData}
-                                formData={formData}
-                            />
-                        )}
-                        {activeTab === 3 && (
-                            <PengalamanOrganisasi
-                                switchComponent={switchComponent}
-                                setFormData={setFormData}
-                                formData={formData}
-                            />
-                        )}
-                        {activeTab === 4 && (
-                            <Dokumen
-                                switchComponent={switchComponent}
-                                setFormData={setFormData}
-                                formData={formData}
-                            />
-                        )}
+                        <TransitionGroup>
+                            <CSSTransition
+                                key={activeTab}
+                                timeout={300}
+                                classNames="fade"
+                            >
+                                <div>
+                                    {activeTab === 1 && (
+                                        <InformasiPribadi
+                                            profilMahasiswa={profilMahasiswa}
+                                            switchComponent={switchComponent}
+                                            setFormData={setFormData}
+                                            formData={formData}
+                                        />
+                                    )}
+                                    {activeTab === 2 && (
+                                        <InformasiAkademik
+                                            switchComponent={switchComponent}
+                                            setFormData={setFormData}
+                                            formData={formData}
+                                        />
+                                    )}
+                                    {activeTab === 3 && (
+                                        <PengalamanOrganisasi
+                                            switchComponent={switchComponent}
+                                            setFormData={setFormData}
+                                            formData={formData}
+                                        />
+                                    )}
+                                    {activeTab === 4 && (
+                                        <Dokumen
+                                            switchComponent={switchComponent}
+                                            setFormData={setFormData}
+                                            formData={formData}
+                                        />
+                                    )}
+                                </div>
+                            </CSSTransition>
+                        </TransitionGroup>
                     </div>
                 </div>
             </div>

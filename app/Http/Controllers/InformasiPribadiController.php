@@ -21,6 +21,7 @@ class InformasiPribadiController extends Controller
             'email' => $user->email,
             'NIM' => $profilMahasiswa->NIM ?? '',
             'tanggal_lahir' => $profilMahasiswa->tanggal_lahir ?? '',
+            'tempat_lahir' => $profilMahasiswa->tempat_lahir ?? '',
             'jenis_kelamin' => $profilMahasiswa->jenis_kelamin ?? '',
             'alamat_KTP' => $profilMahasiswa->alamat_KTP ?? '',
             'alamat_domisili' => $profilMahasiswa->alamat_domisili ?? '',
@@ -31,7 +32,7 @@ class InformasiPribadiController extends Controller
                 ? asset('storage/' . $profilMahasiswa->pas_foto)
                 : asset('storage/pas_foto/default-profile.png'),
         ];
-
+        // dd($data);  
         return response()->json(['profilMahasiswa' => $data]);
     }
 
@@ -43,6 +44,7 @@ class InformasiPribadiController extends Controller
         $data = $profilMahasiswa ? [
             'namaLengkap' => $user->name,
             'tanggalLahir' => $profilMahasiswa->tanggal_lahir,
+            'tempatLahir' => $profilMahasiswa->tempat_lahir,
             'jenisKelamin' => $profilMahasiswa->jenis_kelamin,
             'alamatKTP' => $profilMahasiswa->alamat_KTP,
             'alamatDomisili' => $profilMahasiswa->alamat_domisili,
@@ -52,6 +54,8 @@ class InformasiPribadiController extends Controller
             'pasFoto' => $profilMahasiswa->pas_foto,
         ] : null;
 
+ 
+
         return Inertia::render('Dashboard', ['profilMahasiswa' => $data]);
     }
 
@@ -60,6 +64,7 @@ class InformasiPribadiController extends Controller
         $validatedData = $request->validate([
             'NIM' => 'required|string|max:15|unique:profil_mahasiswa,NIM,' . $request->NIM . ',NIM',
             'namaLengkap' => 'required|string|max:255',
+            'tempatLahir' => 'required|string|max:50',
             'tanggalLahir' => 'required|date',
             'jenisKelamin' => 'required|string',
             'alamatKTP' => 'required|string|max:255',
@@ -84,6 +89,7 @@ class InformasiPribadiController extends Controller
     
             $profilMahasiswa->NIM = $request->NIM;
             $profilMahasiswa->tanggal_lahir = $request->tanggalLahir;
+            $profilMahasiswa->tempat_lahir = $request->tempatLahir;
             $profilMahasiswa->jenis_kelamin = $request->jenisKelamin;
             $profilMahasiswa->alamat_KTP = $request->alamatKTP;
             $profilMahasiswa->alamat_domisili = $request->alamatDomisili;
@@ -117,6 +123,7 @@ class InformasiPribadiController extends Controller
         $validatedData = $request->validate([
             'NIM' => 'required|string|max:15|unique:profil_mahasiswa,NIM',
             'namaLengkap' => 'required|string|max:255',
+            'tempatLahir' => 'required|string|max:50',
             'tanggalLahir' => 'required|date',
             'jenisKelamin' => 'required|string',
             'alamatKTP' => 'required|string|max:255',
@@ -134,6 +141,7 @@ class InformasiPribadiController extends Controller
             $profilMahasiswa->user_id = $user->id;
             $profilMahasiswa->NIM = $validatedData['NIM'];
             $profilMahasiswa->tanggal_lahir = $validatedData['tanggalLahir'];
+            $profilMahasiswa->tempat_lahir = $validatedData['tempatLahir'];
             $profilMahasiswa->jenis_kelamin = $validatedData['jenisKelamin'];
             $profilMahasiswa->alamat_KTP = $validatedData['alamatKTP'];
             $profilMahasiswa->alamat_domisili = $validatedData['alamatDomisili'];

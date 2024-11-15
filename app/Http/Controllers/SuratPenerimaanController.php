@@ -13,9 +13,9 @@ class SuratPenerimaanController extends Controller
         $pendaftaran = PendaftaranMagang::with('user.profilMahasiswa', 'posisiMagangPerBatch.posisiMagang', 'posisiMagangPerBatch.batch')
             ->findOrFail($id);
 
-        if ($pendaftaran->status !== 'diterima') {
-            return abort(403, 'Surat penerimaan hanya dapat diunduh untuk pendaftar yang diterima.');
-        }
+        // if ($pendaftaran->status !== 'diteri) {
+        //     return abort(403, 'Surat penerimaan hanya dapat diunduh untuk pendaftar yang diterima.');
+        // }
 
         $tanggalMulai = Carbon::parse($pendaftaran->posisiMagangPerBatch->batch->tanggal_mulai)->translatedFormat('d F Y');
         $tanggalBerakhir = Carbon::parse($pendaftaran->posisiMagangPerBatch->batch->tanggal_berakhir)->translatedFormat('d F Y');
@@ -24,7 +24,7 @@ class SuratPenerimaanController extends Controller
          
             'nama' => $pendaftaran->user->name,
             'nim' => $pendaftaran->user->profilMahasiswa->NIM,
-            'nomorRegistrasi' => $pendaftaran->unique_id,
+            'nomor_registrasi' => $pendaftaran->unique_id,
             'universitas' => $pendaftaran->user->profilMahasiswa->universitas,
             'jurusan' => $pendaftaran->user->profilMahasiswa->jurusan,
             'fakultas' => $pendaftaran->user->profilMahasiswa->fakultas,
@@ -36,6 +36,6 @@ class SuratPenerimaanController extends Controller
         ];
 
         $pdf = PDF::loadView('pdf.surat_penerimaan', $data)->setPaper('a4');
-        return $pdf->download("Surat_Penerimaan_{$data['nim']}.pdf");
+        return $pdf->download("Surat_Penerimaan_{$data['nama']}.pdf");
     }
 }

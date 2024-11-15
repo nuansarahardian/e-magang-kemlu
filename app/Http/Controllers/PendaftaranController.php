@@ -210,6 +210,7 @@ class PendaftaranController extends Controller
                 }
     
                 $user->notify(new PendaftaranBerhasil($posisiMagang));
+                session()->flash('success', 'Pendaftaran berhasil!');
                 return redirect()->route('posisi-magang')->with('success', 'Pendaftaran berhasil!');
             } else {
                 return redirect()->route('posisi-magang')->with('error', 'Kuota untuk posisi ini sudah penuh.');
@@ -224,7 +225,6 @@ class PendaftaranController extends Controller
             ]);
             $posisiMagang->increment('jumlah_pendaftar');
             $user->notify(new DaftarBerhasil($posisiMagang));
-            
             return redirect()->route('posisi-magang')->with('success', 'Pendaftaran berhasil, menunggu seleksi admin.');
         }
     }

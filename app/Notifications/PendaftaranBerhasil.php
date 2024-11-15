@@ -45,7 +45,7 @@ class PendaftaranBerhasil extends Notification
         $pendaftaranMagang = $notifiable->profilMahasiswa->pendaftaranMagang->first();
 
         // Ensure the pendaftaranMagang exists and is accepted
-        if (!$pendaftaranMagang || $pendaftaranMagang->status !== 'diterima') {
+        if (!$pendaftaranMagang ) {
             abort(403, 'Surat penerimaan hanya dapat diunduh untuk pendaftar yang diterima.');
         }
 
@@ -57,7 +57,7 @@ class PendaftaranBerhasil extends Notification
         $data = [
             'nama' => $notifiable->name,
             'nim' => $notifiable->profilMahasiswa->NIM,
-            'unique_id' => $pendaftaranMagang->unique_id,
+            'nomor_registrasi' => $pendaftaranMagang->unique_id,
             'universitas' => $notifiable->profilMahasiswa->universitas,
             'jurusan' => $notifiable->profilMahasiswa->jurusan,
             'fakultas' => $notifiable->profilMahasiswa->fakultas,
@@ -75,18 +75,27 @@ class PendaftaranBerhasil extends Notification
         return (new MailMessage)
             ->subject('Penerimaan Program Magang di BSKLN Kementerian Luar Negeri')
             ->greeting('Halo, ' . $notifiable->name)
-            ->line('Selamat! Anda telah diterima untuk mengikuti program magang di Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri RI.')
-            ->line('**Detail Magang:**')
+            ->line('Terima kasih Anda telah mendaftar pada program magang di Badan Strategi Kebijakan Luar Negeri (BSKLN), Kementerian Luar Negeri. ')
+            ->line('Selamat Anda telah diterima sebagai peserta magang di BSKLN, Kementerian Luar Negeri RI. ')
+            ->line('**Dengan rincian data sebagai berikut:**')
+            ->line('No. Registrasi: ' . $pendaftaranMagang->unique_id)
             ->line('Nama: ' . $notifiable->name)
+            ->line('NIM: ' . $notifiable->profilMahasiswa->NIM)
+
             ->line('Universitas: ' . $notifiable->profilMahasiswa->universitas)
-            ->line('Posisi: ' . $this->posisiMagang->posisiMagang->nama_posisi ?? 'Posisi Tidak Diketahui')
+            ->line('Fakultas: ' . $notifiable->profilMahasiswa->fakultas)
+
+            ->line('**Penempatan Magang:** ' . $this->posisiMagang->posisiMagang->nama_posisi ?? 'Posisi Tidak Diketahui')
             ->line('Periode: ' . $tanggalMulai . ' - ' . $tanggalBerakhir)
-            ->line('Lokasi: Kementerian Luar Negeri, Jakarta')
-            ->line('Harap menghubungi nomor admin di bawah ini atau membalas email ini untuk informasi lebih lanjut.')
-            ->line('Selamat bergabung dengan BSKLN!')
-            ->line('')
-            ->line('Salam,')
-            ->line('BSKLN - Kementerian Luar Negeri RI')
+            ->line('Alamat Magang: BSKLN, Kementerian Luar Negeri, Gedung Roeslan Abdul Gani (RAG), Jalan Taman Pejambon No.6 Jakarta Pusat')
+            ->line('**Catatan:**')
+            ->line('Entry magang akan dilaksanakan pada' .  $tanggalMulai . ' secara daring.')
+          
+            ->line('Kegiatan magang dilaksanakan dengan kehadiran fisik di BSKLN.
+            Peserta diharapkan hadir di BSKLN satu hari setelah tanggal'.  $tanggalMulai . ' pada pukul 08.00 WIB (lobi Gedung RAG)')
+            ->line('Untuk konfirmasi lebih lanjut dapat menghubungi email: sekretariat.bppk@kemlu.go.id atau hotline +62 852-8375-1123')
+
+       
             ->action('Lihat Detail Pendaftaran', url('/login'))
             ->attachData($pdf->output(), 'Surat_Penerimaan.pdf', [
                 'mime' => 'application/pdf',
